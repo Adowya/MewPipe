@@ -1,0 +1,15 @@
+{
+  "name": "MewPipe",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "~3.4.8",
+    "node-fs": "~0.1.7",
+    "mongoose": "~3.8.5",
+    "crypto": "0.0.3",
+    "bcrypt-nodejs": "0.0.3"
+  }
+}
