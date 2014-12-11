@@ -10,7 +10,6 @@ var minifyHtml = require("gulp-minify-html");
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 
-var jshint = require("gulp-jshint");
 var watch = require('gulp-watch');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
@@ -18,43 +17,38 @@ var reload = browserSync.reload;
 
 // task CSS/SCSS
 gulp.task('sass', function() {
-  gulp.src('./app/styles/scss/*.scss')
-  .pipe(sass({ 
+  gulp.src(['./styles/scss/*.scss', './bower_components/knacss/sass/*.scss' ])
+  .pipe(sass({
     noCache : true,
     style   : "compact"
   }))
-  // .pipe(sass())
-  .pipe(gulp.dest('./app/styles'))
+  .pipe(gulp.dest('./styles'))
 });
 
 // task JS 
 gulp.task('js', function () {
-    gulp.src('./app/scripts/*.js') // path to your files
-    //.pipe(jshint())
-    //.pipe(jshint.reporter('fail')) // make sure the task fails if not compliant
-    // .pipe(concat('app.js'))  // concat and name it "concat.js"
+    gulp.src('./scripts/*.js')
+    // .pipe(concat('app.js'))
     // .pipe(uglify())
     // .pipe(gulp.dest('./dist/js'));
   });
-
+// task watch
 gulp.task('watch', function() {
-  gulp.watch('app/styles/scss/*.scss', ['sass']);
-  gulp.watch('app/styles/css/*.css', reload);
+  gulp.watch('styles/scss/*.scss', ['sass']);
+  gulp.watch('styles/*.css', reload);
 
 });
 
+// task default
 gulp.task('default', ['sass', 'js', 'watch'], function () {
   browserSync({
     notify: false,
-    // Run as an https by uncommenting 'https: true'
-    // Note: this uses an unsigned certificate which on first access
-    //       will present a certificate warning in the browser.
     // https: true,
-    server: ['.tmp', 'app']
+    server: ['.tmp', '']
   });
 
-  gulp.watch(['./app/**/*.html'], reload);
-  gulp.watch(['./app/styles/main.css'], ['sass', reload]);
-  gulp.watch(['./app/styles/**/*.{scss,css}'], ['sass', reload]);
-  gulp.watch(['./app/images/**/*'], reload);
+  gulp.watch(['./**/*.html'], reload);
+  gulp.watch(['./styles/main.css'], ['sass', reload]);
+  gulp.watch(['./styles/**/*.{scss,css}'], ['sass', reload]);
+  gulp.watch(['./images/**/*'], reload);
 });

@@ -6,7 +6,8 @@
   "license": "MIT",
   "homepage": "http://adowya.github.io",
   "main": "scripts/app.js",
-  "dependencies": {},
+  "dependencies": {
+  },
   "devDependencies": {
     "apache-server-configs": "^2.7.1",
     "browser-sync": "1.5.8",
@@ -19,13 +20,13 @@
     "gulp-jshint": "^1.8.5",
     "gulp-uglify": "^1.0.1",
     "gulp-inject": "^1.0.2",
-    "load-grunt-tasks": "~0.2",
-    }, 
-    "scripts": {
-      "test": "grunt"
-      },
-      "repository": {
-        "type": "git",
-        "url": "git://github.com/Adowya/MewPipe.git"
-      }
-    }
+    "load-grunt-tasks": "~0.2"
+  },
+  "scripts": {
+    "test": "grunt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Adowya/MewPipe.git"
+  }
+}
