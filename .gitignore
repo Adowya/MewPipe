@@ -21,3 +21,9 @@ npm-debug.log
 # API
 ############################
 API/node_modules
+
+############################
+# CLIENT
+############################
+Client/node_modules
+Client/bower_components
