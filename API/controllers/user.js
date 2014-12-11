@@ -1,11 +1,11 @@
- module.exports.controller = function(app, config, modules, models, middlewares) {
+ module.exports.controller = function(app, router, config, modules, models, middlewares) {
 
  	var regExEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 /**
 * LOGIN
 **/
-app.post("/user/login", function(req, res){
+router.post("/user/login", function(req, res){
 	if(typeof req.body.username != "undefined" && typeof req.body.password != "undefined"){
 		var username = req.body.username;
 		var password = modules.bcrypt.hashSync(req.body.password, config.salt);
@@ -66,7 +66,7 @@ app.post("/user/login", function(req, res){
 /**
 * LOGOUT
 **/
-app.get("/user/logout", middlewares.checkAuth, function(req, res){
+router.get("/user/logout", middlewares.checkAuth, function(req, res){
 	var query = models.token.findOne({_user: req.user._id});
 	query.exec(function(error, token){
 		if(token){
@@ -89,7 +89,7 @@ app.get("/user/logout", middlewares.checkAuth, function(req, res){
 /**
 * READ ALL
 **/
-app.get('/users', middlewares.checkAuth, function(req, res){
+router.get('/users', middlewares.checkAuth, function(req, res){
 	models.user.find()
 	.select("username lastname firstname created")
 	.where("deleted").ne(true)
@@ -108,7 +108,7 @@ app.get('/users', middlewares.checkAuth, function(req, res){
 /**
 * READ ALL BY USERNAME
 **/
-app.post('/users/findByUsername', middlewares.checkAuth, function(req, res){
+router.post('/users/findByUsername', middlewares.checkAuth, function(req, res){
 	if(req.body.username){
 		var regExSearch = new RegExp(req.body.username, 'i');
 		models.user.find()
@@ -133,7 +133,7 @@ app.post('/users/findByUsername', middlewares.checkAuth, function(req, res){
 /**
 * READ ONE
 **/
-app.get("/user", middlewares.checkAuth, function(req, res){
+router.get("/user", middlewares.checkAuth, function(req, res){
 	var id = req.user._id;
 	models.user.findOne({_id: id})
 	.populate('_plan')
@@ -154,7 +154,7 @@ app.get("/user", middlewares.checkAuth, function(req, res){
 /**
 * CREATE
 **/
-app.post("/user", function(req, res){
+router.post("/user", function(req, res){
 	if(req.body.username && req.body.password && req.body.email && req.body.firstname && req.body.lastname){
 		if(regExEmail.test(req.body.email) == true){
 			if(req.body.username.indexOf(' ') === -1){
@@ -246,7 +246,7 @@ app.post("/user", function(req, res){
 /**
 * UPDATE
 **/
-app.put("/user", middlewares.checkAuth, function(req, res){
+router.put("/user", middlewares.checkAuth, function(req, res){
 	if(req.body.username && req.body.email && req.body.firstname && req.body.lastname){
 		if(regExEmail.test(req.body.email) == true){
 			if(req.body.username.indexOf(' ') === -1){
@@ -307,7 +307,7 @@ app.put("/user", middlewares.checkAuth, function(req, res){
  /**
 * PROMOTE USER
 **/
-app.post("/user/promote", middlewares.checkAdmin, function(req, res){
+router.post("/user/promote", middlewares.checkAdmin, function(req, res){
 	if(req.body.username){
 		var editUser = {
 			isAdmin: true
@@ -330,7 +330,7 @@ app.post("/user/promote", middlewares.checkAdmin, function(req, res){
  /**
 * DEMOTE USER
 **/
-app.post("/user/demote", middlewares.checkAdmin, function(req, res){
+router.post("/user/demote", middlewares.checkAdmin, function(req, res){
 	if(req.body.username){
 		var editUser = {
 			isAdmin: false
@@ -353,7 +353,7 @@ app.post("/user/demote", middlewares.checkAdmin, function(req, res){
 /**
 * CHANGE PASSWORD
 **/
-app.put("/user/changePassword", middlewares.checkAuth, function(req, res){
+router.put("/user/changePassword", middlewares.checkAuth, function(req, res){
 	if (typeof req.body.oldPass != "undefined"){
 		if (typeof req.body.newPass != "undefined"){
 			var id = req.user._id;
@@ -394,7 +394,7 @@ app.put("/user/changePassword", middlewares.checkAuth, function(req, res){
 /**
 * DELETE
 **/
-app.put("/user/delete", middlewares.checkAuth, function(req, res){
+router.put("/user/delete", middlewares.checkAuth, function(req, res){
 	if(typeof req.body.pass != "undefined"){
 		var id = req.user._id;
 		var pass =  modules.bcrypt.hashSync(req.body.pass, config.salt);

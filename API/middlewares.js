@@ -90,4 +90,6 @@ module.exports.controller = function(app, config, modules, models, middlewares) 
 		next();
 	};
 
+	exports.multipart = modules.multipart({uploadDir: __dirname+'/STORAGE/tmp', maxFieldsSize: 500000000});
+
 };

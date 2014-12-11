@@ -1,7 +1,7 @@
 /**
 * CONFIG
 **/
-var config = require("./config.js").config;
+var config = require(__dirname+"/config.js").config;
 
 /**
 * MODULES
@@ -11,19 +11,20 @@ var modules = {
 	path: require("path"),
 	bcrypt: require("bcrypt-nodejs"),
 	crypto: require("crypto"),
-	url: require('url')
+	url: require('url'),
+	multipart: require('connect-multiparty')
 };
 
 /**
 * MODELS
 **/
 var models = {};
-modules.fs.readdirSync("./models").forEach(function (file) {
+modules.fs.readdirSync(__dirname+"/models").forEach(function (file) {
 	var fileName = file.substr(0,file.length-3);
 	var fileExt = file.substr(-3);
 	if(fileExt == ".js") {
 		if(fileName != "bdd") {
-			models[fileName] = require("./models/" + file)[fileName];
+			models[fileName] = require(__dirname+"/models/" + file)[fileName];
 		}
 	}
 });
@@ -34,31 +35,33 @@ modules.fs.readdirSync("./models").forEach(function (file) {
 var express = require("express");
 var http = require("http");
 var app = express();
-app.set("port", process.env.PORT || config.server.port);
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(express.methodOverride());
-app.use(express.bodyParser({keepExtensions: true, uploadDir: modules.path.join(__dirname, "./STORAGE/temp"), limit: 1099511627776}));
+var bodyParser = require('body-parser');
+var errorHandler = require('errorhandler');
+var morgan = require('morgan');
+app.use(express.static(__dirname + '/../Client'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+var router = express.Router();
 if(true == config.debug) {
-	app.use(express.errorHandler());
-	app.use(express.logger());
+	app.use(errorHandler());
+	app.use(morgan('combined', {}));
 }
 
 /**
 * MIDDLEWARES
 **/
-var middlewares = require("./middlewares.js");
+var middlewares = require(__dirname+"/middlewares.js");
 middlewares.controller(app, config, modules, models, middlewares);
 app.all("*", middlewares.header);
-app.use(app.router);
+app.use('/api', router);
 
 /**
 * CONTROLLERS
 **/
-modules.fs.readdirSync("./controllers").forEach(function (file) {
+modules.fs.readdirSync(__dirname+"/controllers").forEach(function (file) {
 	if(file.substr(-3) == ".js") {
-		route = require("./controllers/" + file);
-		route.controller(app, config, modules, models, middlewares);
+		route = require(__dirname+"/controllers/" + file);
+		route.controller(app, router, config, modules, models, middlewares);
 	}
 });
 
@@ -77,7 +80,7 @@ if(true == config.debug) {
 /**
 * SERVER
 **/
-http.createServer(app).listen(app.get("port"), function(){
-	console.log("SupDropBox API listening on "+ config.server.address +":"+ app.get("port"));
+http.createServer(app).listen(config.server.port, function(){
+	console.log("MewPipe API listening on "+ config.server.address +":"+ config.server.port);
 	console.log("############################ ############################ ############################ ############################");
 });

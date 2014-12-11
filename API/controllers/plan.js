@@ -1,9 +1,9 @@
-module.exports.controller = function(app, config, modules, models, middlewares) {
+module.exports.controller = function(app, router, config, modules, models, middlewares) {
 
 /**
 * READ ALL
 **/
-app.get('/plan', function(req, res){
+router.get('/plan', function(req, res){
 	models.plan.find()
 	.where("deleted").ne(true)
 	.select("name description price expireAfter shareLimit sizeLimit bandwidthLimit isDefault created")
@@ -24,7 +24,7 @@ app.get('/plan', function(req, res){
 /**
 * READ ONE BY ID
 **/
-app.get('/plan/:id', function(req, res){
+router.get('/plan/:id', function(req, res){
 	var id = req.params.id;
 	models.plan.findOne({_id: id})
 	.select("name description price expireAfter shareLimit sizeLimit bandwidthLimit isDefault created")
@@ -49,7 +49,7 @@ app.get('/plan/:id', function(req, res){
 /**
 * READ ALL
 **/
-app.post('/user/plan', middlewares.checkAuth, function(req, res){
+router.post('/user/plan', middlewares.checkAuth, function(req, res){
 	if(req.body.planId){
 		models.plan.findOne({_id: req.body.planId})
 		.where("deleted").ne(true)
@@ -85,7 +85,7 @@ app.post('/user/plan', middlewares.checkAuth, function(req, res){
 /**
 * CREATE
 **/
-app.post('/plan', middlewares.checkAdmin, function(req, res){
+router.post('/plan', middlewares.checkAdmin, function(req, res){
 	if(req.body.name && req.body.description && req.body.price && req.body.expireAfter && req.body.shareLimit && req.body.sizeLimit){
 		if(!isNaN(req.body.price) && !isNaN(req.body.expireAfter) && !isNaN(req.body.shareLimit) && !isNaN(req.body.sizeLimit)){
 			if(req.body.isDefault == true || req.body.isDefault == "true"){
@@ -127,7 +127,7 @@ app.post('/plan', middlewares.checkAdmin, function(req, res){
 /**
 * UPDATE
 **/
-app.put('/plan', middlewares.checkAdmin, function(req, res){
+router.put('/plan', middlewares.checkAdmin, function(req, res){
 	if(req.body._id){
 		var id = req.body._id;
 		var data_update = {};
@@ -201,7 +201,7 @@ app.put('/plan', middlewares.checkAdmin, function(req, res){
 /**
 * DELETE
 **/
-app.post('/plan/delete', middlewares.checkAdmin, function(req, res){
+router.post('/plan/delete', middlewares.checkAdmin, function(req, res){
 	if(req.body._id){
 		var id = req.body._id;
 		models.plan.findOne({_id: id})

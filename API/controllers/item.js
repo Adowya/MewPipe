@@ -1,9 +1,9 @@
-module.exports.controller = function(app, config, modules, models, middlewares){
+module.exports.controller = function(app, router, config, modules, models, middlewares){
 
 /**
 * DOWNLOAD FILE
 **/
-app.get('/download/:itemId', function(req, res){
+router.get('/download/:itemId', function(req, res){
 	models.item.findOne({_id: req.params.itemId}).exec(function(err, item){
 		if(item){
 			if(item.type=='file'){
@@ -27,7 +27,7 @@ app.get('/download/:itemId', function(req, res){
 /**
 * DELETE ITEM
 **/
-app.put('/item/delete', middlewares.checkAuth, function(req, res){
+router.put('/item/delete', middlewares.checkAuth, function(req, res){
 	if(req.body.itemId){
 		models.item.findOne({_id: req.body.itemId, _user: req.user._id}).exec(function(err, item){
 			if(item){
@@ -63,7 +63,7 @@ app.put('/item/delete', middlewares.checkAuth, function(req, res){
 /**
 * NEW FILE
 **/
-app.post('/item/new', middlewares.checkAuth, function(req, res){
+router.post('/item/new', middlewares.checkAuth, function(req, res){
 	if(req.body.name && req.body.content){
 		models.item.findOne({_user: req.user._id, name: "/"})
 		.where("deleted").ne(true)
@@ -150,7 +150,7 @@ app.post('/item/new', middlewares.checkAuth, function(req, res){
 /**
 * UPLOAD FILE
 **/
-app.post('/items/file', middlewares.checkAuth, function(req, res) {
+router.post('/items/file', middlewares.checkAuth, middlewares.multipart, function(req, res) {
 	if (!req.files.file) {
 		res.json({ "success": false, "error": 'No file received' });
 	}
@@ -263,7 +263,7 @@ app.post('/items/file', middlewares.checkAuth, function(req, res) {
 /**
 * ACCEPT FILE (MOBILE VERSION)
 **/
-app.post('/items/mobile/file', middlewares.checkAuth, function(req, res) {
+router.post('/items/mobile/file', middlewares.checkAuth, middlewares.multipart, function(req, res) {
 	if (!req.files.file) {
 		res.json({ "success": false, "error": 'No file received' });
 		return;
@@ -385,7 +385,7 @@ app.post('/items/mobile/file', middlewares.checkAuth, function(req, res) {
 /**
 * CREATE DIRECTORY
 **/
-app.post('/items/dir', middlewares.checkAuth, function(req, res) {
+router.post('/items/dir', middlewares.checkAuth, function(req, res) {
 	if(req.body.name){
 		if(req.body.name != "/"){
 			if(!req.body.parentId){
@@ -459,7 +459,7 @@ app.post('/items/dir', middlewares.checkAuth, function(req, res) {
 /**
 * BROWSE FILE
 **/
-app.post('/user/items', middlewares.checkAuth, function(req, res) {
+router.post('/user/items', middlewares.checkAuth, function(req, res) {
 	if(req.body.parentId){
 		models.item.find({_user: req.user._id, _parentItem: req.body.parentId})
 		.select("_id _user _parentItem name type size created path")

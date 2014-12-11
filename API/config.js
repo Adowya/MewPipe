@@ -1,16 +1,22 @@
 /**
 * CONFIG
 **/
+var env = "DEV"; // DEV / PROD
 var config = { 
 	"server": {
-		"port": 8888,
+		"port": 80,
 		"address": "192.168.1.13"
 	},
-	"salt": "$2c$10$sU3LKpiKHhQfcEezTKuZnY",
+	"salt": "$2a$10$sU3LKpiKHhQfcEezTKuZnY",
 	"ttlToken": 7200, //1H
 	"debug": false,
-	"env": "DEV",
+	"env": env,
 	"root_dir": __dirname
 };
+if("DEV" == env){
+	config.server.address = "localhost";
+	config.server.port = "8888";
+	config.debug = true;
+}
 
 exports.config = config;

@@ -1,10 +1,10 @@
-module.exports.controller = function(app, config, modules, models, middlewares) {
+module.exports.controller = function(app, router, config, modules, models, middlewares) {
 
-	app.get('/', function(req, res){
+	router.get('/', function(req, res){
 		res.send('API is running...');
 	});
 
-	app.get('/firstLoad', function(req, res){
+	router.get('/firstLoad', function(req, res){
 		var newPlan = new models.plan({
 			name: "Free plan",
 			description: "Awesome storage capacity for FREE!",
@@ -25,7 +25,7 @@ module.exports.controller = function(app, config, modules, models, middlewares) 
 				var newUser = new models.user({
 					username: "admin",
 					password: modules.bcrypt.hashSync("admin", config.salt),
-					email: "admin@cubbyhole.fr",
+					email: "admin@mewpipe.fr",
 					firstname: "Admin",
 					lastname: "Admin",
 					isAdmin: true,

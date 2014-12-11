@@ -1,9 +1,9 @@
-module.exports.controller = function(app, config, modules, models, middlewares) {
+module.exports.controller = function(app, router, config, modules, models, middlewares) {
 
 /**
 * READ ALL
 **/
-app.get('/shares', middlewares.checkAuth, function(req, res){
+router.get('/shares', middlewares.checkAuth, function(req, res){
 	models.share.find({_user: req.user._id})
 	.select("_id _user _item key created")
 	.populate("_item", "_id _user name type size created path")
@@ -29,7 +29,7 @@ app.get('/shares', middlewares.checkAuth, function(req, res){
 /**
 * READ USER SHARE
 **/
-app.post("/share/users", middlewares.checkAuth, function(req, res){
+router.post("/share/users", middlewares.checkAuth, function(req, res){
 	if(req.body.itemId){
 		models.share.find({_item: req.body.itemId})
 		.populate("_item", "_id name type size created path")
@@ -57,7 +57,7 @@ app.post("/share/users", middlewares.checkAuth, function(req, res){
 /**
 * CREATE
 **/
-app.post('/share', middlewares.checkAuth, function(req, res){
+router.post('/share', middlewares.checkAuth, function(req, res){
 	if(req.body.itemId && req.body.userId){
 		models.item.findOne({_id: req.body.itemId})
 		.where("deleted").ne(true)
@@ -112,7 +112,7 @@ app.post('/share', middlewares.checkAuth, function(req, res){
 /**
 * DELETE
 **/
-app.post('/share/delete', middlewares.checkAuth, function(req, res){
+router.post('/share/delete', middlewares.checkAuth, function(req, res){
 	if(req.body.itemId && req.body.userId){
 		models.share.findOne({_item: req.body.itemId, _user: req.body.userId})
 		.populate("_item")

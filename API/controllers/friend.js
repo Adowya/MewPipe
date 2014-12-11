@@ -1,9 +1,9 @@
-module.exports.controller = function(app, config, modules, models, middlewares) {
+module.exports.controller = function(app, router, config, modules, models, middlewares) {
 
 /**
 * CREATE
 **/
-app.post("/friend/add", middlewares.checkAuth, function(req, res){
+router.post("/friend/add", middlewares.checkAuth, function(req, res){
 	if(req.body._userAnswerer){
 		if(req.body._userAnswerer != req.user._id){
 			var newFriend = new models.friend({
@@ -63,7 +63,7 @@ app.post("/friend/add", middlewares.checkAuth, function(req, res){
 /**
 * READ ALL
 **/
-app.get("/user/friends", middlewares.checkAuth, function(req, res){
+router.get("/user/friends", middlewares.checkAuth, function(req, res){
 	models.friend.find({valid: true})
 	.or([{"_userAsker": req.user._id}, {"_userAnswerer": req.user._id}])
 	.populate("_userAsker", "_id username lastname firstname email")
@@ -92,7 +92,7 @@ app.get("/user/friends", middlewares.checkAuth, function(req, res){
 /**
 * READ WAITING RESPONSE
 **/
-app.get("/friend/waitingResponse", middlewares.checkAuth, function(req, res){
+router.get("/friend/waitingResponse", middlewares.checkAuth, function(req, res){
 	models.friend.find({valid: false, _userAsker: req.user._id})
 	.populate("_userAsker", "_id username lastname firstname email")
 	.populate("_userAnswerer", "_id username lastname firstname email")
@@ -120,7 +120,7 @@ app.get("/friend/waitingResponse", middlewares.checkAuth, function(req, res){
 /**
 * READ WAITING REQUEST
 **/
-app.get("/friend/waitingRequest", middlewares.checkAuth, function(req, res){
+router.get("/friend/waitingRequest", middlewares.checkAuth, function(req, res){
 	models.friend.find({valid: false, _userAnswerer: req.user._id})
 	.populate("_userAsker", "_id username lastname firstname email")
 	.populate("_userAnswerer", "_id username lastname firstname email")
@@ -148,7 +148,7 @@ app.get("/friend/waitingRequest", middlewares.checkAuth, function(req, res){
 /**
 * READ NO FRIEND
 **/
-app.get("/user/nofriends", middlewares.checkAuth, function(req, res){
+router.get("/user/nofriends", middlewares.checkAuth, function(req, res){
 	models.friend.find()
 	.or([{"_userAsker": req.user._id}, {"_userAnswerer": req.user._id}])
 	.where("deleted").ne(true)
@@ -202,7 +202,7 @@ app.get("/user/nofriends", middlewares.checkAuth, function(req, res){
 /**
 * ACCEPT REQUEST
 **/
-app.post("/friend/accept", middlewares.checkAuth, function(req, res){
+router.post("/friend/accept", middlewares.checkAuth, function(req, res){
 	if(req.body._userAsker){
 		models.friend.findOne({_userAsker: req.body._userAsker, _userAnswerer: req.user._id, valid: false})
 		.where("deleted").ne(true)
@@ -228,7 +228,7 @@ app.post("/friend/accept", middlewares.checkAuth, function(req, res){
 /**
 * DENY REQUEST
 **/
-app.post("/friend/deny", middlewares.checkAuth, function(req, res){
+router.post("/friend/deny", middlewares.checkAuth, function(req, res){
 	if(req.body._userAsker){
 		models.friend.findOne({_userAsker: req.body._userAsker, _userAnswerer: req.user._id, valid: false})
 		.where("deleted").ne(true)
@@ -255,7 +255,7 @@ app.post("/friend/deny", middlewares.checkAuth, function(req, res){
 /**
 * DELETE
 **/
-app.post("/friend/delete", middlewares.checkAuth, function(req, res){
+router.post("/friend/delete", middlewares.checkAuth, function(req, res){
 	if(req.body._id){
 		models.friend.findOne({_userAsker: req.body._id, _userAnswerer: req.user._id})
 		.where("deleted").ne(true)
