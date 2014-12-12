@@ -1,6 +1,5 @@
-angular.module('mewPipeApp.controllers', [])
+mewPipeApp.controller('MainCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService',
+	function($rootScope, $http, $scope, $route, $location, $callService) {
 
-.controller('MainCtrl', ['$rootScope', '$http', '$scope',
-	function($rootScope, $http, $scope) {
 
 	}]);

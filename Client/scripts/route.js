@@ -1,34 +1,32 @@
 /***
 ** ROUTE
 ***/
+
 mewPipeApp.config(['$routeProvider',
   function($routeProvider) {
+
     $routeProvider.
-    when('/index',{
+
+    when('/',{
       templateUrl: 'views/index.html',
+      controller: 'MainCtrl',
       restrict: 0
     })
 
-      //Download_file
-      .when('/download/:param1', {
-        templateUrl: 'views/manager/download.html', 
-        controller: 'downloadCtrl',
-        restrict: 0,
-        style: ''
-      })
 
-    /***
-    ** User
-    ***/
-    
-    .when('/profile',{
-      templateUrl: 'views/user/profile.html',
-      controller: 'profileCtrl',
-      restrict: 1,
-      style: 'css/views/profile.css'
-    })
-    .otherwise({
-      redirectTo:'/index'
-    });
+/***
+** User
+***/
 
-  }]);
+.when('/profile',{
+  templateUrl: 'views/user/profile.html',
+  controller: 'ProfileCtrl',
+  restrict: 1
+})
+
+
+.otherwise({
+  redirectTo:'/'
+});
+
+}]);

@@ -1,34 +1,61 @@
-var getApiAddr = function (url) {
-	if (typeof url !== "undefined") {
-		var apiAddr = appConfig.api.prefix + url + appConfig.api.addr;
-		return apiAddr;
-	}
-};
-
-
-var appStorage = {
-	get: function (item) {
-		return JSON.parse(localStorage.getItem(item));
-	},
-	set: function (name, value) {
-		var itemString = JSON.stringify(value);
-		localStorage.setItem(name, itemString);
-		return true;
-	},
-	delete: function (item) {
-		localStorage.removeItem(item);
-		return true;
-	}
-};
-
 var mewPipeApp = angular.module('mewPipeApp', [
 	'ngAnimate',
 	'ngResource',
 	'ngRoute',
 	'ngSanitize',
 	'ngTouch',
-	'ui.sortable'
+	'ui.sortable',
+	'callModule'
 	]);
+
+mewPipeApp.run([
+	'$rootScope',
+	'$http',
+	function ($rootScope, $http, $location) {
+
+		/* Notification Error */
+		$rootScope.alertMsg = '';
+		$rootScope.alert = {
+			show :false
+		};
+		$rootScope.showNotif = function(msg){
+			if(appConfig.debug){
+				$rootScope.alertMsg = msg;
+				$rootScope.alert = {
+					show :true
+				};
+			}
+		};
+
+		/* Debug log */
+		if (appConfig.debug) {
+			console.log = function (log) {
+				return function () {
+					var args = Array.prototype.slice.call(arguments);
+					log.apply(console, args);
+					var logs = [];
+				};
+			}(console.log);
+		}
+
+		/* Settings Http Error */
+		$rootScope.httpError = function(code){
+			if(401 == code) {
+				$location.path("/index");
+				console.log('Error 401');
+			}else if(500 == code || 503 == code){
+				console.log('Error 500 or 503');
+				$location.path("/index");
+			}else if(404 == code){
+				console.log('Error 404');
+				$location.path("/index");
+			}else{
+				console.log('Error inconue');
+			}
+		};
+
+
+	}]);
 
 mewPipeApp.filter('getById', function () {
 	return function (input, id) {
@@ -41,12 +68,3 @@ mewPipeApp.filter('getById', function () {
 		return null;
 	};
 });
-
-mewPipeApp.run([
-	'$rootScope',
-	'$http',
-	function ($rootScope, $http) {
-
-		console.log('Hello world');
-
-	}]);

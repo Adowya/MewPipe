@@ -14,10 +14,9 @@ var watch = require('gulp-watch');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 
-
 // task CSS/SCSS
 gulp.task('sass', function() {
-  gulp.src(['./styles/scss/*.scss', './bower_components/knacss/sass/*.scss' ])
+  gulp.src('./styles/scss/*.scss')
   .pipe(sass({
     noCache : true,
     style   : "compact"
@@ -27,11 +26,12 @@ gulp.task('sass', function() {
 
 // task JS 
 gulp.task('js', function () {
-    gulp.src('./scripts/*.js')
+  gulp.src('./scripts/*.js')
     // .pipe(concat('app.js'))
     // .pipe(uglify())
     // .pipe(gulp.dest('./dist/js'));
   });
+
 // task watch
 gulp.task('watch', function() {
   gulp.watch('styles/scss/*.scss', ['sass']);
@@ -48,7 +48,7 @@ gulp.task('default', ['sass', 'js', 'watch'], function () {
   });
 
   gulp.watch(['./**/*.html'], reload);
-  gulp.watch(['./styles/main.css'], ['sass', reload]);
+  gulp.watch(['./styles/style.css'], ['sass', reload]);
   gulp.watch(['./styles/**/*.{scss,css}'], ['sass', reload]);
   gulp.watch(['./images/**/*'], reload);
 });

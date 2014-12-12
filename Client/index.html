@@ -1,8 +1,10 @@
 <!doctype html>
-<!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="fr"> <![endif]-->
-<!--[if IE 8]> <html class="no-js ie8 ie678" lang="fr"> <![endif]-->
-<!--[if IE 9]> <html class="no-js ie9" lang="fr"> <![endif]-->
-<!--[if gt IE 9]> <!--><html class="no-js" lang="fr" ng-app="mewPipeApp"> <!--<![endif]-->
+<!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="fr" ng-app="mewPipeApp"> <![endif]-->
+<!--[if IE 8]> <html class="no-js ie8 ie678" lang="fr" ng-app="mewPipeApp"> <![endif]-->
+<!--[if IE 9]> <html class="no-js ie9" lang="fr" ng-app="mewPipeApp"> <![endif]-->
+<!--[if gt IE 9]> <!-->
+<html class="no-js" lang="fr" ng-app="mewPipeApp"> 
+<!--<![endif]-->
 <head>
 	<meta charset="UTF-8">
 	<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
@@ -11,23 +13,42 @@
 		<!--[if lt IE 9]>
 		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
-		<link rel="stylesheet" href="styles/styles.css" media="all">
-		<link rel="stylesheet" href="styles/knacss.css" media="all">
+		<link rel="stylesheet" href="styles/style.css" media="all">
 	</head>
 	<body>
 
-		<div id="main" role="main" class="grid pal mal txtleft">
-			<div class="grid3">
-				<div class="mtm">Yoo ch'ai lu dans les DNA que le Racing a encore perdu contre Oberschaeffolsheim.</div>
-				<div class="mtm">Verdammi et moi ch'avais donc parié deux knacks et une flammekueche. Ah so ? T'inquiète, ch'ai ramené du schpeck</div>
-				<div class="mtm">du chambon, un kuglopf et du schnaps dans mon rucksack. Allez, s'guelt !</div>
-				<div class="mtm">Wotch a kofee avec ton bibalaekaess et ta wurscht ? Yeuh non che suis au réchime</div>
-				<div class="mtm">je ne mange plus que des Grumbeere light et che fais de la chym avec Chulien. Tiens, un rottznoz sur le comptoir</div>
-				<div class="mtm">Tu restes pour le lotto-owe ce soir, y'a baeckeoffe ? Yeuh non, merci vielmols mais che dois partir à la Coopé de Truchtersheim acheter des mänele et des rossbolla</div>
-			</div>
+		<header id="header" role="banner" class="line pam">
+
+		</header>
+		<!-- /header -->
+		<aside class="mod left w20 mrs pam aside">
+			<nav id="navigation" role="navigation">
+				<ul class="pam">
+					<li class="pam">Picon bière</li>
+					<li class="pam">Melfor</li>
+					<li class="pam">Carola</li>
+					<li class="pam">Kuglof</li>
+					<li class="pam">Wurscht</li>
+				</ul>
+			</nav>
+			<p>Lorem Salu bissame ! Wie geht's les samis ? Une Carola et du Melfor ? Yo dû, espèce de Knäckes, ch'ai dit un picon !</p>
+		</aside>
+		
+		<div class="alert alert-info" ng-show="alert.show" style="position: fixed;z-index: 1000;margin-top: 10px;">
+			<button type="button" class="close" ng-click="!alert.show" aria-hidden="true">
+				&times;
+			</button>
+			{{ alertMsg }}
 		</div>
+
+		<div ng-view> </div>
 		<footer id="footer" role="contentinfo" class="line pal txtcenter">
-			Lorem Elsass ipsum lacus leverwurscht Wurschtsalad mamsell Gal. gewurztraminer turpis, suspendisse commodo Oberschaeffolsheim ornare aliquam semper Miss Dahlias Mauris turpis sagittis kuglopf eleifend dignissim baeckeoffe geht's Richard Schirmeck mollis habitant schnaps
+			<p>
+				<a href="#">
+					<img src="img/icon-mew-pipe.png" alt="icon-app" style="max-width: 24px;"/>
+				</a>
+				MewPipe © 2014 - SUPINFO@CAEN
+			</p> 
 		</footer>
 
 		<script>
@@ -58,16 +79,22 @@
 		<!-- endbower -->
 		<!-- endbuild -->
 		
-		
+		<!-- Configuration -->
 		<script src="/scripts/config.js"></script>
 		<script src="/scripts/application.js"></script>
 		<script src="/scripts/route.js"></script>
-		<script src="/scripts/controller.js"></script>
 		<script src="/scripts/function.js"></script>
+		<script src="/scripts/controller.js"></script>
 
+		<!-- Controllers -->
+		<script src="/scripts/controllers/user/profile.js"></script>
+		<!-- <script src="/scripts/controllers/.js"></script> -->
+
+		<!-- Directives -->
 		<script src="/scripts/directives/limit.js"></script>
 
-		<!-- <script src="/scripts/services/.js"></script> -->
+		<!-- Services  -->
+		<script src="/scripts/services/callService.js"></script>
 
 	</body>
 	</html>
