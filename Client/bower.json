@@ -14,6 +14,13 @@
 		"jquery": "2.1.1",
 		"jquery-ui": "1.11.2",
 		"knacss": "3.1.0",
-		"moment": "2.8.4"
+		"moment": "2.8.4",
+		"videogular": "0.7.2",
+		"videogular-buffering": "0.7.2",
+		"videogular-controls": "0.7.2",
+		"videogular-ima-ads": "0.7.2",
+		"videogular-overlay-play": "0.7.2",
+		"videogular-poster": "0.7.2",
+		"videogular-themes-default": "0.7.2"
 	}
 }

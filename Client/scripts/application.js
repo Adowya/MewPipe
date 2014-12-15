@@ -5,7 +5,11 @@ var mewPipeApp = angular.module('mewPipeApp', [
 	'ngSanitize',
 	'ngTouch',
 	'ui.sortable',
-	'callModule'
+	'callModule',
+	"com.2fdevs.videogular",
+	"com.2fdevs.videogular.plugins.controls",
+	"com.2fdevs.videogular.plugins.overlayplay",
+	"com.2fdevs.videogular.plugins.poster"
 	]);
 
 mewPipeApp.run([
