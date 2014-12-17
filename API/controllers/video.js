@@ -47,52 +47,55 @@ router.post('/video', middlewares.multipart, function(req, res) {
 	if (!req.files.video) {
 		res.json({ "success": false, "error": 'No video received' });
 	}
-	
-	if(req.body.name == "undefined" || req.body.name == undefined){
-		req.body.name = req.files.video.name;
-	}
-	if(req.body.name != "/"){
-		var allowedExt = ["avi", "mp4", "mov", "mkv", "pdf", "png"];
-		var tmp_path = req.files.video.path;
-		var ext = tmp_path.split('.').pop();
-		if(allowedExt.indexOf(ext) > -1){
-			var newVideo = new models.Video({
-				_user: req.user._id,
-				name: req.body.name,
-				description: req.body.description,
-				rights: req.body.rights
-			});
-			newVideo.save(function(err, video) {
-				if(!err){
-					video.path = "/"+req.user._id+"/"+video._id+"."+ext;
-					var target_path = config.root_dir+"/STORAGE/videos/"+newVideo._user+"/"+video._id+"."+ext;
-					var size = req.files.video.size;
-					console.log(target_path);
-					modules.fs.rename(tmp_path, target_path, function(err) {
-						if(err){
-							res.json({"success": false, "error1": err});
-						}else{
-							modules.fs.unlink(tmp_path, function() {
-								if(err){
-									res.json({"success": false, "error2": err});
-								}else{
-									models.Video.update({_id: video._id},{path: video.path, size: size}, function(err){
-										video.size = size;
-										res.json({"success": true, "video": video});
-									});
-								}
-							});
-						}
-					});
-				}else{
-					res.json({"success": false, "error": err});
-				}
-			});
+	if(req.files.video.size <= 500000000){
+		if(req.body.name == "undefined" || req.body.name == undefined){
+			req.body.name = req.files.video.name;
+		}
+		if(req.body.name != "/"){
+			var allowedExt = ["avi", "mp4", "mov", "mkv", "pdf", "png"];
+			var tmp_path = req.files.video.path;
+			var ext = tmp_path.split('.').pop();
+			if(allowedExt.indexOf(ext) > -1){
+				var newVideo = new models.Video({
+					_user: req.user._id,
+					name: req.body.name,
+					description: req.body.description,
+					rights: req.body.rights
+				});
+				newVideo.save(function(err, video) {
+					if(!err){
+						video.path = "/"+req.user._id+"/"+video._id+"."+ext;
+						var target_path = config.root_dir+"/STORAGE/videos/"+newVideo._user+"/"+video._id+"."+ext;
+						var size = req.files.video.size;
+						console.log(target_path);
+						modules.fs.rename(tmp_path, target_path, function(err) {
+							if(err){
+								res.json({"success": false, "error1": err});
+							}else{
+								modules.fs.unlink(tmp_path, function() {
+									if(err){
+										res.json({"success": false, "error2": err});
+									}else{
+										models.Video.update({_id: video._id},{path: video.path, size: size}, function(err){
+											video.size = size;
+											res.json({"success": true, "video": video});
+										});
+									}
+								});
+							}
+						});
+					}else{
+						res.json({"success": false, "error": err});
+					}
+				});
+			}else{
+				res.json({"success": false, "error": "Invalid video extension."});
+			}
 		}else{
-			res.json({"success": false, "error": "Invalid video extension."});
+			res.json({"success": false, "error": "Can't use this name."});
 		}
 	}else{
-		res.json({"success": false, "error": "Can't use this name."});
+		res.json({"success": false, "error": "Invalid video size (max 500mb)."});
 	}
 });
 

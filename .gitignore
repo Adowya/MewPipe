@@ -21,6 +21,8 @@ npm-debug.log
 # API
 ############################
 API/node_modules
+API/STORAGE/temp
+API/STORAGE/videos
 
 ############################
 # CLIENT
