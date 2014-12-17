@@ -15,7 +15,7 @@ var config = {
 };
 if("DEV" == env){
 	config.server.address = "localhost";
-	config.server.port = "8888";
+	config.server.port = 8080;
 	config.debug = true;
 }
 

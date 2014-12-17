@@ -1,6 +1,10 @@
 var mongoose = require('./bdd.js').mongoose;
 
 userSchema = mongoose.Schema({
+	openId: {
+		type: String,
+		required: true
+	},
 	firstname: {
 		type: String,
 		required: true
@@ -9,40 +13,15 @@ userSchema = mongoose.Schema({
 		type: String,
 		required: true
 	},
-	username: {
-		type: String,
-		required: true
-	},
 	email: {
 		type: String,
 		required: true
 	},
-	password: {
-		type: String,
-		required: true
+	birthdate: {
+		type: Date
 	},
-	_plan: {
-		type: String,
-		required: true,
-		ref: 'plan'
-	},
-	subscriptionDate: {
-		type: Date,
-		default: Date.now
-	},
-	created: {
-		type: Date,
-		default: Date.now
-	},
-	deleted: {
-		type: Boolean,
-		default: false
-	},
-	isAdmin: {
-		type: Boolean,
-		default: false
-	}
-});
-userModel = mongoose.model('user', userSchema);
 
-exports.user = userModel;
+});
+userModel = mongoose.model('User', userSchema);
+
+exports.User = userModel;

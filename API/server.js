@@ -12,7 +12,9 @@ var modules = {
 	bcrypt: require("bcrypt-nodejs"),
 	crypto: require("crypto"),
 	url: require('url'),
-	multipart: require('connect-multiparty')
+	multipart: require('connect-multiparty'),
+	passport: require('passport'),
+	googleStrategy: require('passport-google').Strategy
 };
 
 /**
@@ -30,6 +32,42 @@ modules.fs.readdirSync(__dirname+"/models").forEach(function (file) {
 });
 
 /**
+* PASSPORT
+**/
+modules.passport.serializeUser(function(user, done) {
+	done(null, user);
+});
+modules.passport.deserializeUser(function(obj, done) {
+	done(null, obj);
+});
+
+modules.passport.use(new modules.googleStrategy({
+	returnURL: 'http://localhost:8080/auth/return',
+	realm: 'http://localhost:8080/'
+},
+function(identifier, profile, done) {
+	process.nextTick(function () {
+		models.User.findOne({openId: identifier})
+		.select("firstname lastname email openId")
+		.exec(function(err, user){
+			if(user){
+				return done(null, user);
+			}else{
+				var newUser = new models.User({
+					firstname: profile.name.givenName,
+					lastname: profile.name.familyName,
+					email: profile.emails[0].value,
+					openId: identifier
+				});
+				newUser.save(function(err, newUser){
+					return done(err, newUser);
+				});
+			}
+		});
+	});
+}));
+
+/**
 * EXPRESS
 **/
 var express = require("express");
@@ -41,8 +79,10 @@ var morgan = require('morgan');
 app.use(express.static(__dirname + '/../Client'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(modules.passport.initialize());
+app.use(modules.passport.session());
 var router = express.Router();
-if(true == config.debug) {
+if(false == config.debug) {
 	app.use(errorHandler());
 	app.use(morgan('combined', {}));
 }
@@ -54,6 +94,7 @@ var middlewares = require(__dirname+"/middlewares.js");
 middlewares.controller(app, config, modules, models, middlewares);
 app.all("*", middlewares.header);
 app.use('/api', router);
+
 
 /**
 * CONTROLLERS

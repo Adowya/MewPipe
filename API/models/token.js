@@ -8,13 +8,13 @@ tokenSchema = mongoose.Schema({
 	_user: {
 		type: String,
 		required: true,
-		ref: 'user'
+		ref: 'User'
 	},
 	ttl: {
 		type: Number,
 		required: true
 	}
 });
-tokenModel = mongoose.model('token', tokenSchema);
+tokenModel = mongoose.model('Token', tokenSchema);
 
-exports.token = tokenModel;
+exports.Token = tokenModel;

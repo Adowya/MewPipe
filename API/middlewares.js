@@ -90,6 +90,14 @@ module.exports.controller = function(app, config, modules, models, middlewares) 
 		next();
 	};
 
-	exports.multipart = modules.multipart({uploadDir: __dirname+'/STORAGE/tmp', maxFieldsSize: 500000000});
+	exports.multipart = modules.multipart({uploadDir: __dirname+'/STORAGE/temp', maxFieldsSize: 500000000});
+
+	exports.ensureAuthenticated = function(req, res, next) {
+		console.log(req.isAuthenticated());
+		if(req.isAuthenticated()){
+			return next();
+		}
+		res.status(401).end();
+	}
 
 };

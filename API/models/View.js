@@ -1,6 +1,6 @@
 var mongoose = require('./bdd.js').mongoose;
 
-shareSchema = mongoose.Schema({
+viewSchema = mongoose.Schema({
 	_user: { 
 		type: String,
 		required: true,
@@ -8,14 +8,16 @@ shareSchema = mongoose.Schema({
 	},
 	_video: { 
 		type: String,
-		required: true,
 		ref: 'Video'
+	},
+	ipAddr: { 
+		type: String
 	},
 	created: {
 		type: Date,
 		default: Date.now
 	}
 });
-shareModel = mongoose.model('Share', shareSchema);
+viewModel = mongoose.model('View', viewSchema);
 
-exports.Share = shareModel;
+exports.View = viewModel;

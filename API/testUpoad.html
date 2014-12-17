@@ -1,0 +1,11 @@
+<form method="post" action="http://localhost:8080/api/video" enctype="multipart/form-data">
+	<input type="file" name="video"/><br />
+	<input type="text" name="name" value="Name"/><br />
+	<textarea name="description" id="description">Description</textarea><br />
+	<select name="rights">
+		<option value="public">Public</option>
+		<option value="private">Private</option>
+		<option value="link">Link</option>
+	</select>
+	<input type="submit" name="submit" value="Envoyer" />
+</form>
