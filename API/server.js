@@ -14,7 +14,8 @@ var modules = {
 	url: require('url'),
 	multipart: require('connect-multiparty'),
 	passport: require('passport'),
-	googleStrategy: require('passport-google').Strategy
+	googleStrategy: require('passport-google').Strategy,
+	ffmpeg: require('fluent-ffmpeg')
 };
 
 /**

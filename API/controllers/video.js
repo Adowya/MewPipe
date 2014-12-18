@@ -30,7 +30,7 @@ router.get('/video/:vid', function(req, res){
 	.populate("_user", "_id firstname lastname email")
 	.exec(function(err, video){
 		if(video){
-			res.json({"success": true, "video": video});
+			res.json({"success": true, "data": video});
 		}else{
 			res.json({"success": false, "error": "Can't found this file."});
 		}
@@ -71,15 +71,24 @@ router.post('/video', middlewares.multipart, function(req, res) {
 						console.log(target_path);
 						modules.fs.rename(tmp_path, target_path, function(err) {
 							if(err){
-								res.json({"success": false, "error1": err});
+								res.json({"success": false, "error": err});
 							}else{
+								// var proc = modules.ffmpeg(config.root_dir+"/STORAGE/videos/"+video.path)
+								// .size('150x100')
+								// .on('end', function(files) {
+								// 	console.log('screenshots were saved as ' + files.join(', '));
+								// })
+								// .on('error', function(err) {
+								// 	console.log('an error happened: ' + err.message);
+								// })
+								// .takeScreenshots({ count: 2, timemarks: [ '00:00:02.000', '6' ] }, config.root_dir+"/STORAGE/videos");
 								modules.fs.unlink(tmp_path, function() {
 									if(err){
-										res.json({"success": false, "error2": err});
+										res.json({"success": false, "error": err});
 									}else{
 										models.Video.update({_id: video._id},{path: video.path, size: size}, function(err){
 											video.size = size;
-											res.json({"success": true, "video": video});
+											res.json({"success": true, "data": video});
 										});
 									}
 								});
@@ -104,43 +113,28 @@ router.post('/video', middlewares.multipart, function(req, res) {
 /**
 * BROWSE VIDEO
 **/
-router.post('/user/items', function(req, res) {
-	if(req.body.parentId){
-		models.item.find({_user: req.user._id, _parentItem: req.body.parentId})
-		.select("_id _user _parentItem name type size created path")
-		.sort("type -created")
-		.where("deleted").ne(true)
-		.exec(function(err, items) {
-			if(err){
-				res.json({"success": false, "error": err});
-			}else{
-				res.json({"success": true, "items": items});
-			}
-		});
-	}else{
-		models.item.findOne({_user: req.user._id, name: "/"})
-		.where("deleted").ne(true)
-		.exec(function(err, checkItemSlash){
-			if(err){
-				res.json({"success": false, "error": err});
-			}else if(checkItemSlash){
-				models.item.find({_user: req.user._id, _parentItem: checkItemSlash._id})
-				.select("_id _user _parentItem name type size created path")
-				.sort("type -created")
-				.where("deleted").ne(true)
-				.exec(function(err, items) {
-					if(err){
-						res.json({"success": false, "error": err});
-					}else{
-						res.json({"success": true, "items": items});
-					}
-				});
-			}else{
-				res.json({"success": false, "error": "Can't found your / directory."});
-			}
-		});
-	}
-
+router.get('/videos', function(req, res) {
+	models.Video.find({_user: req.user._id, name: "/"})
+	.where("deleted").ne(true)
+	.exec(function(err, checkItemSlash){
+		if(err){
+			res.json({"success": false, "error": err});
+		}else if(checkItemSlash){
+			models.item.find({_user: req.user._id, _parentItem: checkItemSlash._id})
+			.select("_id _user _parentItem name type size created path")
+			.sort("type -created")
+			.where("deleted").ne(true)
+			.exec(function(err, items) {
+				if(err){
+					res.json({"success": false, "error": err});
+				}else{
+					res.json({"success": true, "items": items});
+				}
+			});
+		}else{
+			res.json({"success": false, "error": "Can't found your / directory."});
+		}
+	});
 });
 
 /**
