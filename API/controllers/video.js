@@ -46,6 +46,7 @@ router.post('/video', middlewares.multipart, function(req, res) {
 	req.user._id = req.body._user || "5490c694d67fda9045b12424";
 	if (!req.files.video) {
 		res.json({ "success": false, "error": 'No video received' });
+		return;
 	}
 	if(req.files.video.size <= 500000000){
 		if(req.body.name == "undefined" || req.body.name == undefined){
