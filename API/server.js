@@ -15,7 +15,8 @@ var modules = {
 	multipart: require('connect-multiparty'),
 	passport: require('passport'),
 	googleStrategy: require('passport-google').Strategy,
-	ffmpeg: require('fluent-ffmpeg')
+	ffmpeg: require('fluent-ffmpeg'),
+	express_session: require('express-session')
 };
 
 /**
@@ -80,6 +81,11 @@ var morgan = require('morgan');
 app.use(express.static(__dirname + '/../Client'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(modules.express_session({
+  secret: 'A54EF9D62B03E826A723BC8',
+  resave: false,
+  saveUninitialized: true
+}));
 app.use(modules.passport.initialize());
 app.use(modules.passport.session());
 var router = express.Router();

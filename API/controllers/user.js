@@ -66,7 +66,7 @@ router.post("/user/login", function(req, res){
 /**
 * LOGOUT
 **/
-router.get("/user/logout", middlewares.checkAuth, function(req, res){
+router.get("/user/logout", function(req, res){
 	var query = models.token.findOne({_user: req.user._id});
 	query.exec(function(error, token){
 		if(token){
@@ -89,7 +89,7 @@ router.get("/user/logout", middlewares.checkAuth, function(req, res){
 /**
 * READ ALL
 **/
-router.get('/users', middlewares.checkAuth, function(req, res){
+router.get('/users', function(req, res){
 	models.user.find()
 	.select("username lastname firstname created")
 	.where("deleted").ne(true)
@@ -108,7 +108,7 @@ router.get('/users', middlewares.checkAuth, function(req, res){
 /**
 * READ ALL BY USERNAME
 **/
-router.post('/users/findByUsername', middlewares.checkAuth, function(req, res){
+router.post('/users/findByUsername', function(req, res){
 	if(req.body.username){
 		var regExSearch = new RegExp(req.body.username, 'i');
 		models.user.find()
@@ -133,7 +133,7 @@ router.post('/users/findByUsername', middlewares.checkAuth, function(req, res){
 /**
 * READ ONE
 **/
-router.get("/user", middlewares.checkAuth, function(req, res){
+router.get("/user", function(req, res){
 	var id = req.user._id;
 	models.user.findOne({_id: id})
 	.populate('_plan')
@@ -246,7 +246,7 @@ router.post("/user", function(req, res){
 /**
 * UPDATE
 **/
-router.put("/user", middlewares.checkAuth, function(req, res){
+router.put("/user", function(req, res){
 	if(req.body.username && req.body.email && req.body.firstname && req.body.lastname){
 		if(regExEmail.test(req.body.email) == true){
 			if(req.body.username.indexOf(' ') === -1){
@@ -307,7 +307,7 @@ router.put("/user", middlewares.checkAuth, function(req, res){
  /**
 * PROMOTE USER
 **/
-router.post("/user/promote", middlewares.checkAdmin, function(req, res){
+router.post("/user/promote", function(req, res){
 	if(req.body.username){
 		var editUser = {
 			isAdmin: true
@@ -330,7 +330,7 @@ router.post("/user/promote", middlewares.checkAdmin, function(req, res){
  /**
 * DEMOTE USER
 **/
-router.post("/user/demote", middlewares.checkAdmin, function(req, res){
+router.post("/user/demote", function(req, res){
 	if(req.body.username){
 		var editUser = {
 			isAdmin: false
@@ -353,7 +353,7 @@ router.post("/user/demote", middlewares.checkAdmin, function(req, res){
 /**
 * CHANGE PASSWORD
 **/
-router.put("/user/changePassword", middlewares.checkAuth, function(req, res){
+router.put("/user/changePassword", function(req, res){
 	if (typeof req.body.oldPass != "undefined"){
 		if (typeof req.body.newPass != "undefined"){
 			var id = req.user._id;
@@ -394,7 +394,7 @@ router.put("/user/changePassword", middlewares.checkAuth, function(req, res){
 /**
 * DELETE
 **/
-router.put("/user/delete", middlewares.checkAuth, function(req, res){
+router.put("/user/delete", function(req, res){
 	if(typeof req.body.pass != "undefined"){
 		var id = req.user._id;
 		var pass =  modules.bcrypt.hashSync(req.body.pass, config.salt);

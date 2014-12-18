@@ -39,7 +39,7 @@ router.get('/video/:vid', function(req, res){
 
 
 /**
-* UPLOAD FILE
+* UPLOAD FILE middlewares.checkAuth,
 **/
 router.post('/video', middlewares.multipart, function(req, res) {
 	req.user = {};
@@ -53,7 +53,7 @@ router.post('/video', middlewares.multipart, function(req, res) {
 			req.body.name = req.files.file.name;
 		}
 		if(req.body.name != "/"){
-			var allowedExt = ["avi", "mp4", "mov", "mkv", "pdf", "png"];
+			var allowedExt = ["avi", "AVI", "mp4", "MP4", "mov", "MOV", "mkv", "MKV"];
 			var tmp_path = req.files.file.path;
 			var ext = tmp_path.split('.').pop();
 			if(allowedExt.indexOf(ext) > -1){
@@ -73,15 +73,14 @@ router.post('/video', middlewares.multipart, function(req, res) {
 							if(err){
 								res.json({"success": false, "error": err});
 							}else{
-								// var proc = modules.ffmpeg(config.root_dir+"/STORAGE/videos/"+video.path)
-								// .size('150x100')
-								// .on('end', function(files) {
-								// 	console.log('screenshots were saved as ' + files.join(', '));
-								// })
-								// .on('error', function(err) {
-								// 	console.log('an error happened: ' + err.message);
-								// })
-								// .takeScreenshots({ count: 2, timemarks: [ '00:00:02.000', '6' ] }, config.root_dir+"/STORAGE/videos");
+								var proc = modules.ffmpeg(config.root_dir+"/STORAGE/videos/"+video.path)
+								.on('end', function(files) {
+									console.log('screenshots were saved');
+								})
+								.on('error', function(err) {
+									console.log('an error happened: ' + err.message);
+								})
+								.takeScreenshots({  filename: video._id+'.png', size: "300x200", count: 1, timemarks: [ '20%' ]}, config.root_dir+"/STORAGE/videos/"+video._user);
 								modules.fs.unlink(tmp_path, function() {
 									if(err){
 										res.json({"success": false, "error": err});

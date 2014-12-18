@@ -1,85 +1,15 @@
 module.exports.controller = function(app, config, modules, models, middlewares) {
 
 	exports.checkAuth = function(req, res, next) {
-		if(typeof req.headers["x-access-token"] != "undefined"){
-			var token = req.headers["x-access-token"];
-			models.token.findOne({key: token})
-			.populate('_user')
-			.exec(function(error, token){
-				if(token){
-					if (token.ttl >= Math.round(+new Date() / 1000)){
-						req.user = token._user;
-						token.ttl = Math.round(+new Date() / 1000) + config.ttlToken;
-						token.save(function(err) {
-							if (err) {
-								if(config.debug == true){
-									console.log({checkAuth_token_err: err});
-								}
-								res.send(401);
-							}else {
-								next();
-							}
-						});
-					}else{
-						models.token.remove({_id: token._id}, function(err){
-							if(err) {
-								if(config.debug == true){
-									console.log({error_DELETE_token: err});
-								}
-							}
-						});
-						res.send(401);
-					}
-				}else{
-					res.send(401);
-				}
-			});
-		}else{
-			res.send(401);
+		if(req.isAuthenticated()){
+			return next();
 		}
+		//res.status(401).end();
+		res.redirect('/auth');
 	};
 
 	exports.checkAdmin = function(req, res, next) {
-		if(typeof req.headers["x-access-token"] != "undefined"){
-			var token = req.headers["x-access-token"];
-			models.token.findOne({key: token})
-			.populate('_user')
-			.exec(function(error, token){
-				if(token){
-					if (token.ttl >= Math.round(+new Date() / 1000)){
-						req.user = token._user;
-						token.ttl = Math.round(+new Date() / 1000) + config.ttlToken;
-						token.save(function(err) {
-							if (err) {
-								if(config.debug == true){
-									console.log({checkAuth_token_err: err});
-								}
-								res.send(401);
-							}else{
-								if(token._user.isAdmin == true){
-									next();	
-								}else{
-									res.send(401);
-								}
-							}
-						});
-					}else{
-						models.token.remove({_id: token._id}, function(err){
-							if(err) {
-								if(config.debug == true){
-									console.log({error_DELETE_token: err});
-								}
-							}
-						});
-						res.send(401);
-					}
-				}else{
-					res.send(401);
-				}
-			});
-		}else{
-			res.send(401);
-		}
+
 	};
 
 	exports.header = function(req, res, next) {
@@ -91,13 +21,5 @@ module.exports.controller = function(app, config, modules, models, middlewares) 
 	};
 
 	exports.multipart = modules.multipart({uploadDir: __dirname+'/STORAGE/temp'});
-
-	exports.ensureAuthenticated = function(req, res, next) {
-		console.log(req.isAuthenticated());
-		if(req.isAuthenticated()){
-			return next();
-		}
-		res.status(401).end();
-	}
 
 };
