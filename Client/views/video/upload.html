@@ -15,8 +15,11 @@
 			<input type="file" ng-file-select="videoUpload($files)" multiple>
 		</div>
 		<p>Upload :</p>
-		<progressbar class="progress-striped active" value="dynamic" type="info">
-			<b>{{dynamic}}%</b>
-		</progressbar>
+
+		<div class="progress">
+			<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{dynamic}}" aria-valuemin="0" aria-valuemax="100" style="width: {{dynamic}}%;">
+				{{dynamic}}%
+			</div>
+		</div>
 	</div>
 </div>

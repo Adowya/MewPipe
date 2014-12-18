@@ -33,27 +33,27 @@ mewPipeApp.run([
 		};
 
 		/* Debug log */
-		if (appConfig.debug) {
-			console.log = function (log) {
-				return function () {
-					var args = Array.prototype.slice.call(arguments);
-					log.apply(console, args);
-					var logs = [];
-				};
-			}(console.log);
-		}
+		// if (appConfig.debug) {
+		// 	console.log = function (log) {
+		// 		return function () {
+		// 			var args = Array.prototype.slice.call(arguments);
+		// 			log.apply(console, args);
+		// 			var logs = [];
+		// 		};
+		// 	}(console.log);
+		// }
 
 		/* Settings Http Error */
-		$rootScope.httpError = function(code){
+		$rootScope.httpError = function(code, err){
 			if(401 == code) {
-				$location.path("/index");
+				$location.path("/");
 				console.log('Error 401');
 			}else if(500 == code || 503 == code){
 				console.log('Error 500 or 503');
-				$location.path("/index");
+				$location.path("/");
 			}else if(404 == code){
 				console.log('Error 404');
-				$location.path("/index");
+				$location.path("/");
 			}else{
 				console.log('Error inconue');
 			}

@@ -1,8 +1,8 @@
 'use strict';
 var scanModule = angular.module('callModule', []);
 scanModule.factory('$callService', [
-	'$rootScope',
-	function ($rootScope) {
+	'$rootScope', '$http',
+	function ($rootScope, $http) {
 
 		var $callService = {
 
@@ -25,7 +25,12 @@ scanModule.factory('$callService', [
         		})
 					.success(function (res) {
 						if (typeof callback === "function") {
-							callback(res.success, res.data);
+							console.log(res);
+							if(res.error){
+								callback(res.success, res.error);
+							}else {
+								callback(res.success, res.data);
+							}
 						}
 					})
 					.error(function (err, code) {

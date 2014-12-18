@@ -1,25 +1,14 @@
 mewPipeApp.controller('MainCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService', '$sce',
 	function($rootScope, $http, $scope, $route, $location, $callService, $sce) {
-		
+
 
 		$scope.config = {
 			sources: [
-			{src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"},
-			{src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.webm"), type: "video/webm"},
-			{src: $sce.trustAsResourceUrl("http://www.videogular.com/assets/videos/videogular.ogg"), type: "video/ogg"}
-			],
-			tracks: [
-			{
-				src: "http://www.videogular.com/assets/subs/pale-blue-dot.vtt",
-				kind: "subtitles",
-				srclang: "en",
-				label: "English",
-				default: ""
-			}
+			{src: $sce.trustAsResourceUrl("http://127.0.0.1:8080/api/video/download/54931e0dd46f920000f2e3ae"), type: "video/mp4"}
 			],
 			theme: "bower_components/videogular-themes-default/videogular.css",
 			plugins: {
-				poster: "http://www.videogular.com/assets/images/videogular.png"
+				poster: ""
 			}
 		};
 
