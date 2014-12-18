@@ -6,6 +6,7 @@ var mewPipeApp = angular.module('mewPipeApp', [
 	'ngTouch',
 	'ui.sortable',
 	'callModule',
+	'angularFileUpload',
 	"com.2fdevs.videogular",
 	"com.2fdevs.videogular.plugins.controls",
 	"com.2fdevs.videogular.plugins.overlayplay",

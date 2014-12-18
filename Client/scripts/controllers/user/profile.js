@@ -1,8 +1,8 @@
-mewPipeApp.controller('ProfileCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService',
+mewPipeApp.controller('UserProfileCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService',
 	function($rootScope, $http, $scope, $route, $location, $callService){
 
 		$scope.showUser = function(){
-			$callService.requestGet('login', function (success, data) {
+			$callService.requestGet('login', null, function (success, data) {
 				if(success){
 					console.log(data);
 				}else {

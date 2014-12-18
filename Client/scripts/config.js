@@ -26,13 +26,34 @@ if("dev" == env){
 
 var apiUrl = {
 	route: {
-		login: "/login",
-		logout: "/logout"
+		login: "/user/login",
+		logout: "/user/logout",
+
+		share_create: "/share",
+		share_readOne: "/share/users",
+		share_readAll: "/shares",
+		share_update: "",
+		share_delete: "/share/delete",
+
+		user_create: "/user",
+		user_readOne: "/user",
+		user_readAll: "/users",
+		user_update: "/user",
+		user_delete: "/user/delete/",
+		user_findByUsername: "/users/findByUsername",
+		user_changePassword : "/user/changePassword",
+
+		video_upload: "/video",
+		video_read: "/video",
+		share_update: "",
+		video_delete: "/video/delete/",
+		video_download: "/video/download/",
+		video_browse: "/user/items"
 	},
 }
 
 var getApiAddr = function () {
-	var apiAddr = appConfig.api.prefix + appConfig.api.addr+":"+appConfig.api.port+"/"+appConfig.api.sub;;
+	var apiAddr = appConfig.api.prefix + appConfig.api.addr+":"+appConfig.api.port+appConfig.api.sub;;
 	return apiAddr;
 };
 

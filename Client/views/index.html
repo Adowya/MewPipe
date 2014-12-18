@@ -1,32 +1,47 @@
-<div id="main" role="main" class="grid pal mal txtleft" ng-controller="MainCtrl as controller">
-	<div class="grid3">
-		<div class="mtm">
-			<videogular vg-theme="controller.config.theme">
-				<vg-video vg-src="controller.config.sources" vg-tracks="controller.config.tracks"></vg-video>
 
-					<vg-controls>
-						<vg-play-pause-button></vg-play-pause-button>
-						<vg-timedisplay>{{ currentTime | date:'mm:ss' }}</vg-timedisplay>
-						<vg-scrubBar>
-							<vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
-						</vg-scrubBar>
-						<vg-timedisplay>{{ timeLeft | date:'mm:ss' }}</vg-timedisplay>
-						<vg-volume>
-							<vg-mutebutton></vg-mutebutton>
-							<vg-volumebar></vg-volumebar>
-						</vg-volume>
-						<vg-fullscreenButton></vg-fullscreenButton>
-					</vg-controls>
-
-					<vg-overlay-play></vg-overlay-play>
-					<vg-poster-image vg-url='controller.config.plugins.poster'></vg-poster-image>
-
-			</videogular>
-		</div>
-		<div class="mtm">Verdammi et moi ch'avais donc parié deux knacks et une flammekueche. Ah so ? T'inquiète, ch'ai ramené du schpeck</div>
-		<div class="mtm">du chambon, un kuglopf et du schnaps dans mon rucksack. Allez, s'guelt !</div>
-		<div class="mtm">Wotch a kofee avec ton bibalaekaess et ta wurscht ? Yeuh non che suis au réchime</div>
-		<div class="mtm">je ne mange plus que des Grumbeere light et che fais de la chym avec Chulien. Tiens, un rottznoz sur le comptoir</div>
-		<div class="mtm">Tu restes pour le lotto-owe ce soir, y'a baeckeoffe ? Yeuh non, merci vielmols mais che dois partir à la Coopé de Truchtersheim acheter des mänele et des rossbolla</div>
-	</div>
-</div>
+<article class="video">
+<div class="row" role="main" >
+    <ul class="two_up tiles">
+        <li class="rounded image">
+            <videogular vg-theme="config.theme">
+                <vg-video vg-src="config.sources" vg-tracks="config.tracks"></vg-video>
+                <vg-controls>
+                    <vg-play-pause-button></vg-play-pause-button>
+                    <vg-timedisplay>{{ currentTime | date:'mm:ss' }}</vg-timedisplay>
+                    <vg-scrubBar>
+                        <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
+                    </vg-scrubBar>
+                    <vg-timedisplay>{{ timeLeft | date:'mm:ss' }}</vg-timedisplay>
+                    <vg-volume>
+                        <vg-mutebutton></vg-mutebutton>
+                        <vg-volumebar></vg-volumebar>
+                    </vg-volume>
+                    <vg-fullscreenButton></vg-fullscreenButton>
+                </vg-controls>
+                <vg-overlay-play></vg-overlay-play>
+                <vg-poster-image vg-url='config.plugins.poster'></vg-poster-image>
+            </videogular>
+        </li>
+        <li class="rounded image">
+            <videogular vg-theme="config.theme">
+                <vg-video vg-src="config.sources" vg-tracks="config.tracks"></vg-video>
+                <vg-controls>
+                    <vg-play-pause-button></vg-play-pause-button>
+                    <vg-timedisplay>{{ currentTime | date:'mm:ss' }}</vg-timedisplay>
+                    <vg-scrubBar>
+                        <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
+                    </vg-scrubBar>
+                    <vg-timedisplay>{{ timeLeft | date:'mm:ss' }}</vg-timedisplay>
+                    <vg-volume>
+                        <vg-mutebutton></vg-mutebutton>
+                        <vg-volumebar></vg-volumebar>
+                    </vg-volume>
+                    <vg-fullscreenButton></vg-fullscreenButton>
+                </vg-controls>
+                <vg-overlay-play></vg-overlay-play>
+                <vg-poster-image vg-url='config.plugins.poster'></vg-poster-image>
+            </videogular>
+        </li>
+    </ul>
+</div>	
+</article>
