@@ -44,17 +44,17 @@ router.get('/video/:vid', function(req, res){
 router.post('/video', middlewares.multipart, function(req, res) {
 	req.user = {};
 	req.user._id = req.body._user || "5490c694d67fda9045b12424";
-	if (!req.files.video) {
+	if (!req.files.file) {
 		res.json({ "success": false, "error": 'No video received' });
 		return;
 	}
-	if(req.files.video.size <= 500000000){
+	if(req.files.file.size <= 500000000){
 		if(req.body.name == "undefined" || req.body.name == undefined){
-			req.body.name = req.files.video.name;
+			req.body.name = req.files.file.name;
 		}
 		if(req.body.name != "/"){
 			var allowedExt = ["avi", "mp4", "mov", "mkv", "pdf", "png"];
-			var tmp_path = req.files.video.path;
+			var tmp_path = req.files.file.path;
 			var ext = tmp_path.split('.').pop();
 			if(allowedExt.indexOf(ext) > -1){
 				var newVideo = new models.Video({
@@ -67,7 +67,7 @@ router.post('/video', middlewares.multipart, function(req, res) {
 					if(!err){
 						video.path = "/"+req.user._id+"/"+video._id+"."+ext;
 						var target_path = config.root_dir+"/STORAGE/videos/"+newVideo._user+"/"+video._id+"."+ext;
-						var size = req.files.video.size;
+						var size = req.files.file.size;
 						console.log(target_path);
 						modules.fs.rename(tmp_path, target_path, function(err) {
 							if(err){
