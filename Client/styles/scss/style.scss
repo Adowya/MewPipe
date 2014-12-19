@@ -3,6 +3,12 @@
 @import "../../bower_components/gumby-parallax/_parallax";
 
 /* Custom Sass */
+
+h2.lead {
+border-bottom: 1px solid #ccc;
+margin-bottom: 30px;
+}
+
 .videogular-container {
 	width: 100%;
 	height: 320px;
@@ -168,4 +174,35 @@ footer {
 	background-image:         linear-gradient(to bottom, #d9534f 0%, #c9302c 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9534f', endColorstr='#ffc9302c', GradientType=0);
 	background-repeat: repeat-x;
+}
+
+.center-center {
+	text-align: center;
+}
+
+.left-center, .left-center p {
+	text-align: left;
+}
+
+.right-center {
+	text-align: right;
+}
+@media only screen and (max-width: 768px) {
+	.right-center {
+		text-align: center;
+	}
+}
+
+.wrapper + .wrapper {
+	/* padding: 75px 20px 70px 20px; */
+}
+
+.wrapper + .wrapper.nopad {
+	/* padding-top: 0; */
+	/* padding-bottom: 0; */
+}
+
+.wrapper.shaded {
+	background-color: #E9E9E9 !important;
+	/*background-size: cover;*/
 }

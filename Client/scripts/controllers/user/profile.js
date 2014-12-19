@@ -10,7 +10,7 @@ mewPipeApp.controller('UserProfileCtrl', ['$rootScope', '$http', '$scope', '$rou
 				}
 			});
 		};
-		$scope.showUser();
+		// $scope.showUser();
 
 		$scope.editUser = function(){
 			var data = {

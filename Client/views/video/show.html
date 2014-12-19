@@ -1,6 +1,12 @@
-<div class="row">
-    <section class="nine columns">
-        <h2>{{video.name}}</h2>
+<article>
+    <div class="row">
+        <section class="eight columns">
+            <div class="left-center">
+                <h2>{{video.name}}</h2>
+                <h6>
+                    <b>By :</b> {{user.lastname}} {{user.firstname}}
+                </h6>
+            </div>
             <videogular vg-theme="video.theme">
                 <vg-video vg-src="video.sources" vg-tracks="video.tracks"></vg-video>
                 <vg-controls>
@@ -19,16 +25,44 @@
                 <vg-overlay-play></vg-overlay-play>
                 <vg-poster-image vg-url='video.plugins.poster'></vg-poster-image>
             </videogular>
-    </section>
-    <section class="three columns push_one">
-        <article class="valign row">
-              <div>
-                <img src="/img/img_silence_demo.jpg" width="145" />
+            <div class="right-center">
+                <p>Post: {{video.created}}</p>
+                <div class="inline">
+                    <p>View: </p>
+                    <h2>{{video.views}}</h2>
+                </div>
             </div>
-            <div>
-                <h4>Gumby Framework is cool.</h4>
-                <p>Face tattoos are not.</p>
-            </div>
-        </article>
-    </section>
-</div>
+            <fieldset>
+                <legend>
+                    <h4>Description :</h4>
+                </legend>
+                <ul>
+                    <li class="field">
+                        <p>{{video.description}}</p>
+                    </li>
+                    <li class="field right-center">
+                        <p>Size : {{video.size}}</p>
+                        <p>
+                            <i class="icon-facebook-squared primary"></i>
+                            <i class="icon-twitter"></i>
+                            <i class="icon-pinterest"></i>
+                            <i class="icon-gplus"></i>
+                        </p>
+                    </li>
+                </ul>
+            </fieldset>
+        </section>
+        <section class="four columns">
+            <h2>Related</h2>
+            <article class="row">
+                <div class="left-center">
+                    <h4>Gumby Framework is cool.</h4>
+                    <p>Face tattoos are not.</p>
+                </div>
+                <div class="center-center">
+                    <img src="/img/img_silence_demo.jpg" width="145" />
+                </div>
+            </article>
+        </section>
+    </div>
+</article>
