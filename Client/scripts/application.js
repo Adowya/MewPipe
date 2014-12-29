@@ -7,6 +7,7 @@ var mewPipeApp = angular.module('mewPipeApp', [
 	'ui.sortable',
 	'callModule',
 	'angularFileUpload',
+	'xeditable',
 	"com.2fdevs.videogular",
 	"com.2fdevs.videogular.plugins.controls",
 	"com.2fdevs.videogular.plugins.overlayplay",
@@ -16,6 +17,7 @@ var mewPipeApp = angular.module('mewPipeApp', [
 mewPipeApp.run([
 	'$rootScope',
 	'$http',
+	'$location',
 	function ($rootScope, $http, $location) {
 
 		/* Notification Error */
@@ -58,7 +60,6 @@ mewPipeApp.run([
 				console.log('Error inconue');
 			}
 		};
-
 
 	}]);
 

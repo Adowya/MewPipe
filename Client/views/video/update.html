@@ -1,0 +1,102 @@
+<article>
+    <div class="row">
+        <section class="eight columns">
+            <form editable-form name="editableForm" onaftersave="updateVideo()">
+                <div class="right-center">
+                    <div  class="medium oval btn default" ng-click="editableForm.$show()" ng-show="!editableForm.$visible">
+                        <a>Edit</a>
+                    </div>
+                    <span ng-show="editableForm.$visible">
+                        <div  class="medium oval btn primary" ng-disabled="editableForm.$waiting">
+                          <a>Save</a>
+                      </div>
+                      <div  class="medium oval btn default" ng-disabled="editableForm.$waiting" ng-click="editableForm.$cancel()">
+                          <a>Cancel</a>
+                      </div>
+                  </span>
+              </div>
+              <div class="left-center">
+                <h2>
+                    <span editable-text="video.name" e-name="name" onbeforesave="checkName($data)" e-required>
+                     {{ video.name || 'empty' }}
+                 </span>
+             </h2>
+             <h6>
+                <b>By :</b> {{user.lastname}} {{user.firstname}}
+                
+            </h6>
+        </div>
+        <videogular vg-theme="video.theme">
+            <vg-video vg-src="video.sources" vg-tracks="video.tracks"></vg-video>
+            <vg-controls>
+            <vg-play-pause-button></vg-play-pause-button>
+            <vg-timedisplay>{{ currentTime | date:'mm:ss' }}</vg-timedisplay>
+            <vg-scrubBar>
+            <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
+        </vg-scrubBar>
+        <vg-timedisplay>{{ timeLeft | date:'mm:ss' }}</vg-timedisplay>
+        <vg-volume>
+        <vg-mutebutton></vg-mutebutton>
+        <vg-volumebar></vg-volumebar>
+    </vg-volume>
+    <vg-fullscreenButton></vg-fullscreenButton>
+</vg-controls>
+<vg-overlay-play></vg-overlay-play>
+<vg-poster-image vg-url='video.plugins.poster'></vg-poster-image>
+</videogular>
+<div class="right-center">
+    <div class="row">
+        <div class="three columns">
+            <div class="left-center">
+                <h2>{{video.views}}</h2>
+                <i class="icon-eye"></i>
+            </div>
+        </div>
+        <div class="six columns push_three">
+            <p>Post on {{video.created}}</p>
+            <p>Size : {{video.size}}</p>
+            <span class="title">Share with </span>
+            <span editable-select="video.share" e-name="share" onshow="loadShare()" e-ng-options="s.id as s.text for s in shares">
+                {{ showShare() }}
+            </span>
+        </div>
+    </div>
+</div>
+<fieldset>
+    <legend>
+        <h4>Description :</h4>
+    </legend>
+    <ul>
+        <li class="field">
+            <a editable-textarea="video.description" e-rows="7" e-cols="40">
+                <pre>{{ video.description || 'empty' }}</pre>
+            </a>
+        </li>
+        <li class="field right-center">
+            <p>
+                <i class="icon-facebook-squared primary"></i>
+                <i class="icon-twitter"></i>
+                <i class="icon-pinterest"></i>
+                <i class="icon-gplus"></i>
+            </p>
+        </li>
+    </ul>
+</fieldset>
+</form>
+</section>
+
+<section class="four columns">
+    <h2>Related</h2>
+    <article class="row">
+        <div class="left-center">
+            <h4>Gumby Framework is cool.</h4>
+            <p>Face tattoos are not.</p>
+        </div>
+        <div class="center-center">
+            <img src="/img/img_silence_demo.jpg" width="145" />
+        </div>
+    </article>
+</section>
+</div>
+</article>
+

@@ -27,6 +27,7 @@
     "gumby-shuffle": "~1.1.0",
     "gumby-fittext": "~1.0.1",
     "gumby-comments": "~1.0.0",
-    "gumby-inview": "~1.0.3"
+    "gumby-inview": "~1.0.3",
+    "angular-xeditable": "~0.1.8"
   }
 }

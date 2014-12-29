@@ -158,24 +158,24 @@
 	</footer>
 
 	<!-- Grab Google CDN's jQuery, fall back to local if offline -->
-        <!-- 2.0 for modern browsers, 1.10 for .oldie -->
-        <script>
-            var oldieCheck = Boolean(document.getElementsByTagName('html')[0].className.match(/\soldie\s/g));
-            if (!oldieCheck) {
-                document.write('<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"><\/script>');
-            } else {
-                document.write('<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"><\/script>');
-            }
-        </script>
-        <script>
-            if (!window.jQuery) {
-                if (!oldieCheck) {
-                    document.write('<script src="js/libs/jquery-2.0.2.min.js"><\/script>');
-                } else {
-                    document.write('<script src="js/libs/jquery-1.10.1.min.js"><\/script>');
-                }
-            }
-        </script>
+	<!-- 2.0 for modern browsers, 1.10 for .oldie -->
+	<script>
+		var oldieCheck = Boolean(document.getElementsByTagName('html')[0].className.match(/\soldie\s/g));
+		if (!oldieCheck) {
+			document.write('<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"><\/script>');
+		} else {
+			document.write('<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"><\/script>');
+		}
+	</script>
+	<script>
+		if (!window.jQuery) {
+			if (!oldieCheck) {
+				document.write('<script src="js/libs/jquery-2.0.2.min.js"><\/script>');
+			} else {
+				document.write('<script src="js/libs/jquery-1.10.1.min.js"><\/script>');
+			}
+		}
+	</script>
 
 	<script src="/bower_components/jquery/dist/jquery.min.js"></script>
 	<script src="/bower_components/moment/moment.js"></script>
@@ -201,6 +201,9 @@
 	<script src="/bower_components/gumby-parallax/gumby.parallax.js"></script>
 	<script src="/bower_components/gumby-shuffle/gumby.shuffle.js"></script>
 
+	<script src="/bower_components/gumby/js/plugins.js"></script>
+	<script src="/bower_components/gumby/js/main.js"></script>
+
 	<!-- build:js scripts/vendor.js -->
 	<!-- bower:js -->
 	<script src="/bower_components/angular/angular.js"></script>
@@ -211,6 +214,7 @@
 	<script src="/bower_components/angular-touch/angular-touch.js"></script>
 	<script src="/bower_components/angular-moment/angular-moment.js"></script>
 	<script src="/bower_components/angular-ui-sortable/sortable.js"></script>
+	<script src="/bower_components/angular-xeditable/dist/js/xeditable.js"></script>
 	<script src="/bower_components/videogular/videogular.js"></script>
 	<script src="/bower_components/videogular-controls/controls.js"></script>
 	<script src="/bower_components/videogular-overlay-play/overlay-play.js"></script>
@@ -233,6 +237,7 @@
 	<script src="/scripts/controllers/video/upload.js"></script>
 	<script src="/scripts/controllers/video/download.js"></script>
 	<script src="/scripts/controllers/video/show.js"></script>
+	<script src="/scripts/controllers/video/update.js"></script>
 
 	<!-- <script src="/scripts/controllers/.js"></script> -->
 
