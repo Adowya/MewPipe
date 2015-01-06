@@ -1,4 +1,4 @@
-module.exports.controller = function(app, router, config, modules, models, middlewares){
+module.exports.controller = function(app, router, config, modules, models, middlewares, sessions){
 
 /**
 * DOWNLOAD VIDEO
@@ -20,6 +20,9 @@ router.get('/video/download/:vid', function(req, res){
 	});
 });
 
+router.get('/test', middlewares.checkAuth, function(req, res){
+	res.json({"success": true, user: req.user});
+});
 
 /**
 * READ VIDEO
@@ -41,70 +44,72 @@ router.get('/video/:vid', function(req, res){
 /**
 * UPLOAD FILE middlewares.checkAuth,
 **/
-router.post('/video', middlewares.multipart, function(req, res) {
-	req.user = {};
-	req.user._id = req.body._user || "5490c694d67fda9045b12424";
-	if (!req.files.file) {
-		res.json({ "success": false, "error": 'No video received' });
-		return;
-	}
-	if(req.files.file.size <= 500000000){
-		if(req.body.name == "undefined" || req.body.name == undefined){
-			req.body.name = req.files.file.name;
-		}
-		if(req.body.name != "/"){
-			var allowedExt = ["avi", "AVI", "mp4", "MP4", "mov", "MOV", "mkv", "MKV"];
-			var tmp_path = req.files.file.path;
-			var ext = tmp_path.split('.').pop();
-			if(allowedExt.indexOf(ext) > -1){
-				var newVideo = new models.Video({
-					_user: req.user._id,
-					name: req.body.name,
-					description: req.body.description,
-					rights: req.body.rights
-				});
-				newVideo.save(function(err, video) {
-					if(!err){
-						video.path = "/"+req.user._id+"/"+video._id+"."+ext;
-						var target_path = config.root_dir+"/STORAGE/videos/"+newVideo._user+"/"+video._id+"."+ext;
-						var size = req.files.file.size;
-						console.log(target_path);
-						modules.fs.rename(tmp_path, target_path, function(err) {
-							if(err){
-								res.json({"success": false, "error": err});
-							}else{
-								var proc = modules.ffmpeg(config.root_dir+"/STORAGE/videos/"+video.path)
-								.on('end', function(files) {
-									console.log('screenshots were saved');
-								})
-								.on('error', function(err) {
-									console.log('an error happened: ' + err.message);
-								})
-								.takeScreenshots({  filename: video._id+'.png', size: "300x200", count: 1, timemarks: [ '20%' ]}, config.root_dir+"/STORAGE/videos/"+video._user);
-								modules.fs.unlink(tmp_path, function() {
-									if(err){
-										res.json({"success": false, "error": err});
-									}else{
-										models.Video.update({_id: video._id},{path: video.path, size: size}, function(err){
-											video.size = size;
-											res.json({"success": true, "data": video});
-										});
-									}
-								});
-							}
-						});
-					}else{
-						res.json({"success": false, "error": err});
-					}
-				});
+router.post('/video', middlewares.checkAuth, middlewares.multipart, function(req, res) {
+	// req.user = {};
+	// req.user._id = req.body._user || "5490c694d67fda9045b12424";
+	console.log(req.user);
+	if(req.files.file) {
+		if(req.files.file.size <= 500000000){
+			if(req.body.name == "undefined" || req.body.name == undefined){
+				req.body.name = req.files.file.name;
+			}
+			if(req.body.name != "/"){
+				var allowedExt = ["avi", "AVI", "mp4", "MP4", "mov", "MOV", "mkv", "MKV"];
+				var tmp_path = req.files.file.path;
+				var ext = tmp_path.split('.').pop();
+				if(allowedExt.indexOf(ext) > -1){
+					var newVideo = new models.Video({
+						_user: req.user._id,
+						name: req.body.name,
+						description: req.body.description,
+						rights: req.body.rights
+					});
+					newVideo.save(function(err, video) {
+						if(!err){
+							video.path = "/"+req.user._id+"/"+video._id+"."+ext;
+							var target_path = config.root_dir+"/STORAGE/videos/"+newVideo._user+"/"+video._id+"."+ext;
+							var size = req.files.file.size;
+							console.log(target_path);
+							modules.fs.rename(tmp_path, target_path, function(err) {
+								if(err){
+									console.log(err);
+									res.json({"success": false, "error": err});
+								}else{
+									var proc = modules.ffmpeg(config.root_dir+"/STORAGE/videos/"+video.path)
+									.on('end', function(files) {
+										console.log('screenshots were saved');
+									})
+									.on('error', function(err) {
+										console.log('an error happened: ' + err.message);
+									})
+									.takeScreenshots({ filename: video._id+'.png', size: "300x200", count: 1, timemarks: [ '20%' ]}, config.root_dir+"/STORAGE/videos/"+video._user);
+									modules.fs.unlink(tmp_path, function() {
+										if(err){
+											res.json({"success": false, "error": err});
+										}else{
+											models.Video.update({_id: video._id},{path: video.path, size: size}, function(err){
+												video.size = size;
+												res.json({"success": true, "data": video});
+											});
+										}
+									});
+								}
+							});
+						}else{
+							res.json({"success": false, "error": err});
+						}
+					});
+				}else{
+					res.json({"success": false, "error": "Invalid video extension."});
+				}
 			}else{
-				res.json({"success": false, "error": "Invalid video extension."});
+				res.json({"success": false, "error": "Can't use this name."});
 			}
 		}else{
-			res.json({"success": false, "error": "Can't use this name."});
+			res.json({"success": false, "error": "Invalid video size (max 500mb)."});
 		}
 	}else{
-		res.json({"success": false, "error": "Invalid video size (max 500mb)."});
+		res.json({ "success": false, "error": 'No video received' });
 	}
 });
 

@@ -36,6 +36,7 @@ modules.fs.readdirSync(__dirname+"/models").forEach(function (file) {
 /**
 * PASSPORT
 **/
+var sessions = [];
 modules.passport.serializeUser(function(user, done) {
 	done(null, user);
 });
@@ -44,29 +45,50 @@ modules.passport.deserializeUser(function(obj, done) {
 });
 
 modules.passport.use(new modules.googleStrategy({
-	returnURL: 'http://localhost:8080/auth/return',
-	realm: 'http://localhost:8080/'
+	returnURL: 'http://'+config.server.address+':'+config.server.port+'/auth/google/return',
+	realm: 'http://'+config.server.address+':'+config.server.port
 },
 function(identifier, profile, done) {
 	process.nextTick(function () {
-		models.User.findOne({openId: identifier})
-		.select("firstname lastname email openId")
-		.exec(function(err, user){
-			if(user){
-				return done(null, user);
-			}else{
-				var newUser = new models.User({
-					firstname: profile.name.givenName,
-					lastname: profile.name.familyName,
-					email: profile.emails[0].value,
-					openId: identifier
-				});
-				newUser.save(function(err, newUser){
-					return done(err, newUser);
-				});
-			}
-		});
-	});
+		modules.crypto.randomBytes(48, function(err, randomKey) {
+			var key = randomKey.toString("hex");
+			models.User.findOne({openId: identifier})
+			.select("firstname lastname email openId")
+			.lean()
+			.exec(function(err, user){
+				if(user){
+					user.token = key;
+					var ttlToken = Math.round(+new Date() / 1000) + config.ttlToken;
+					for(var i=0; i<sessions.length; i++){
+						if(String(sessions[i].userId) == String(user._id)){
+							sessions.splice(i, 1);
+						}
+					}
+					sessions.push({userId: user._id, token: user.token, ttl: ttlToken});
+					return done(null, user);
+				}else{
+					var user = {
+						firstname: profile.name.givenName,
+						lastname: profile.name.familyName,
+						email: profile.emails[0].value,
+						openId: identifier
+					};
+					var newUser = new models.User(user);
+					user.token = key;
+					var ttlToken = Math.round(+new Date() / 1000) + config.ttlToken;
+					newUser.save(function(err, newUser){
+						for(var i=0; i<sessions.length; i++){
+							if(String(sessions[i].userId) == String(newUser._id)){
+								sessions.splice(i, 1);
+							}
+						}
+						sessions.push({userId: newUser._id, token: user.token, ttl: ttlToken});
+						return done(err, user);
+					});
+				}
+			});
+});
+});
 }));
 
 /**
@@ -82,9 +104,9 @@ app.use(express.static(__dirname + '/../Client'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(modules.express_session({
-  secret: 'A54EF9D62B03E826A723BC8',
-  resave: false,
-  saveUninitialized: true
+	secret: 'A54EF9D62B03E826A723BC8',
+	resave: false,
+	saveUninitialized: true
 }));
 app.use(modules.passport.initialize());
 app.use(modules.passport.session());
@@ -98,7 +120,7 @@ if(false == config.debug) {
 * MIDDLEWARES
 **/
 var middlewares = require(__dirname+"/middlewares.js");
-middlewares.controller(app, config, modules, models, middlewares);
+middlewares.controller(app, config, modules, models, middlewares, sessions);
 app.all("*", middlewares.header);
 app.use('/api', router);
 
@@ -109,7 +131,7 @@ app.use('/api', router);
 modules.fs.readdirSync(__dirname+"/controllers").forEach(function (file) {
 	if(file.substr(-3) == ".js") {
 		route = require(__dirname+"/controllers/" + file);
-		route.controller(app, router, config, modules, models, middlewares);
+		route.controller(app, router, config, modules, models, middlewares, sessions);
 	}
 });
 

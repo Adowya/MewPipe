@@ -1,4 +1,4 @@
-module.exports.controller = function(app, router, config, modules, models, middlewares) {
+module.exports.controller = function(app, router, config, modules, models, middlewares, sessions) {
 
 /**
 * READ ALL
