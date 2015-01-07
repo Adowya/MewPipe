@@ -14,7 +14,7 @@
   clear: both; }
 
 body {
-  background: #3498db;
+  background: #2f3238;
   font-size: 100%;
   line-height: 1.25;
   font-family: 'Lato', Arial, sans-serif; }
@@ -40,7 +40,6 @@ header h1 {
   color: #fff; }
 
 section {
-  position: relative;
   text-align: center;
   padding: 1em 1em 3em; }
 
