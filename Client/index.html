@@ -33,7 +33,7 @@
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 	<link rel="stylesheet" href="styles/style.css" media="all">
-	<script src="/scripts/plugin/modernizr.custom.js"></script>
+	<script src="/bower_components/modernizr/modernizr.js"></script>
 </head>
 
 <body>
@@ -43,14 +43,18 @@
 			<img src="images/logo.png" gumby-retina="">
 		</a>
 		<span>Recreation of the effect seen in the <a href="https://www.youtube.com/watch?v=sjGF6Mw6X_Y">prototype app by Marcus Eckert</a></span></h1>
-		<nav class="mew-demos">
-			<a href="index.html">Vertical</a>
-			<a class="current-demo" href="index2.html">Horizontal</a>
+		<nav class="cl-effect-5">
+			<a href="#/"><span data-hover="Home">Home</span></a>
+			<a href="#/video/update/1"><span data-hover="Video">Video</span></a>
+			<a href="#/video/upload"><span data-hover="Upload">Upload</span></a>
+			<a href="#/user/profile"><span data-hover="Profile">Profile</span></a>
 		</nav>
 	</header>
 	<!-- /header -->
 	
-	<button data-dialog="somedialog" class="trigger">Open Dialog</button>
+	<button data-dialog="somedialog" class="trigger" ng-dialog>Open Dialog</button>
+	<button data-dialog="test" class="trigger" ng-dialog>Open Dialog</button>
+
 
 	<!-- angular view  -->
 	<div ng-view> </div>
@@ -61,7 +65,21 @@
 		<div class="dialog__overlay"></div>
 		<div class="dialog__content">
 			<h2>
-				<strong>Howdy</strong>, I'm a dialog box
+				<strong>Howdy</strong>, I'm a first dialog box
+			</h2>
+			<div>
+				<button class="action" data-dialog-close>Close</button>
+			</div>
+		</div>
+	</div>
+	<!-- /dialog -->
+
+	<!-- dialog -->
+	<div id="test" class="dialog">
+		<div class="dialog__overlay"></div>
+		<div class="dialog__content">
+			<h2>
+				<strong>Howdy</strong>, I'm a second dialog box
 			</h2>
 			<div>
 				<button class="action" data-dialog-close>Close</button>
@@ -154,13 +172,10 @@
 			}
 		}
 	</script>
-
 	<script src="/bower_components/jquery/dist/jquery.min.js"></script>
-	<script src="/bower_components/moment/moment.js"></script>
 	<script src="/bower_components/jquery-ui/jquery-ui.js"></script>
-
-	<!-- build:js scripts/vendor.js -->
-	<!-- bower:js -->
+	<script src="/bower_components/moment/moment.js"></script>
+	<script src="/bower_components/classie/classie.js"></script>
 
 	<!-- Angular Libs -->
 	<script src="/bower_components/angular/angular.js"></script>
@@ -184,15 +199,12 @@
 	<script src="/bower_components/ng-file-upload/angular-file-upload-shim.min.js"></script>
 	<script src="/bower_components/ng-file-upload/angular-file-upload.min.js"></script> 
 
-	<!-- endbower -->
-	<!-- endbuild -->
-
 	<!-- Plugin -->
-	<script src="/scripts/plugin/classie.js"></script>
 	<script src="/scripts/plugin/notificationFx.js"></script>
 	<script src="/scripts/plugin/dialogFx.js"></script>
 	<script src="/scripts/plugin/helper.js"></script>
 	<script src="/scripts/plugin/grid3d.js"></script>
+	<script src="/scripts/plugin/progressButton.js"></script>
 
 	<!-- Configuration -->
 	<script src="/scripts/config.js"></script>
@@ -211,6 +223,7 @@
 
 	<!-- Directives -->
 	<script src="/scripts/directives/limit.js"></script>
+	<script src="/scripts/directives/dialog.js"></script>
 
 	<!-- Services  -->
 	<script src="/scripts/services/callService.js"></script>
@@ -224,18 +237,6 @@
 		ga('create', 'UA-XXXXXXXX-X', 'XXXXXXXXXXX.TLD');
 		ga('send', 'pageview');
 
-	</script>
-
-	<script>
-		(function() {
-
-			var dlgtrigger = document.querySelector( '[data-dialog]' ),
-			somedialog = document.getElementById( dlgtrigger.getAttribute( 'data-dialog' ) ),
-			dlg = new DialogFx( somedialog );
-
-			dlgtrigger.addEventListener( 'click', dlg.toggle.bind(dlg) );
-
-		})();
 	</script>
 
 </body>

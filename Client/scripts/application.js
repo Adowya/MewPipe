@@ -44,9 +44,6 @@ mewPipeApp.run([
 			}
 		};
 
-		$rootScope.showDialog = function() {
-		}
-
 
 		/* Debug log */
 		// if (appConfig.debug) {

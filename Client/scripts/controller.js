@@ -16,6 +16,4 @@ mewPipeApp.controller('MainCtrl', ['$rootScope', '$http', '$scope', '$route', '$
 			$rootScope.showNotif('This is a test', 'error');
 		}, 2000 );
 
-
-
 	}]);
