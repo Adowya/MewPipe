@@ -12,4 +12,10 @@ mewPipeApp.controller('MainCtrl', ['$rootScope', '$http', '$scope', '$route', '$
 			}
 		};
 
+		setTimeout( function() {
+			$rootScope.showNotif('This is a test', 'error');
+		}, 2000 );
+
+
+
 	}]);

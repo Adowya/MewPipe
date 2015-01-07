@@ -21,18 +21,32 @@ mewPipeApp.run([
 	function ($rootScope, $http, $location) {
 
 		/* Notification Error */
-		$rootScope.alertMsg = '';
-		$rootScope.alert = {
-			show :false
-		};
-		$rootScope.showNotif = function(msg){
+		$rootScope.showNotif = function(msg, type){
 			if(appConfig.debug){
-				$rootScope.alertMsg = msg;
-				$rootScope.alert = {
-					show :true
-				};
+				var flag = false;
+				setTimeout( function() {
+					if(flag) return;
+					flag = true;
+						// create the notification
+						var notification = new NotificationFx({
+							message : '<span class="icon icon-'+type+'"></span><p>'+msg+'.</p>',
+							layout : 'attached',
+							effect : 'bouncyflip',
+							type : type, // notice, warning or error
+							onClose : function() {
+								flag = false;
+							}
+						});
+
+						// show the notification
+						notification.show();
+					}, 1200 );
 			}
 		};
+
+		$rootScope.showDialog = function() {
+		}
+
 
 		/* Debug log */
 		// if (appConfig.debug) {

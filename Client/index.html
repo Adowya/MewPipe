@@ -35,36 +35,40 @@
 	<link rel="stylesheet" href="styles/style.css" media="all">
 	<script src="/scripts/plugin/modernizr.custom.js"></script>
 </head>
+
 <body>
 	<!-- header -->
-	<header class="codrops-header">
+	<header class="mew-header">
 		<h1><a href="#/">
 			<img src="images/logo.png" gumby-retina="">
 		</a>
 		<span>Recreation of the effect seen in the <a href="https://www.youtube.com/watch?v=sjGF6Mw6X_Y">prototype app by Marcus Eckert</a></span></h1>
-		<nav class="codrops-demos">
+		<nav class="mew-demos">
 			<a href="index.html">Vertical</a>
 			<a class="current-demo" href="index2.html">Horizontal</a>
 		</nav>
 	</header>
 	<!-- /header -->
 	
-	<!-- notification  -->
-	<div class="row">
-		<div class="twelve columns">
-			<div class="danger alert" ng-show="alert.show" style="position: fixed;z-index: 1000;margin-top: 10px;">
-				<button type="button" class="close" ng-click="!alert.show" aria-hidden="true">
-					&times;
-				</button>
-				{{ alertMsg }}
-			</div>
-		</div>
-	</div>
-	<!-- /notification -->
+	<button data-dialog="somedialog" class="trigger">Open Dialog</button>
 
 	<!-- angular view  -->
 	<div ng-view> </div>
 	<!-- /angular view  -->
+
+	<!-- dialog -->
+	<div id="somedialog" class="dialog">
+		<div class="dialog__overlay"></div>
+		<div class="dialog__content">
+			<h2>
+				<strong>Howdy</strong>, I'm a dialog box
+			</h2>
+			<div>
+				<button class="action" data-dialog-close>Close</button>
+			</div>
+		</div>
+	</div>
+	<!-- /dialog -->
 
 	<!-- btn go top -->
 	<div class="row">
@@ -83,7 +87,6 @@
 		</div>
 	</div>
 	<!-- /btn go top -->
-
 
 	<!-- footer -->
 	<footer>
@@ -186,9 +189,10 @@
 
 	<!-- Plugin -->
 	<script src="/scripts/plugin/classie.js"></script>
+	<script src="/scripts/plugin/notificationFx.js"></script>
+	<script src="/scripts/plugin/dialogFx.js"></script>
 	<script src="/scripts/plugin/helper.js"></script>
 	<script src="/scripts/plugin/grid3d.js"></script>
-
 
 	<!-- Configuration -->
 	<script src="/scripts/config.js"></script>
@@ -220,6 +224,18 @@
 		ga('create', 'UA-XXXXXXXX-X', 'XXXXXXXXXXX.TLD');
 		ga('send', 'pageview');
 
+	</script>
+
+	<script>
+		(function() {
+
+			var dlgtrigger = document.querySelector( '[data-dialog]' ),
+			somedialog = document.getElementById( dlgtrigger.getAttribute( 'data-dialog' ) ),
+			dlg = new DialogFx( somedialog );
+
+			dlgtrigger.addEventListener( 'click', dlg.toggle.bind(dlg) );
+
+		})();
 	</script>
 
 </body>

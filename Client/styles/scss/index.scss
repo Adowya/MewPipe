@@ -1,3 +1,4 @@
+#index {
 	.noscroll {
 		overflow: hidden;
 	}
@@ -181,9 +182,6 @@
 		transition: opacity 0.3s;
 	}
 
-	.close-content:hover {
-		color: #999;
-	}
 
 	.content > div.show ~ .close-content {
 		opacity: 1;
@@ -191,7 +189,7 @@
 	}
 
 	.close-content:before {
-		content: "\e602";
+		// content: "\e602";
 	}
 
 	/* Dummy content */
@@ -305,3 +303,4 @@
 		}
 
 	}
+}
