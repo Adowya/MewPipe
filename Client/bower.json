@@ -25,7 +25,6 @@
   },
   "dependencies": {
     "normalize.css": "~3.0.2",
-    "modernizr": "~2.8.3",
     "classie": "~1.0.1"
   }
 }

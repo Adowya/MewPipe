@@ -141,10 +141,8 @@
 				if( ev.target !== self.ntf ) return false;
 				this.removeEventListener( animEndEventName, onEndAnimationFn );
 			}
-			setTimeout( function() {
-				self.options.wrapper.removeChild( self.ntf );
-			}, 300 );
-
+			self.options.wrapper.removeChild( this );
+			//self.ntf
 		};
 
 		if( support.animations ) {
