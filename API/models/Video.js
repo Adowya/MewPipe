@@ -16,11 +16,11 @@ videoSchema = mongoose.Schema({
 	},
 	size: {
 		type: Number,
-		default: null
+		required: true
 	},
-	path: {
+	ext: {
 		type: String,
-		default: null
+		required: true
 	},
 	rights: { 
 		type: String,

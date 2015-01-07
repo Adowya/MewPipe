@@ -3,11 +3,11 @@ var mongoose = require('./bdd.js').mongoose;
 viewSchema = mongoose.Schema({
 	_user: { 
 		type: String,
-		required: true,
 		ref: 'User'
 	},
 	_video: { 
 		type: String,
+		required: true,
 		ref: 'Video'
 	},
 	ipAddr: { 

@@ -3,37 +3,93 @@ module.exports.controller = function(app, router, config, modules, models, middl
 /**
 * DOWNLOAD VIDEO
 **/
-router.get('/video/download/:vid', function(req, res){
+router.get('/videos/download/:vid', function(req, res){
 	models.Video.findOne({_id: req.params.vid}).exec(function(err, video){
 		if(video){
-			var file = config.root_dir+"/STORAGE/videos"+video.path;
-			var ext = video.path.split('.').pop();
-			if(video.name.split('.').pop() != ext){
-				var filename = video.name+"."+ext;
-			}else{
-				var filename = video.name;
-			}
-			res.download(file, filename);
+			var videoPath = config.videoDirectory+"/"+video._id+"."+video.ext;
+			var videoName = video.name+"."+video.ext;
+			res.download(videoPath, videoName);
 		}else{
-			res.json({"success": false, "error": "Can't found this file."});
+			res.json({"success": false, "error": "Can't found this video."});
 		}
 	});
 });
 
-router.get('/test', middlewares.checkAuth, function(req, res){
-	res.json({"success": true, user: req.user});
+/**
+* VIEW VIDEO
+**/
+router.get('/videos/play/:vid', middlewares.checkViews, function(req, res){
+	models.Video.findOne({_id: req.params.vid}).exec(function(err, video){
+		if(video){
+			var videoPath = config.videoDirectory+"/"+video._id+"."+video.ext;
+			var videoName = video.name+"."+video.ext;
+			res.download(videoPath, videoName);
+			if(req.viewsIdentifierUser){
+				models.View.findOne({_video: video._id, _user: req.viewsIdentifierUser})
+				.exec(function(err, view){
+					if(!view){
+						var newView = new models.View({
+							_user: req.viewsIdentifierUser,
+							_video: video._id
+						});
+						newView.save(function(err, view) {
+							return;
+						});
+					}
+				});
+			}
+			if(req.viewsIdentifierIp){
+				models.View.findOne({_video: video._id, ipAddr: req.viewsIdentifierIp})
+				.exec(function(err, view){
+					if(!view){
+						var newView = new models.View({
+							ipAddr: req.viewsIdentifierIp,
+							_video: video._id
+						});
+						newView.save(function(err, view) {
+							return;
+						});
+					}
+				});
+			}
+		}else{
+			res.json({"success": false, "error": "Can't found this video."});
+		}
+	});
 });
+
+
+/**
+* GET VIDEO THUMBNAILS
+**/
+router.get('/videos/thumbnails/:vid', function(req, res){
+	models.Video.findOne({_id: req.params.vid}).exec(function(err, video){
+		if(video){
+			var thumbnailPath = config.thumbnailsDirectory+"/"+video._id+".png";
+			var thumbnailName = video.name+".png";
+			res.download(thumbnailPath, thumbnailName);
+		}else{
+			res.json({"success": false, "error": "Can't found this video."});
+		}
+	});
+});
+
 
 /**
 * READ VIDEO
 **/
-router.get('/video/:vid', function(req, res){
+router.get('/videos/:vid', function(req, res){
 	models.Video.findOne({_id: req.params.vid})
-	.select("_id _user name type size created path description")
-	.populate("_user", "_id firstname lastname email")
+	.select("-__v -archived")
+	.populate("_user", "-openId -__v")
+	.lean()
 	.exec(function(err, video){
 		if(video){
-			res.json({"success": true, "data": video});
+			models.View.find({_video: video._id})
+			.exec(function(err, views){
+				video.views = views.length;
+				res.json({"success": true, "data": video});
+			});
 		}else{
 			res.json({"success": false, "error": "Can't found this file."});
 		}
@@ -44,59 +100,54 @@ router.get('/video/:vid', function(req, res){
 /**
 * UPLOAD FILE middlewares.checkAuth,
 **/
-router.post('/video', middlewares.checkAuth, middlewares.multipart, function(req, res) {
-	// req.user = {};
-	// req.user._id = req.body._user || "5490c694d67fda9045b12424";
-	console.log(req.user);
+router.post('/videos', middlewares.checkAuth, middlewares.multipart, function(req, res) {
 	if(req.files.file) {
-		if(req.files.file.size <= 500000000){
-			if(req.body.name == "undefined" || req.body.name == undefined){
-				req.body.name = req.files.file.name;
+		if(req.files.file.size <= config.maxVideoSize){
+			if(req.body.name == "undefined" || req.body.name == undefined || req.body.name.replace(/\s+/g, "") == ""){
+				req.body.name = req.files.file.name.replace(/\.[^/.]+$/, "");
 			}
 			if(req.body.name != "/"){
-				var allowedExt = ["avi", "AVI", "mp4", "MP4", "mov", "MOV", "mkv", "MKV"];
 				var tmp_path = req.files.file.path;
-				var ext = tmp_path.split('.').pop();
-				if(allowedExt.indexOf(ext) > -1){
+				var ext = tmp_path.split('.').pop().toLowerCase();
+				if(config.videoAllowedExt.indexOf(ext) > -1){
 					var newVideo = new models.Video({
 						_user: req.user._id,
 						name: req.body.name,
 						description: req.body.description,
+						size: req.files.file.size,
+						ext: ext,
 						rights: req.body.rights
 					});
 					newVideo.save(function(err, video) {
 						if(!err){
-							video.path = "/"+req.user._id+"/"+video._id+"."+ext;
-							var target_path = config.root_dir+"/STORAGE/videos/"+newVideo._user+"/"+video._id+"."+ext;
+							video.path = "/"+video._id+"."+ext;
+							var target_path = config.videoDirectory+video.path;
 							var size = req.files.file.size;
-							console.log(target_path);
 							modules.fs.rename(tmp_path, target_path, function(err) {
 								if(err){
 									console.log(err);
 									res.json({"success": false, "error": err});
 								}else{
-									var proc = modules.ffmpeg(config.root_dir+"/STORAGE/videos/"+video.path)
+									var proc = modules.ffmpeg(config.videoDirectory+"/"+video.path)
 									.on('end', function(files) {
-										console.log('screenshots were saved');
+										modules.fs.unlink(tmp_path, function() {
+											if(err){
+												res.json({"success": false, "error": err});
+											}else{
+												video.archived = undefined;
+												video.__v = undefined;
+												res.json({"success": true, "data": video});
+											}
+										});
 									})
 									.on('error', function(err) {
-										console.log('an error happened: ' + err.message);
+										res.json({"success": false, "error": "An error occured (can not generate video thumbnails)."});
 									})
-									.takeScreenshots({ filename: video._id+'.png', size: "300x200", count: 1, timemarks: [ '20%' ]}, config.root_dir+"/STORAGE/videos/"+video._user);
-									modules.fs.unlink(tmp_path, function() {
-										if(err){
-											res.json({"success": false, "error": err});
-										}else{
-											models.Video.update({_id: video._id},{path: video.path, size: size}, function(err){
-												video.size = size;
-												res.json({"success": true, "data": video});
-											});
-										}
-									});
+									.takeScreenshots({ filename: video._id+'.png', size: config.thumbnailsSize, count: 1, timemarks: [ '20%' ]}, config.thumbnailsDirectory);
 								}
 							});
 						}else{
-							res.json({"success": false, "error": err});
+							res.json({"success": false, "error": err.errors.description.message});
 						}
 					});
 				}else{
@@ -118,49 +169,90 @@ router.post('/video', middlewares.checkAuth, middlewares.multipart, function(req
 * BROWSE VIDEO
 **/
 router.get('/videos', function(req, res) {
-	models.Video.find({_user: req.user._id, name: "/"})
-	.where("deleted").ne(true)
-	.exec(function(err, checkItemSlash){
-		if(err){
-			res.json({"success": false, "error": err});
-		}else if(checkItemSlash){
-			models.item.find({_user: req.user._id, _parentItem: checkItemSlash._id})
-			.select("_id _user _parentItem name type size created path")
-			.sort("type -created")
-			.where("deleted").ne(true)
-			.exec(function(err, items) {
-				if(err){
-					res.json({"success": false, "error": err});
-				}else{
-					res.json({"success": true, "items": items});
+	models.Video.find({rights: "public"})
+	.where("archived").ne(true)
+	.select("-__v -archived")
+	.lean()
+	.exec(function(err, videos){
+		if(videos){
+			if(videos.length == 0){
+				res.json({"success": true, "data": videos});
+			}
+			var	last = 0;
+			var pushNbViews = function(count, i){
+				videos[i].views = count;
+				last++;
+				if(last >= videos.length){
+					res.json({"success": true, "data": videos});
 				}
-			});
+			};
+			for(var i=0; i < videos.length; i++){
+				models.View.find({_video: videos[i]._id})
+				.exec(function(i, err, views){
+					pushNbViews(views.length, i);	
+				}.bind(models.View, i));
+			}
 		}else{
-			res.json({"success": false, "error": "Can't found your / directory."});
+			res.json({"success": false, "error": err});
 		}
 	});
 });
+
+/**
+* BROWSE VIDEO BY USER
+**/
+router.get('/videos/user/:uid', function(req, res) {
+	models.Video.find({rights: "public", _user: req.params.uid})
+	.where("archived").ne(true)
+	.select("-__v -archived")
+	.exec(function(err, videos){
+		if(!err){
+			if(videos.length == 0){
+				res.json({"success": true, "data": videos});
+			}
+			var	last = 0;
+			var pushNbViews = function(count, i){
+				videos[i].views = count;
+				last++;
+				if(last >= videos.length){
+					res.json({"success": true, "data": videos});
+				}
+			};
+			for(var i=0; i < videos.length; i++){
+				models.View.find({_video: videos[i]._id})
+				.exec(function(i, err, views){
+					pushNbViews(views.length, i);	
+				}.bind(models.View, i));
+			}
+		}else{
+			res.json({"success": false, "error": err});
+		}
+	});
+});
+
 
 /**
 * DELETE VIDEO
 **/
-router.get('/video/delete/:vid', function(req, res){
-	models.Video.findOne({_id: req.body.itemId, _user: req.user._id}).exec(function(err, video){
+router.get('/videos/delete/:vid', middlewares.checkAuth, function(req, res){
+	models.Video.findOne({_id: req.params.vid, _user: req.user._id})
+	.exec(function(err, video){
 		if(video){
-			models.Video.update({_id: video._id},{deleted: true}, function(err){
-				var path = config.root_dir+"/STORAGE/videos"+video.path;
-				modules.fs.unlink(path, function(){
-					res.json({"success": true});
-				});
-			});
 			models.Video.remove({ _id: video._id }, function(err) {
 				if(err){
 					res.json({"success": false, "error": err});
 				}else{
-					var path = config.root_dir+"/STORAGE/videos"+video.path;
-					modules.fs.unlink(path, function(){
-						res.json({"success": true});
+					var videoPath = config.videoDirectory+"/"+video._id+"."+video.ext;
+					var thumbnailPath = config.thumbnailsDirectory+"/"+video._id+".png";
+					modules.fs.unlink(videoPath, function(){
+						modules.fs.unlink(thumbnailPath, function(){
+							return;
+						});
 					});
+					models.View.remove({ _video: video._id }, function(err) {
+						return;
+					});
+					res.json({"success": true});
 				}
 			});
 		}else{
@@ -169,20 +261,23 @@ router.get('/video/delete/:vid', function(req, res){
 	});
 });
 
+
 /**
 * ARCHIVE VIDEO
 **/
-router.get('/video/delete/:vid', function(req, res){
-	models.Video.findOne({_id: req.body.itemId, _user: req.user._id}).exec(function(err, video){
+router.get('/videos/archive/:vid', middlewares.checkAuth, function(req, res){
+	models.Video.findOne({_id: req.params.vid, _user: req.user._id})
+	.exec(function(err, video){
 		if(video){
-			models.Video.update({_id: video._id},{deleted: true}, function(err){
-				var path = config.root_dir+"/STORAGE/videos"+video.path;
-				modules.fs.unlink(path, function(){
+			models.Video.update({_id: video._id},{archived: true}, function(err){
+				if(!err){
 					res.json({"success": true});
-				});
+				}else{
+					res.json({"success": true, "error": "An error occured."});
+				}
 			});
-		}else if(video.type=='dir'){
-			res.json({"success": false, "error": "You can't remove this video."});
+		}else{
+			res.json({"success": false, "error": "You can't archive this video."});
 		}
 	});
 });

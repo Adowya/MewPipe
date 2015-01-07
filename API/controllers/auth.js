@@ -17,7 +17,12 @@
  	});
 
  	app.get('/auth/logout', function(req, res, next) {
- 		
+ 		for(var i=0; i<sessions.length; i++){
+ 			if(req.user._id == sessions[i].userId){
+ 				console.log("yolo");
+				sessions.splice(i, 1);
+ 			}
+ 		}
  		return res.redirect('/#/auth/logout/success');
  	});
 

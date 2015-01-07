@@ -87,8 +87,8 @@ function(identifier, profile, done) {
 					});
 				}
 			});
-});
-});
+		});
+	});
 }));
 
 /**
@@ -133,6 +133,13 @@ modules.fs.readdirSync(__dirname+"/controllers").forEach(function (file) {
 		route = require(__dirname+"/controllers/" + file);
 		route.controller(app, router, config, modules, models, middlewares, sessions);
 	}
+});
+
+/**
+* CLEAR TEMP
+**/
+modules.fs.readdirSync(config.tmpDirectory).forEach(function (file) {
+	modules.fs.unlink(config.tmpDirectory+"/"+file, function(){return});
 });
 
 /**
