@@ -1,25 +1,27 @@
-<div class="row">
-	<div class="ten columns centered text-center">
-		<h2>Upload</h2>
-		<p>What do you want Upload ?</p>
-		<div class="row">
-			<div class="span9" style="text-align:center;display: table;margin: 0 auto;">
-				<div ng-file-drop="videoUpload($files)" class="drop-box" ng-file-drag-over-class="optional-css-class" ng-show="dropSupported">
-					Drop files here !
+<section id="upload">
+	<div class="row">
+		<div class="ten columns centered text-center">
+			<h2>Upload</h2>
+			<p>What do you want Upload ?</p>
+			<div class="row">
+				<div class="span9" style="text-align:center;display: table;margin: 0 auto;">
+					<div ng-file-drop="videoUpload($files)" class="drop-box" ng-file-drag-over-class="optional-css-class" ng-show="dropSupported">
+						Drop files here !
+					</div>
+					<div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">
+						HTML5 Drop File is not supported!
+					</div>
 				</div>
-				<div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">
-					HTML5 Drop File is not supported!
-				</div>
+				<p>OR</p>
+				<input type="file" ng-file-select="videoUpload($files)" multiple>
 			</div>
-			<p>OR</p>
-			<input type="file" ng-file-select="videoUpload($files)" multiple>
-		</div>
-		<p>Upload :</p>
+			<p>Upload :</p>
 
-		<div class="progress">
-			<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{dynamic}}" aria-valuemin="0" aria-valuemax="100" style="width: {{dynamic}}%;">
-				{{dynamic}}%
+			<div class="progress">
+				<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{dynamic}}" aria-valuemin="0" aria-valuemax="100" style="width: {{dynamic}}%;">
+					{{dynamic}}%
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
+</section>

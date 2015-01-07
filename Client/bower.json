@@ -21,13 +21,9 @@
     "videogular-overlay-play": "0.7.2",
     "videogular-poster": "0.7.2",
     "videogular-themes-default": "0.7.2",
-    "gumby": "~2.6.3",
-    "gumby-parallax": "~1.2.0",
-    "gumby-images": "~1.1.1",
-    "gumby-shuffle": "~1.1.0",
-    "gumby-fittext": "~1.0.1",
-    "gumby-comments": "~1.0.0",
-    "gumby-inview": "~1.0.3",
     "angular-xeditable": "~0.1.8"
+  },
+  "dependencies": {
+    "normalize.css": "~3.0.2"
   }
 }

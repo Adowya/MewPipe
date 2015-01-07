@@ -16,11 +16,12 @@ var reload = browserSync.reload;
 
 // task CSS/SCSS
 gulp.task('sass', function() {
-  gulp.src('./styles/scss/*.scss')
+  gulp.src(['./styles/scss/*.scss', './styles/scss/**/*.scss'])
   .pipe(sass({
     noCache : true,
     style   : "compact"
   }))
+  .pipe(concat('style.css'))
   .pipe(gulp.dest('./styles'))
 });
 

@@ -1,13 +1,12 @@
 <!doctype html>
-<!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="fr" ng-app="mewPipeApp"> <![endif]-->
-<!--[if IE 8]> 	   <html class="no-js ie8 ie678" lang="fr" ng-app="mewPipeApp"> <![endif]-->
-<!--[if IE 9]>     <html class="no-js ie9" lang="fr" ng-app="mewPipeApp"> <![endif]-->
+<!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en" ng-app="mewPipeApp"> <![endif]-->
+<!--[if IE 8]> 	   <html class="no-js ie8 ie678" lang="en" ng-app="mewPipeApp"> <![endif]-->
+<!--[if IE 9]>     <html class="no-js ie9" lang="en" ng-app="mewPipeApp"> <![endif]-->
 <!--[if gt IE 9]> <!-->
-<html class="no-js" lang="fr" ng-app="mewPipeApp"> 
+<html class="no-js" lang="en" ng-app="mewPipeApp"> 
 <!--<![endif]-->
 <head>
 	<meta charset="UTF-8">
-
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 
@@ -34,49 +33,23 @@
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 	<link rel="stylesheet" href="styles/style.css" media="all">
-
-	<script src="/bower_components/gumby/js/libs/modernizr-2.6.2.min.js"></script>
-	
+	<script src="/scripts/plugin/modernizr.custom.js"></script>
 </head>
 <body>
-
-	<header id="header" role="banner" class="line pam">
-		<div class="navbar" id="nav1">
-			<div class="row">
-				<a class="toggle" gumby-trigger="#nav1 > .row > ul" href="#"><i class="icon-menu"></i></a>
-				<h1 class="four columns logo">
-					<a href="#/">
-						<img src="images/logo.png" gumby-retina="">
-					</a>
-				</h1>
-				<ul class="eight columns">
-					<li><a href="#/">Home</a></li>
-					<li>
-						<a href="#/"/>Video</a>
-						<div class="dropdown">
-							<ul>
-								<li><a href="#/video/upload">Upload</a></li>
-							</ul>
-						</div>
-					</li>
-					<li><a href="#/user/profile">Profile</a></li>
-					<li class="field"><input class="search input" type="search" placeholder="Search"></li>
-				</ul>
-			</div>
-		</div>
+	<!-- header -->
+	<header class="codrops-header">
+		<h1><a href="#/">
+			<img src="images/logo.png" gumby-retina="">
+		</a>
+		<span>Recreation of the effect seen in the <a href="https://www.youtube.com/watch?v=sjGF6Mw6X_Y">prototype app by Marcus Eckert</a></span></h1>
+		<nav class="codrops-demos">
+			<a href="index.html">Vertical</a>
+			<a class="current-demo" href="index2.html">Horizontal</a>
+		</nav>
 	</header>
 	<!-- /header -->
-	<aside class="mod left w20 mrs pam aside">
-		<nav id="navigation" role="navigation">
-			<ul>
-				<li></li>
-				<li></li>
-				<li></li>
-				<li></li>
-				<li></li>
-			</ul>
-		</nav>
-	</aside>
+	
+	<!-- notification  -->
 	<div class="row">
 		<div class="twelve columns">
 			<div class="danger alert" ng-show="alert.show" style="position: fixed;z-index: 1000;margin-top: 10px;">
@@ -85,17 +58,15 @@
 				</button>
 				{{ alertMsg }}
 			</div>
-
-			<!-- <div class="parallax" gumby-parallax="0.5" style="width: 100%;height: 300px;background-image: url(/images/logo.png)"></div>
-
-			<h1 class="fittext" gumby-rate="0.5" gumby-sizes="14|80">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h1> -->
-
 		</div>
 	</div>
+	<!-- /notification -->
 
+	<!-- angular view  -->
 	<div ng-view> </div>
+	<!-- /angular view  -->
 
-
+	<!-- btn go top -->
 	<div class="row">
 		<div class="eight columns">
 		</div>
@@ -111,7 +82,10 @@
 			</div>
 		</div>
 	</div>
+	<!-- /btn go top -->
 
+
+	<!-- footer -->
 	<footer>
 		<div class="row">
 			<div class="six columns">
@@ -156,6 +130,7 @@
 			</div>
 		</div>
 	</footer>
+	<!-- /footer -->
 
 	<!-- Grab Google CDN's jQuery, fall back to local if offline -->
 	<!-- 2.0 for modern browsers, 1.10 for .oldie -->
@@ -180,32 +155,11 @@
 	<script src="/bower_components/jquery/dist/jquery.min.js"></script>
 	<script src="/bower_components/moment/moment.js"></script>
 	<script src="/bower_components/jquery-ui/jquery-ui.js"></script>
-	<!-- Gumby -->
-	<script gumby-touch="/bower_components/gumby/js/libs" src="/bower_components/gumby/js/libs/gumby.js"></script>
-	<script src="/bower_components/gumby/js/libs/ui/gumby.retina.js"></script>
-	<script src="/bower_components/gumby/js/libs/ui/gumby.fixed.js"></script>
-	<script src="/bower_components/gumby/js/libs/ui/gumby.skiplink.js"></script>
-	<script src="/bower_components/gumby/js/libs/ui/gumby.toggleswitch.js"></script>
-	<script src="/bower_components/gumby/js/libs/ui/gumby.checkbox.js"></script>
-	<script src="/bower_components/gumby/js/libs/ui/gumby.radiobtn.js"></script>
-	<script src="/bower_components/gumby/js/libs/ui/gumby.tabs.js"></script>
-	<script src="/bower_components/gumby/js/libs/ui/gumby.navbar.js"></script>
-	<script src="/bower_components/gumby/js/libs/ui/jquery.validation.js"></script>
-	<script src="/bower_components/gumby/js/libs/gumby.init.js"></script>
-
-	<!-- Gumby Extensions -->
-	<script src="/bower_components/gumby-comments/gumby.comments.js"></script>
-	<script src="/bower_components/gumby-fittext/gumby.fittext.js"></script>
-	<script src="/bower_components/gumby-images/gumby.images.js"></script>
-	<script src="/bower_components/gumby-inview/gumby.inview.js"></script>
-	<script src="/bower_components/gumby-parallax/gumby.parallax.js"></script>
-	<script src="/bower_components/gumby-shuffle/gumby.shuffle.js"></script>
-
-	<script src="/bower_components/gumby/js/plugins.js"></script>
-	<script src="/bower_components/gumby/js/main.js"></script>
 
 	<!-- build:js scripts/vendor.js -->
 	<!-- bower:js -->
+
+	<!-- Angular Libs -->
 	<script src="/bower_components/angular/angular.js"></script>
 	<script src="/bower_components/angular-route/angular-route.js"></script>
 	<script src="/bower_components/angular-resource/angular-resource.js"></script>
@@ -215,15 +169,26 @@
 	<script src="/bower_components/angular-moment/angular-moment.js"></script>
 	<script src="/bower_components/angular-ui-sortable/sortable.js"></script>
 	<script src="/bower_components/angular-xeditable/dist/js/xeditable.js"></script>
+
+	<!-- Videogular module -->
 	<script src="/bower_components/videogular/videogular.js"></script>
 	<script src="/bower_components/videogular-controls/controls.js"></script>
 	<script src="/bower_components/videogular-overlay-play/overlay-play.js"></script>
 	<script src="/bower_components/videogular-poster/poster.js"></script>
 	<script src="/bower_components/videogular-buffering/buffering.js"></script>
+
+	<!-- File upload module  -->
 	<script src="/bower_components/ng-file-upload/angular-file-upload-shim.min.js"></script>
 	<script src="/bower_components/ng-file-upload/angular-file-upload.min.js"></script> 
+
 	<!-- endbower -->
 	<!-- endbuild -->
+
+	<!-- Plugin -->
+	<script src="/scripts/plugin/classie.js"></script>
+	<script src="/scripts/plugin/helper.js"></script>
+	<script src="/scripts/plugin/grid3d.js"></script>
+
 
 	<!-- Configuration -->
 	<script src="/scripts/config.js"></script>
@@ -238,7 +203,6 @@
 	<script src="/scripts/controllers/video/download.js"></script>
 	<script src="/scripts/controllers/video/show.js"></script>
 	<script src="/scripts/controllers/video/update.js"></script>
-
 	<!-- <script src="/scripts/controllers/.js"></script> -->
 
 	<!-- Directives -->
