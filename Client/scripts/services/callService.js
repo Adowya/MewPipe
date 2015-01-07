@@ -6,7 +6,7 @@ scanModule.factory('$callService', [
 
 		var $callService = {
 
-			requestGet: function (model, param, callback) {
+			requestGet: function (model, param, token, callback) {
 				if(param != null){
 					var url = getApiAddr() + apiUrl.route[model] +"/"+ param;
 				}else {
@@ -18,6 +18,7 @@ scanModule.factory('$callService', [
 						url: url,
 						method: "GET",
 						headers: {
+							'x-access-token': token
         				// 'Authorization': 'Basic ' + login_base64
         			},
         			data: {
@@ -38,13 +39,14 @@ scanModule.factory('$callService', [
 					});
 				},
 
-				requestPost: function (model, data, callback) {
+				requestPost: function (model, data, token, callback) {
 					var url = getApiAddr() + apiUrl.route[model];
 					console.log('Request POST at ', url);
 					$http({
 						url: url,
 						method: "POST",
 						headers: {
+							'x-access-token': token
 							// 'Authorization': 'Basic ' + login_base64
 						},
 						data: {

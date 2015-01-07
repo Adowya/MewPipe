@@ -23,7 +23,7 @@ mewPipeApp.controller('VideoShowCtrl', ['$rootScope', '$http', '$scope', '$route
 		};
 
 		$scope.videoRead = function(){
-			$callService.requestGet('video_read', video_id, function (success, data) {
+			$callService.requestGet('video_read', video_id, null, function (success, data) {
 				if(success){
 					$scope.video.name = data.name;
 					$scope.video.description = data.description;

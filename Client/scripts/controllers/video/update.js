@@ -12,7 +12,7 @@ mewPipeApp.controller('VideoUpdateCtrl', ['$rootScope', '$http', '$scope', '$rou
 			views: 0,
 			sources: [
 			{
-				src: $sce.trustAsResourceUrl("http://127.0.0.1:8080/api/video/download/"+video_id), 
+				src: $sce.trustAsResourceUrl("http://127.0.0.1:8080/api/videos/play/"+video_id), 
 				type: "video/mp4"
 			}
 			],
@@ -23,7 +23,7 @@ mewPipeApp.controller('VideoUpdateCtrl', ['$rootScope', '$http', '$scope', '$rou
 		};
 
 		$scope.videoRead = function(){
-			$callService.requestGet('video_read', video_id, function (success, data) {
+			$callService.requestGet('video_read', video_id, null, function (success, data) {
 				if(success){
 					$scope.video.name = data.name;
 					$scope.video.description = data.description;
