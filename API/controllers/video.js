@@ -100,7 +100,7 @@ router.get('/videos/:vid', function(req, res){
 /**
 * UPLOAD FILE middlewares.checkAuth,
 **/
-router.post('/videos', middlewares.checkAuth, middlewares.multipart, function(req, res) {
+router.post('/videos/upload', middlewares.checkAuth, middlewares.multipart, function(req, res) {
 	if(req.files.file) {
 		if(req.files.file.size <= config.maxVideoSize){
 			if(req.body.name == "undefined" || req.body.name == undefined || req.body.name.replace(/\s+/g, "") == ""){
