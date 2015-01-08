@@ -1,3 +1,74 @@
 #update {
-	
+
+	.wrapper {
+		color: #fff;
+	}
+
+	.right-center {
+		width: 100%;
+		display: inline-block;
+	}
+
+	.action {
+		margin: 5px;
+		height: 40px;
+		float: right;
+		a {
+			border-radius: 50%;
+			width: 90px;
+			height: 90px;
+			background: #cb4e4e;
+			color: #fff;
+			box-shadow: 0 6px #ab3c3c;
+			border: none;
+			cursor: pointer;
+			padding: 25px 17px;
+			/* display: inline-block; */
+			/* margin: 15px 30px; */
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			font-weight: 700;
+			outline: none;
+			position: relative;
+			-webkit-transition: all 0.3s;
+			-moz-transition: all 0.3s;
+			transition: all 0.3s;
+			&.save {
+				background:#24b662;
+				box-shadow: 0 6px #146440;
+				&:hover {
+					box-shadow: 0 8px #146440;
+					top: -2px;
+				}
+			}
+			&.edit {
+				background:#0e83cd;
+				box-shadow: 0 6px #0F5E90;
+				&:hover {
+					box-shadow: 0 8px #0F5E90;
+					top: -2px;
+				}
+			}
+			&:hover {
+				box-shadow: 0 8px #ab3c3c;
+				top: -2px;
+			}
+
+		}
+	}
+
+	input, textarea {
+		color: #000;
+		outline-color: #fff;
+		box-shadow: 4px 5px 0px 2px #cdcdcd;
+		-webkit-transition: all 0.3s;
+		-moz-transition: all 0.3s;
+		transition: all 0.3s;
+		&:focus{
+			// box-shadow: 0px 8px 0px 0px #cdcdcd;
+			outline-style: none;
+			box-shadow: 0px 0px 15px 7px #cdcdcd;
+		}
+	}
+
 }

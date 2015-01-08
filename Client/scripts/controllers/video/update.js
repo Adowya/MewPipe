@@ -9,7 +9,8 @@ mewPipeApp.controller('VideoUpdateCtrl', ['$rootScope', '$http', '$scope', '$rou
 			description: "",
 			created : "",
 			size: "",
-			views: 0,
+			views: "",
+			rights: "",
 			sources: [
 			{
 				src: $sce.trustAsResourceUrl("http://127.0.0.1:8080/api/videos/play/"+video_id), 
@@ -31,6 +32,8 @@ mewPipeApp.controller('VideoUpdateCtrl', ['$rootScope', '$http', '$scope', '$rou
 					$scope.video.created = dateString;
 					$scope.video.size = bytesToSize(data.size);
 					$scope.video.sources = data.size;
+					$scope.video.views = data.views;
+					$scope.video.rights = data.rights;
 					$scope.video.sources.type = "video/"+data.ext;
 					$scope.user = data._user;
 				}else {

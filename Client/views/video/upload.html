@@ -1,5 +1,11 @@
 <section id="upload">
 	<div class="row">
+
+
+		<button data-dialog="somedialog" class="trigger" ng-dialog>Open Dialog</button>
+		<button data-dialog="test" class="trigger" ng-dialog>Open Dialog</button>
+
+
 		<div class="ten columns centered text-center">
 			<h2>Upload</h2>
 			<p>What do you want Upload ?</p>
@@ -28,4 +34,33 @@
 		</div>
 	</div>
 </section>
+
+
+<!-- dialog -->
+<div id="somedialog" class="dialog">
+	<div class="dialog__overlay"></div>
+	<div class="dialog__content">
+		<h2>
+			<strong>Howdy</strong>, I'm a first dialog box
+		</h2>
+		<div>
+			<button class="action" data-dialog-close>Close</button>
+		</div>
+	</div>
+</div>
+<!-- /dialog -->
+
+<!-- dialog -->
+<div id="test" class="dialog">
+	<div class="dialog__overlay"></div>
+	<div class="dialog__content">
+		<h2>
+			<strong>Howdy</strong>, I'm a second dialog box
+		</h2>
+		<div>
+			<button class="action" data-dialog-close>Close</button>
+		</div>
+	</div>
+</div>
+<!-- /dialog -->
 

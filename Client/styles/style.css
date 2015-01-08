@@ -43,6 +43,14 @@ section {
   text-align: center;
   padding: 1em 1em 3em; }
 
+.wrapper {
+  margin: 10px auto 0;
+  max-width: 1090px;
+  width: 100%; }
+
+li {
+  list-style: none; }
+
 footer {
   padding: 75px 20px 70px 20px; }
   footer ul {
@@ -1058,6 +1066,60 @@ figure.effect-hera:hover p i:empty {
 
 
 
+#update .wrapper {
+  color: #fff; }
+#update .right-center {
+  width: 100%;
+  display: inline-block; }
+#update .action {
+  margin: 5px;
+  height: 40px;
+  float: right; }
+  #update .action a {
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    background: #cb4e4e;
+    color: #fff;
+    box-shadow: 0 6px #ab3c3c;
+    border: none;
+    cursor: pointer;
+    padding: 25px 17px;
+    /* display: inline-block; */
+    /* margin: 15px 30px; */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    outline: none;
+    position: relative;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s; }
+    #update .action a.save {
+      background: #24b662;
+      box-shadow: 0 6px #146440; }
+      #update .action a.save:hover {
+        box-shadow: 0 8px #146440;
+        top: -2px; }
+    #update .action a.edit {
+      background: #0e83cd;
+      box-shadow: 0 6px #0F5E90; }
+      #update .action a.edit:hover {
+        box-shadow: 0 8px #0F5E90;
+        top: -2px; }
+    #update .action a:hover {
+      box-shadow: 0 8px #ab3c3c;
+      top: -2px; }
+#update input, #update textarea {
+  color: #000;
+  outline-color: #fff;
+  box-shadow: 4px 5px 0px 2px #cdcdcd;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s; }
+  #update input:focus, #update textarea:focus {
+    outline-style: none;
+    box-shadow: 0px 0px 15px 7px #cdcdcd; }
 
 .drop-box {
   border: dotted 3px;
