@@ -31,6 +31,7 @@ mewPipeApp.controller('VideoUpdateCtrl', ['$rootScope', '$http', '$scope', '$rou
 					$scope.video.created = dateString;
 					$scope.video.size = bytesToSize(data.size);
 					$scope.video.sources = data.size;
+					$scope.video.sources.type = "video/"+data.ext;
 					$scope.user = data._user;
 				}else {
 					$scope.showNotif(data);
