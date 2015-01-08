@@ -1,6 +1,7 @@
 var mewPipeApp = angular.module('mewPipeApp', [
 	'ngAnimate',
 	'ngResource',
+	'ngCookies',
 	'ngRoute',
 	'ngSanitize',
 	'ngTouch',
@@ -18,7 +19,8 @@ mewPipeApp.run([
 	'$rootScope',
 	'$http',
 	'$location',
-	function ($rootScope, $http, $location) {
+	'$cookies',
+	function ($rootScope, $http, $location, $cookies) {
 
 		/* Notification Error */
 		$rootScope.showNotif = function(msg, type){
@@ -37,13 +39,20 @@ mewPipeApp.run([
 								flag = false;
 							}
 						});
-
 						// show the notification
 						notification.show();
 					}, 1200 );
 			}
 		};
 
+		/* Manage cookie token */
+		$rootScope.getToken = function(){
+			if($cookies.token != (null || '')) {
+				return $cookies.token;
+			}else {
+				return null;
+			}
+		}
 
 		/* Debug log */
 		// if (appConfig.debug) {
