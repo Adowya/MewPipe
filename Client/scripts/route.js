@@ -46,7 +46,6 @@ mewPipeApp.config(['$routeProvider',
 
 
 
-
     .otherwise({
       redirectTo:'/'
     });

@@ -2,7 +2,20 @@
 mewPipeApp.controller('VideoShowCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService', '$routeParams', '$sce', 
 	function($rootScope, $http, $scope, $route, $location, $callService, $routeParams, $sce){
 
-		var video_id = $routeParams.param
+
+
+
+
+		var video_id = '';
+		if($routeParams.param != null || $routeParams.param == 'undefined'){
+			video_id = $routeParams.param
+		}else {
+			if($rootScope.initParam != null){
+				video_id = $rootScope.initParam._id
+			}
+		}
+		console.log(video_id);
+
 
 		$scope.video = {
 			name : "",
@@ -12,7 +25,7 @@ mewPipeApp.controller('VideoShowCtrl', ['$rootScope', '$http', '$scope', '$route
 			views: 0,
 			sources: [
 			{
-				src: $sce.trustAsResourceUrl("http://127.0.0.1:8080/api/video/download/"+video_id), 
+				src: $sce.trustAsResourceUrl("http://127.0.0.1:8080/api/videos/download/"+video_id), 
 				type: "video/mp4"
 			}
 			],
@@ -38,6 +51,7 @@ mewPipeApp.controller('VideoShowCtrl', ['$rootScope', '$http', '$scope', '$route
 			});
 		};
 		$scope.videoRead();
+
 
 
 	}]);

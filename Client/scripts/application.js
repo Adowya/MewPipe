@@ -54,6 +54,16 @@ mewPipeApp.run([
 			}
 		}
 
+
+
+		$rootScope.initParam = [];
+		$rootScope.init = function (dataKey) {
+			if (dataKey ){
+				$rootScope.initParam = dataKey;
+			}
+		};
+
+
 		/* Debug log */
 		// if (appConfig.debug) {
 		// 	console.log = function (log) {

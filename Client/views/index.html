@@ -1,5 +1,4 @@
 <div id="index">
-
     <section class="grid3d horizontal" id="grid3d">
         <div class="grid-wrap">
             <div class="grid">
@@ -14,78 +13,15 @@
                 </figure>
             </div>
         </div><!-- /grid-wrap -->
-        <!-- <div ng-include src=" 'views/video/show.html' "> -->
-        <div class="content">
-            <div>
-                <div class="dummy-img"></div>
-                <p class="dummy-text">The only people for me are the mad ones, the ones who are mad to live, mad to talk, mad to be saved, desirous of everything at the same time, the ones who never yawn or say a commonplace thing, but burn, burn, burn like fabulous yellow roman candles exploding like spiders across the stars.</p>
-                <p class="dummy-text">The only people for me are the mad ones, the ones who are mad to live, mad to talk, mad to be saved, desirous of everything at the same time, the ones who never yawn or say a commonplace thing, but burn, burn, burn like fabulous yellow roman candles exploding like spiders across the stars.</p>
-            </div>
 
-            <div>
-                <div class="dummy-img"></div>
-                <p class="dummy-text">The only people for me are the mad ones, the ones who are mad to live, mad to talk, mad to be saved, desirous of everything at the same time, the ones who never yawn or say a commonplace thing, but burn, burn, burn like fabulous yellow roman candles exploding like spiders across the stars.</p>
-                <p class="dummy-text">The only people for me are the mad ones, the ones who are mad to live, mad to talk, mad to be saved, desirous of everything at the same time, the ones who never yawn or say a commonplace thing, but burn, burn, burn like fabulous yellow roman candles exploding like spiders across the stars.</p>
+        <div class="content">
+            <div ng-repeat="video in videos" item="log">
+                <ng-include ng-controller="VideoShowCtrl" src="'views/video/show.html'" data-ng-init="init(videos[$index])">
+                </ng-include>
+
             </div>
-            
             <span class="loading"></span>
             <span class="icon close-content ns-close"></span>
         </div>
     </section>
-
-
-<!-- <article class="video">
-<div class="row" role="main" >
-    <h2 class="lead">Populate : </h2>
-    <ul class="three_up tiles">
-        <li class="rounded image">
-            <videogular vg-theme="config.theme">
-                <vg-video vg-src="config.sources" vg-tracks="config.tracks"></vg-video>
-                <vg-controls>
-                    <vg-play-pause-button></vg-play-pause-button>
-                    <vg-timedisplay>{{ currentTime | date:'mm:ss' }}</vg-timedisplay>
-                    <vg-scrubBar>
-                        <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
-                    </vg-scrubBar>
-                    <vg-timedisplay>{{ timeLeft | date:'mm:ss' }}</vg-timedisplay>
-                    <vg-volume>
-                        <vg-mutebutton></vg-mutebutton>
-                        <vg-volumebar></vg-volumebar>
-                    </vg-volume>
-                    <vg-fullscreenButton></vg-fullscreenButton>
-                </vg-controls>
-                <vg-overlay-play></vg-overlay-play>
-                <vg-poster-image vg-url='config.plugins.poster'></vg-poster-image>
-            </videogular>
-        </li>
-    </ul>
-</div>
-<div class="row" role="main" >
-
-    <h2 class="lead">News : </h2>
-    <ul class="three_up tiles">
-        <li class="rounded image">
-            <videogular vg-theme="config.theme">
-                <vg-video vg-src="config.sources" vg-tracks="config.tracks"></vg-video>
-                <vg-controls>
-                    <vg-play-pause-button></vg-play-pause-button>
-                    <vg-timedisplay>{{ currentTime | date:'mm:ss' }}</vg-timedisplay>
-                    <vg-scrubBar>
-                        <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
-                    </vg-scrubBar>
-                    <vg-timedisplay>{{ timeLeft | date:'mm:ss' }}</vg-timedisplay>
-                    <vg-volume>
-                        <vg-mutebutton></vg-mutebutton>
-                        <vg-volumebar></vg-volumebar>
-                    </vg-volume>
-                    <vg-fullscreenButton></vg-fullscreenButton>
-                </vg-controls>
-                <vg-overlay-play></vg-overlay-play>
-                <vg-poster-image vg-url='config.plugins.poster'></vg-poster-image>
-            </videogular>
-        </li>
-        
-    </ul>
-</div>	
-</article> -->
 </div>

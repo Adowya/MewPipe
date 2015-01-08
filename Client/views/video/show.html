@@ -1,70 +1,55 @@
-<section id="show">
-<article>
-    <div class="row">
-        <section class="eight columns">
-            <div class="left-center">
-                <h2>{{video.name}}</h2>
-                <h6>
-                    <b>By :</b> {{user.lastname}} {{user.firstname}}
-                </h6>
-            </div>
-            <videogular vg-theme="video.theme">
-                <vg-video vg-src="video.sources" vg-tracks="video.tracks"></vg-video>
-                <vg-controls>
-                    <vg-play-pause-button></vg-play-pause-button>
-                    <vg-timedisplay>{{ currentTime | date:'mm:ss' }}</vg-timedisplay>
-                    <vg-scrubBar>
-                        <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
-                    </vg-scrubBar>
-                    <vg-timedisplay>{{ timeLeft | date:'mm:ss' }}</vg-timedisplay>
-                    <vg-volume>
-                        <vg-mutebutton></vg-mutebutton>
-                        <vg-volumebar></vg-volumebar>
-                    </vg-volume>
-                    <vg-fullscreenButton></vg-fullscreenButton>
-                </vg-controls>
-                <vg-overlay-play></vg-overlay-play>
-                <vg-poster-image vg-url='video.plugins.poster'></vg-poster-image>
-            </videogular>
-            <div class="right-center">
-                <p>Post: {{video.created}}</p>
-                <div class="inline">
-                    <p>View: </p>
-                    <h2>{{video.views}}</h2>
-                </div>
-            </div>
-            <fieldset>
-                <legend>
-                    <h4>Description :</h4>
-                </legend>
-                <ul>
-                    <li class="field">
-                        <p>{{video.description}}</p>
-                    </li>
-                    <li class="field right-center">
-                        <p>Size : {{video.size}}</p>
-                        <p>
-                            <i class="icon-facebook-squared primary"></i>
-                            <i class="icon-twitter"></i>
-                            <i class="icon-pinterest"></i>
-                            <i class="icon-gplus"></i>
-                        </p>
-                    </li>
-                </ul>
-            </fieldset>
-        </section>
-        <section class="four columns">
-            <h2>Related</h2>
-            <article class="row">
-                <div class="left-center">
-                    <h4>Gumby Framework is cool.</h4>
-                    <p>Face tattoos are not.</p>
-                </div>
-                <div class="center-center">
-                    <img src="" width="145" />
-                </div>
-            </article>
-        </section>
-    </div>
-</article>
+<h2>{{video.name}}</h2>
+<h6>
+    <b>By :</b> {{user.lastname}} {{user.firstname}}
+</h6>
+
+<div class="dummy-img">
+    <videogular vg-theme="video.theme">
+        <vg-video vg-src="video.sources" vg-tracks="video.tracks"></vg-video>
+        <vg-controls>
+            <vg-play-pause-button></vg-play-pause-button>
+            <vg-timedisplay>{{ currentTime | date:'mm:ss' }}</vg-timedisplay>
+            <vg-scrubBar>
+                <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
+            </vg-scrubBar>
+            <vg-timedisplay>{{ timeLeft | date:'mm:ss' }}</vg-timedisplay>
+            <vg-volume>
+                <vg-mutebutton></vg-mutebutton>
+                <vg-volumebar></vg-volumebar>
+            </vg-volume>
+            <vg-fullscreenButton></vg-fullscreenButton>
+        </vg-controls>
+        <vg-overlay-play></vg-overlay-play>
+        <vg-poster-image vg-url='video.plugins.poster'></vg-poster-image>
+    </videogular>
+</div>
+
+<p class="dummy-text">
+    Post: {{video.created}}
+    </br>
+    View: {{video.views}}
+    </br>
+    Size : {{video.size}}
+</p>
+
+<h4>Description :</h4>
+<p class="dummy-text">
+    {{video.description}}
+</p>
+
+<ul>
+    <li>
+        <i class="icon-facebook-squared primary"></i>
+        <i class="icon-twitter"></i>
+        <i class="icon-pinterest"></i>
+        <i class="icon-gplus"></i>
+    </li>
+</ul>
+
+
+<section>
+    <h2>Related</h2>
+    <aside class="row">
+        
+    </aside>
 </section>
