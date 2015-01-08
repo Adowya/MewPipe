@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "normalize.css": "~3.0.2",
-    "classie": "~1.0.1"
+    "classie": "~1.0.1",
+    "angular-cookie": "~4.0.6"
   }
 }

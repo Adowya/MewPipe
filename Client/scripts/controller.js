@@ -16,4 +16,23 @@ mewPipeApp.controller('MainCtrl', ['$rootScope', '$http', '$scope', '$route', '$
 			$rootScope.showNotif('This is a test', 'error');
 		}, 2000 );
 
+
+		$scope.videos = [];
+		$scope.readAll = function() {
+			$callService.requestGet('video_read', null, null, function (success, data) {	
+				if(success){
+					for(var i in data) {
+						$scope.videos.push(data[i]);
+						$scope.videos[i].image = getApiAddr() + apiUrl.route['video_image'] +"/"+ data[i]._id;
+					}
+					setTimeout( function() {
+						new grid3D( document.getElementById( 'grid3d' ) );
+					}, 200 );
+				}else {
+					$scope.showNotif(data);
+				}
+			});
+		};
+		$scope.readAll();
+
 	}]);

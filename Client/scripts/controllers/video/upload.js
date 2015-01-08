@@ -9,7 +9,7 @@ mewPipeApp.controller('VideoUploadCtrl', ['$rootScope', '$http', '$scope', '$rou
 					url: url,
 					method: "POST",
 					headers: {
-						'x-access-token': '812b931f37c8fcfba752a33f8cf565b64b54e68e7640effda41c990be2749c1dfab40a912290ffcbb2e66693d98c029d'
+						'x-access-token': 'ae342c7054cf1cec9da50874e1cd5acffd7f087d4255ccf30ef6fc40a5fc580b1a8a58ed1231ee707aee1f63fb3127f8'
         			},
         			data: {
         				"_user": "549223d71542501db1c10a69",

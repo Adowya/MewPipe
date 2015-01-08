@@ -43,15 +43,15 @@ var apiUrl = {
 		user_findByUsername: "/users/findByUsername",
 		user_changePassword : "/user/changePassword",
 
-		video_upload: "/videos/upload/",
+		video_upload: "/videos/upload",
 		video_read: "/videos",
-		video_readByUser: "/videos/user/",
+		video_readByUser: "/videos/user",
 		share_update: "",
-		video_delete: "/video/delete/",
-		video_archive: "/video/archive/",
-		video_download: "/video/download/",
-		video_image: "/videos/thumbnails/",
-		video_play: "/videos/play/",
+		video_delete: "/video/delete",
+		video_archive: "/video/archive",
+		video_download: "/video/download",
+		video_image: "/videos/thumbnails",
+		video_play: "/videos/play",
 
 		video_browse: "/user/items"
 	},
