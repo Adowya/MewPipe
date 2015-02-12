@@ -1,7 +1,7 @@
 module.exports.controller = function(app, config, modules, models, middlewares, sessions) {
 
 	exports.checkAuth = function(req, res, next) {
-		var noAuth = true;
+		var noAuth = false;
 		if(noAuth == true){
 			var uid = "54ab334261a2d4e70a0597eb";
 			models.User.findOne({_id: uid})
