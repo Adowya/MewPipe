@@ -1,7 +1,10 @@
 #update {
 
 	.wrapper {
-		color: #fff;
+		color: black;
+		line-height: 0;
+		font-size: 13px;
+		position: relative;
 	}
 
 	.right-center {
@@ -57,6 +60,11 @@
 		}
 	}
 
+	.field textarea{
+		height: 200px;
+		width: 613px;
+		font-size: 20px;
+	}
 	input, textarea {
 		color: #000;
 		outline-color: #fff;
@@ -64,11 +72,27 @@
 		-webkit-transition: all 0.3s;
 		-moz-transition: all 0.3s;
 		transition: all 0.3s;
+		&.description {
+			height: 200px;
+			width: 613px;
+			font-size: 20px;
+		}
 		&:focus{
 			// box-shadow: 0px 8px 0px 0px #cdcdcd;
 			outline-style: none;
 			box-shadow: 0px 0px 15px 7px #cdcdcd;
 		}
+	}
+
+	videogular {
+		width: 700px;
+	}
+
+	article{
+		width: 700px;
+		left: 0;
+		padding: 0;
+		margin: 0;
 	}
 
 }

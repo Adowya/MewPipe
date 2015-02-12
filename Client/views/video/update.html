@@ -18,10 +18,10 @@
           <div class="left-center">
             <h2>
                 <span editable-text="video.name" e-name="name" onbeforesave="checkName($data)" e-required>
-                 {{ video.name || 'empty' }}</span>
-             </h2>
-         </div>
-         <videogular vg-theme="video.theme">
+                   {{ video.name || 'empty' }}</span>
+               </h2>
+           </div>
+           <videogular vg-theme="video.theme">
             <vg-video vg-src="video.sources" vg-tracks="video.tracks"></vg-video>
             <vg-controls>
             <vg-play-pause-button></vg-play-pause-button>
@@ -39,10 +39,10 @@
         <article class="row">
             <div class="right-center">
                 <h4>
-                   <b>By :</b> {{user.lastname}} {{user.firstname}}
-               </h4>
-            </div>
-            <div class="left-center">
+                 <b>By :</b> {{user.lastname}} {{user.firstname}}
+             </h4>
+         </div>
+         <div class="left-center">
 
             <h2>{{video.views}} Views</h2>
             <i class="icon-eye"></i>
@@ -55,27 +55,28 @@
                 {{ showShare() }}
             </span>
         </div>
+        <div>
+            <legend>
+                <h4>Description :</h4>
+            </legend>
+            <ul>
+                <li class="field">
+                    <a editable-textarea="video.description" e-rows="7" e-cols="40">
+                        <pre>{{ video.description || 'empty' }}</pre>
+                    </a>
+                </li>
+                <li class="field right-center">
+                    <p>
+                        <i class="icon-facebook-squared primary"></i>
+                        <i class="icon-twitter"></i>
+                        <i class="icon-pinterest"></i>
+                        <i class="icon-gplus"></i>
+                    </p>
+                </li>
+            </ul>
+        </div>
     </article>
-    <div>
-        <legend>
-            <h4>Description :</h4>
-        </legend>
-        <ul>
-            <li class="field">
-                <a editable-textarea="video.description" e-rows="7" e-cols="40">
-                    <pre>{{ video.description || 'empty' }}</pre>
-                </a>
-            </li>
-            <li class="field right-center">
-                <p>
-                    <i class="icon-facebook-squared primary"></i>
-                    <i class="icon-twitter"></i>
-                    <i class="icon-pinterest"></i>
-                    <i class="icon-gplus"></i>
-                </p>
-            </li>
-        </ul>
-    </div>
+    
 </form>
 
 <aside class="four columns">

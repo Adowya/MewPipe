@@ -45,8 +45,7 @@ var apiUrl = {
 
 		video_upload: "/videos/upload",
 		video_read: "/videos",
-		video_readByUser: "/videos/user",
-		share_update: "",
+		video_user: "/videos/user",
 		video_delete: "/video/delete",
 		video_archive: "/video/archive",
 		video_download: "/video/download",

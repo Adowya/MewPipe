@@ -22,7 +22,40 @@ mewPipeApp.run([
 	'$cookies',
 	function ($rootScope, $http, $location, $cookies) {
 
+		$rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+			if(typeof current.$$route != "undefined"){
+
+				if($rootScope.getToken()){
+					$rootScope.isConnect = true;
+					if(localStorage.getItem("user") == null){
+						var user;
+						appStorage.set("user", user);
+					}
+				}else {
+					$rootScope.isConnect = false;
+				}
+
+				/* ------------------------------------------- Restrict Auth ------------------------------------------- */
+	           /* 
+				0 = Allow-*
+				1 = Allow-User
+				2 = Allow-Admin
+				*/
+				var restrict = current.$$route.restrict;
+				if(restrict == 1){
+					if(!$rootScope.isConnect){
+						$location.path("/");
+						$rootScope.showNotif('Tanks log you or create an account.', 'error');
+					}
+				} else if(restrict == 2){
+					$location.path("/index");
+					$rootScope.showNotif('You don\'t allow for this page.', 'error');
+				}
+			}
+		});
+
 		/* Notification Error */
+		// Type : notice, warning, error, success
 		$rootScope.showNotif = function(msg, type){
 			if(appConfig.debug){
 				var flag = false;
@@ -47,22 +80,12 @@ mewPipeApp.run([
 
 		/* Manage cookie token */
 		$rootScope.getToken = function(){
-			if($cookies.token != (null || '')) {
+			if($cookies.token != null || $cookies.token != "undefined") {
 				return $cookies.token;
 			}else {
 				return null;
 			}
 		}
-
-
-
-		$rootScope.initParam = [];
-		$rootScope.init = function (dataKey) {
-			if (dataKey ){
-				$rootScope.initParam = dataKey;
-			}
-		};
-
 
 		/* Debug log */
 		// if (appConfig.debug) {
@@ -87,7 +110,7 @@ mewPipeApp.run([
 				console.log('Error 404');
 				$location.path("/");
 			}else{
-				console.log('Error inconue');
+				console.log('Error inconue', err);
 			}
 		};
 

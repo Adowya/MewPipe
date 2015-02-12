@@ -39,10 +39,14 @@
 <body>
 	<!-- header -->
 	<header class="mew-header">
+		<div class="login">
+			<a href="" ng-show="!isConnect" data-dialog="signIn" class="trigger" ng-dialog>Sign In</a>
+			<a href="" ng-if="isConnect" ng-click="logOut()">Log out</a>
+		</div>
 		<h1><a href="#/">
 			<img src="images/logo.png" gumby-retina="">
 		</a>
-		<span>Recreation of the effect seen in the <a href="https://www.youtube.com/watch?v=sjGF6Mw6X_Y">prototype app by Marcus Eckert</a></span></h1>
+		<span>We must do what nobody <a href="https://www.youtube.com/watch?v=sjGF6Mw6X_Y">doing for you</a></span></h1>
 		<nav class="cl-effect-5">
 			<a href="#/"><span data-hover="Home">Home</span></a>
 			<a href="#/video/update/54adc6814f2b2eae7459f8d6"><span data-hover="Video">Video</span></a>
@@ -59,17 +63,6 @@
 	<!-- btn go top -->
 	<div class="row">
 		<div class="eight columns">
-		</div>
-		<div class="four columns">
-			<div class="row">
-				<div class="seven columns push_five">
-					<div id="skiplink_3" style="position: relative;">
-						<p class="skiplink medium default">
-							<a href="#" gumby-goto="top"><i class="icon-up-open-big"></i> Top of page</a>
-						</p>
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 	<!-- /btn go top -->
@@ -120,6 +113,21 @@
 		</div>
 	</footer>
 	<!-- /footer -->
+
+	<!-- dialog -->
+	<div id="signIn" class="dialog">
+		<div class="dialog__overlay"></div>
+		<div class="dialog__content">
+			<h2>
+				<strong>Sign In</strong>, with :
+				<a ng-href="/auth/google">Google</a>
+			</h2>
+			<div>
+				<button class="action" data-dialog-close>Close</button>
+			</div>
+		</div>
+	</div>
+	<!-- /dialog -->
 
 	<!-- Grab Google CDN's jQuery, fall back to local if offline -->
 	<!-- 2.0 for modern browsers, 1.10 for .oldie -->
@@ -188,7 +196,7 @@
 	<script src="/scripts/controllers/video/download.js"></script>
 	<script src="/scripts/controllers/video/show.js"></script>
 	<script src="/scripts/controllers/video/update.js"></script>
-	<!-- <script src="/scripts/controllers/.js"></script> -->
+	<script src="/scripts/controllers/video/user.js"></script>
 
 	<!-- Directives -->
 	<script src="/scripts/directives/limit.js"></script>

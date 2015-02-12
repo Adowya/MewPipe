@@ -6,7 +6,7 @@ mewPipeApp.controller('UserProfileCtrl', ['$rootScope', '$http', '$scope', '$rou
 				if(success){
 					console.log(data);
 				}else {
-					$scope.showNotif(data.error);
+					$rootScope.showNotif(data.error, 'error');
 				}
 			});
 		};
@@ -20,7 +20,7 @@ mewPipeApp.controller('UserProfileCtrl', ['$rootScope', '$http', '$scope', '$rou
 				if(resp){
 					console.log(resp);
 				}else {
-					$scope.showNotif(resp.error);
+					$rootScope.showNotif(resp.error, 'error');
 				}
 			});
 		};

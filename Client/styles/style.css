@@ -14,7 +14,7 @@
   clear: both; }
 
 body {
-  background: #2f3238;
+  background: #F5F5F5;
   font-size: 100%;
   line-height: 1.25;
   font-family: 'Lato', Arial, sans-serif; }
@@ -36,8 +36,13 @@ button.trigger {
   color: #fff;
   border: none; }
 
-header h1 {
-  color: #fff; }
+header {
+  background-color: #2f3238; }
+  header h1 {
+    color: #fff;
+    padding: 50px; }
+  header nav {
+    padding: 50px; }
 
 section {
   text-align: center;
@@ -52,7 +57,8 @@ li {
   list-style: none; }
 
 footer {
-  padding: 75px 20px 70px 20px; }
+  padding: 75px 20px 70px 20px;
+  background-color: #2f3238; }
   footer ul {
     float: right; }
     footer ul li {
@@ -156,6 +162,25 @@ a:hover, a:focus {
   .mew-icon span {
     display: none; }
  }
+
+.login {
+  width: 100%;
+  height: 50px;
+  position: relative;
+  left: 0;
+  top: 0;
+  text-transform: uppercase; }
+  .login a {
+    float: right;
+    height: 100%;
+    background-color: white;
+    padding: 15px;
+    margin: 1px;
+    position: relative; }
+    .login a:hover {
+      color: #CACACA; }
+    .login a:focus {
+      color: #CACACA; }
 
 /*--------------------*/
 /*------- menu --------/
@@ -1067,7 +1092,10 @@ figure.effect-hera:hover p i:empty {
 
 
 #update .wrapper {
-  color: #fff; }
+  color: black;
+  line-height: 0;
+  font-size: 13px;
+  position: relative; }
 #update .right-center {
   width: 100%;
   display: inline-block; }
@@ -1110,6 +1138,10 @@ figure.effect-hera:hover p i:empty {
     #update .action a:hover {
       box-shadow: 0 8px #ab3c3c;
       top: -2px; }
+#update .field textarea {
+  height: 200px;
+  width: 613px;
+  font-size: 20px; }
 #update input, #update textarea {
   color: #000;
   outline-color: #fff;
@@ -1117,9 +1149,20 @@ figure.effect-hera:hover p i:empty {
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   transition: all 0.3s; }
+  #update input.description, #update textarea.description {
+    height: 200px;
+    width: 613px;
+    font-size: 20px; }
   #update input:focus, #update textarea:focus {
     outline-style: none;
     box-shadow: 0px 0px 15px 7px #cdcdcd; }
+#update videogular {
+  width: 700px; }
+#update article {
+  width: 700px;
+  left: 0;
+  padding: 0;
+  margin: 0; }
 
 .drop-box {
   border: dotted 3px;

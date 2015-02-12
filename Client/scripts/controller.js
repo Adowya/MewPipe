@@ -1,5 +1,5 @@
-mewPipeApp.controller('MainCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService', '$sce',
-	function($rootScope, $http, $scope, $route, $location, $callService, $sce) {
+mewPipeApp.controller('MainCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService', '$sce', '$cookies',
+	function($rootScope, $http, $scope, $route, $location, $callService, $sce, $cookies) {
 
 
 		$scope.config = {
@@ -12,9 +12,21 @@ mewPipeApp.controller('MainCtrl', ['$rootScope', '$http', '$scope', '$route', '$
 			}
 		};
 
-		setTimeout( function() {
-			$rootScope.showNotif('This is a test', 'error');
-		}, 2000 );
+		$rootScope.logOut = function() {
+			if($rootScope.getToken()){
+				$callService.logout($rootScope.getToken(), function (success, data) {	
+					if(success){
+						$cookies.token = undefined;
+						appStorage.delete("user");
+						$route.reload();
+					}else {
+						$rootScope.showNotif(data, 'notice');
+					}
+				});
+			}else {
+				$rootScope.showNotif('You don\'t allow.', 'error');
+			}
+		};
 
 
 		$scope.videos = [];
@@ -24,15 +36,22 @@ mewPipeApp.controller('MainCtrl', ['$rootScope', '$http', '$scope', '$route', '$
 					for(var i in data) {
 						$scope.videos.push(data[i]);
 						$scope.videos[i].image = getApiAddr() + apiUrl.route['video_image'] +"/"+ data[i]._id;
+						$scope.videos[i].sources = [{
+							src: $sce.trustAsResourceUrl("http://127.0.0.1:8080/api/videos/download/"+$scope.videos[i]._id), 
+							type: "video/mp4"
+						}];
+						$scope.videos[i].theme = "bower_components/videogular-themes-default/videogular.css";
+						$scope.user = data._user;
 					}
 					setTimeout( function() {
 						new grid3D( document.getElementById( 'grid3d' ) );
 					}, 200 );
 				}else {
-					$scope.showNotif(data);
+					$rootScope.showNotif(data, 'notice');
 				}
 			});
 		};
 		$scope.readAll();
+
 
 	}]);

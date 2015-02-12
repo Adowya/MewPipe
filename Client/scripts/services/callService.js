@@ -12,21 +12,19 @@ scanModule.factory('$callService', [
 				}else {
 					var url = getApiAddr() + apiUrl.route[model];
 				}
-				// var login_base64 = btoa(appStorage.get(login) + ':' + appStorage.get(pwd);
-					console.log('Request GET at ', url);
-					$http({
-						url: url,
-						method: "GET",
-						headers: {
-							'x-access-token': token
-        				// 'Authorization': 'Basic ' + login_base64
-        			},
-        			data: {
-        			}
-        		})
-					.success(function (res) {
-						if (typeof callback === "function") {
-							console.log(res);
+				// console.log('Request GET at ', url);
+				$http({
+					url: url,
+					method: "GET",
+					headers: {
+						'x-access-token': token
+					},
+					data: {
+					}
+				})
+				.success(function (res) {
+					if (typeof callback === "function") {
+							// console.log(res);
 							if(res.error){
 								callback(res.success, res.error);
 							}else {
@@ -34,36 +32,63 @@ scanModule.factory('$callService', [
 							}
 						}
 					})
-					.error(function (err, code) {
-						$rootScope.httpError(code, err);
-					});
-				},
+				.error(function (err, code) {
+					$rootScope.httpError(code, err);
+				});
+			},
 
-				requestPost: function (model, data, token, callback) {
-					var url = getApiAddr() + apiUrl.route[model];
-					console.log('Request POST at ', url);
-					$http({
-						url: url,
-						method: "POST",
-						headers: {
-							'x-access-token': token
+			requestPost: function (model, data, token, callback) {
+				var url = getApiAddr() + apiUrl.route[model];
+				console.log('Request POST at ', url);
+				$http({
+					url: url,
+					method: "POST",
+					headers: {
+						'x-access-token': token
 							// 'Authorization': 'Basic ' + login_base64
 						},
 						data: {
 							data: data
 						}
 					})
-					.success(function (res) {
-						if (typeof callback === "function") {
-							callback(res);
+				.success(function (res) {
+					if (typeof callback === "function") {
+						// console.log(res);
+						callback(res);
+					}
+				})
+				.error(function (err, code) {
+					$rootScope.httpError(code, err);
+				});
+			},
+
+			logout: function (token, callback) {
+				var url = appConfig.api.prefix + appConfig.api.addr+":"+appConfig.api.port + apiUrl.route['logout'];
+				$http({
+					url: url,
+					method: "GET",
+					headers: {
+						'x-access-token':token
+					},
+					data: {
+					}
+				})
+				.success(function (res) {
+					if (typeof callback === "function") {
+							// console.log(res);
+							if(res.error){
+								callback(res.success, res.error);
+							}else {
+								callback(res.success, res.data);
+							}
 						}
 					})
-					.error(function (err, code) {
-						$rootScope.httpError(code, err);
-					});
-				},
+				.error(function (err, code) {
+					$rootScope.httpError(code, err);
+				});
+			},
 
-			};
+		};
 
-			return $callService;
-		}]);  
+		return $callService;
+	}]);  
