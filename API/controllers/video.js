@@ -172,6 +172,7 @@ router.get('/videos', function(req, res) {
 	models.Video.find({rights: "public"})
 	.where("archived").ne(true)
 	.select("-__v -archived")
+	.populate("_user", "-openId -__v")
 	.lean()
 	.exec(function(err, videos){
 		if(videos){
@@ -204,6 +205,7 @@ router.get('/videos', function(req, res) {
 router.get('/videos/user/:uid', function(req, res) {
 	models.Video.find({rights: "public", _user: req.params.uid})
 	.where("archived").ne(true)
+	.populate("_user", "-openId -__v")
 	.select("-__v -archived")
 	.exec(function(err, videos){
 		if(!err){

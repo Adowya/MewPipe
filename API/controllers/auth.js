@@ -22,7 +22,7 @@
 				sessions.splice(i, 1);
  			}
  		}
- 		return res.redirect('/#/auth/logout/success');
+ 		return res.json({"success": true});
  	});
 
  };
