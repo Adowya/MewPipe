@@ -1,3 +1,173 @@
 #video_user {
+
+	.noscroll {
+		overflow: hidden;
+	}
+
+
+	.view-full .grid {
+		-webkit-transform: translateZ(-1500px);
+		transform: translateZ(-1500px);
+	}
+
+	.grid figure,
+	.grid .placeholder {
+		width: 340px;
+		height: 300px;
+	}
+
+	.grid figure {
+		margin: 10px;
+		cursor: pointer;
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+
+	.grid figure.active {
+		opacity: 0;
+	}
+
+	.grid .placeholder {
+		pointer-events: none;
+		position: absolute;
+		-webkit-transform-style: preserve-3d;
+		transform-style: preserve-3d;
+		-webkit-transition: all 0.5s ease-out;
+		transition: all 0.5s ease-out;
+	}
+
+	tbody tr {
+		padding: 40px;
+		margin: 10px;
+		position: relative;
+		display: block;
+		border-bottom: solid 1px #cacaca;
+		float: left;
+	}
+
+	.placeholder > div {
+		display: block;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		-webkit-backface-visibility: hidden;
+		backface-visibility: hidden;
+	}
+
+	.placeholder .front img {
+		width: 100%;
+		height: 100%;
+	}
+
+	.placeholder .back {
+		background: white;
+		-webkit-transform: rotateY(180deg);
+		transform: rotateY(180deg);
+	}
+
+	.view-full .placeholder {
+		-webkit-transition: all 0.5s 0.1s cubic-bezier(0,0,0.25,1);
+		transition: all 0.5s 0.1s cubic-bezier(0,0,0.25,1);
+	}
+
+	.vertical .view-full .placeholder {
+		-webkit-transform: translateZ(1500px) rotateX(-179.9deg);
+		transform: translateZ(1500px) rotateX(-179.9deg); /* FF, Chrome, can we agree on one direction, pleeease? */
+	}
+
+	.horizontal .view-full .placeholder {
+		-webkit-transform: translateZ(1500px) rotateY(-179.9deg);
+		transform: translateZ(1500px) rotateY(-179.9deg);
+	}
+
+	.grid figure img {
+		display: block;
+		width: 100%;
+	}
+
+	
+
+	/* Dummy content */
+
+	.dummy-img,
+	.dummy-text {
+		max-width: 600px;
+		width: 90%;
+		opacity: 0;
+		-webkit-transition: opacity 0.5s, -webkit-transform 0.5s;
+		transition: opacity 0.5s, transform 0.5s;
+	}
+
+	.vertical .dummy-img,
+	.vertical .dummy-text {
+		-webkit-transform: translateY(100px);
+		transform: translateY(100px);
+	}
+
+	.horizontal .dummy-img,
+	.horizontal .dummy-text {
+		-webkit-transform: translateX(-100px);
+		transform: translateX(-100px);
+	}
+
+	.content > div.show .dummy-img,
+	.content > div.show .dummy-text {
+		opacity: 1;
+	}
+
+	.vertical .content > div.show .dummy-img,
+	.vertical .content > div.show .dummy-text {
+		-webkit-transform: translateY(0);
+		transform: translateY(0);
+	}
+
+	.horizontal .content > div.show .dummy-img,
+	.horizontal .content > div.show .dummy-text {
+		-webkit-transform: translateX(0);
+		transform: translateX(0);
+	}
+
+	p.dummy-text:nth-child(2) {
+		-webkit-transition-delay: 0.1s;
+		transition-delay: 0.1s;
+	}
+
+	p.dummy-text:nth-child(3) {
+		-webkit-transition-delay: 0.2s;
+		transition-delay: 0.2s;
+	}
+
+	.dummy-img {
+		height: 400px;
+		background-color: #ddd;
+		margin: 30px auto;
+	}
+
+	.dummy-text {
+		text-align: left;
+		margin: 0 auto;
+		padding: 10px 0;
+		color: #ddd;
+		font-size: 1em;
+		font-family: 'Blokk', Arial, serif;
+	}
+
+	.dummy-text:last-child {
+		padding-bottom: 100px;
+	}
+
+	@media screen and (max-width: 1000px) {
+
+		.grid figure,
+		.grid .placeholder {
+			width: 240px;
+			height: 212px;
+		}
+
+	}
 	
 }

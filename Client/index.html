@@ -46,10 +46,14 @@
 		<h1><a href="#/">
 			<img src="images/logo.png" gumby-retina="">
 		</a>
-		<span>We must do what nobody <a href="https://www.youtube.com/watch?v=sjGF6Mw6X_Y">doing for you</a></span></h1>
-		<nav class="cl-effect-5">
+		<span>We must do what nobody <a href="/">doing for you</a></span></h1>
+		<nav class="cl-effect-5" ng-if="!isConnect">
 			<a href="#/"><span data-hover="Home">Home</span></a>
 			<a href="#/video/update/54adc6814f2b2eae7459f8d6"><span data-hover="Video">Video</span></a>
+		</nav>
+		<nav class="cl-effect-5" ng-if="isConnect">
+			<a href="#/"><span data-hover="Home">Home</span></a>
+			<a href="#/video/user/"><span data-hover="My&nbsp;video">My video</span></a>
 			<a href="#/video/upload"><span data-hover="Upload">Upload</span></a>
 			<a href="#/user/profile"><span data-hover="Profile">Profile</span></a>
 		</nav>

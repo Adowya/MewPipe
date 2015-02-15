@@ -38,7 +38,7 @@ mewPipeApp.config(['$routeProvider',
       restrict: 1
     })
 
-    .when('/video/user/:param',{
+    .when('/video/user/',{
       templateUrl: 'views/video/user.html',
       controller: 'VideoUserCtrl',
       restrict: 1

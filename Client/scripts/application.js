@@ -19,21 +19,31 @@ mewPipeApp.run([
 	'$rootScope',
 	'$http',
 	'$location',
+	'$callService',
 	'$cookies',
-	function ($rootScope, $http, $location, $cookies) {
+	function ($rootScope, $http, $location, $callService, $cookies) {
 
 		$rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
 			if(typeof current.$$route != "undefined"){
 
-				if($rootScope.getToken()){
+				if($rootScope.getToken() && $rootScope.getToken() != "undefined"){
 					$rootScope.isConnect = true;
-					if(localStorage.getItem("user") == null){
-						var user;
-						appStorage.set("user", user);
+					if(localStorage.getItem("user") == null && localStorage.getItem("user") != "undefined"){
+						$callService.requestGet('user_readOne', null, $rootScope.getToken(), function (success, data) {
+							if(success){
+								appStorage.set("user", data);
+							}else {
+								$rootScope.showNotif(data, 'notice');
+							}
+						});
 					}
 				}else {
 					$rootScope.isConnect = false;
+					$cookies.token = undefined;
+					var user;
+					appStorage.set("user", user);
 				}
+				
 
 				/* ------------------------------------------- Restrict Auth ------------------------------------------- */
 	           /* 
@@ -54,7 +64,7 @@ mewPipeApp.run([
 			}
 		});
 
-		/* Notification Error */
+/* Notification Error */
 		// Type : notice, warning, error, success
 		$rootScope.showNotif = function(msg, type){
 			if(appConfig.debug){

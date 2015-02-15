@@ -207,6 +207,7 @@ router.get('/videos/user/:uid', function(req, res) {
 	.where("archived").ne(true)
 	.populate("_user", "-openId -__v")
 	.select("-__v -archived")
+	.lean()
 	.exec(function(err, videos){
 		if(!err){
 			if(videos.length == 0){

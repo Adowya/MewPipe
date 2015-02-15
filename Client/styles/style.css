@@ -1284,3 +1284,110 @@ figure.effect-hera:hover p i:empty {
   background-image: linear-gradient(to bottom, #d9534f 0%, #c9302c 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9534f', endColorstr='#ffc9302c', GradientType=0);
   background-repeat: repeat-x; }
+
+#video_user {
+  /* Dummy content */ }
+  #video_user .noscroll {
+    overflow: hidden; }
+  #video_user .view-full .grid {
+    -webkit-transform: translateZ(-1500px);
+    transform: translateZ(-1500px); }
+  #video_user .grid figure, #video_user .grid .placeholder {
+    width: 340px;
+    height: 300px; }
+  #video_user .grid figure {
+    margin: 10px;
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
+  #video_user .grid figure.active {
+    opacity: 0; }
+  #video_user .grid .placeholder {
+    pointer-events: none;
+    position: absolute;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out; }
+  #video_user tbody tr {
+    padding: 40px;
+    margin: 10px;
+    position: relative;
+    display: block;
+    border-bottom: solid 1px #cacaca;
+    float: left; }
+  #video_user .placeholder > div {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden; }
+  #video_user .placeholder .front img {
+    width: 100%;
+    height: 100%; }
+  #video_user .placeholder .back {
+    background: white;
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg); }
+  #video_user .view-full .placeholder {
+    -webkit-transition: all 0.5s 0.1s cubic-bezier(0, 0, 0.25, 1);
+    transition: all 0.5s 0.1s cubic-bezier(0, 0, 0.25, 1); }
+  #video_user .vertical .view-full .placeholder {
+    -webkit-transform: translateZ(1500px) rotateX(-179.9deg);
+    transform: translateZ(1500px) rotateX(-179.9deg);
+    /* FF, Chrome, can we agree on one direction, pleeease? */ }
+  #video_user .horizontal .view-full .placeholder {
+    -webkit-transform: translateZ(1500px) rotateY(-179.9deg);
+    transform: translateZ(1500px) rotateY(-179.9deg); }
+  #video_user .grid figure img {
+    display: block;
+    width: 100%; }
+  #video_user .dummy-img, #video_user .dummy-text {
+    max-width: 600px;
+    width: 90%;
+    opacity: 0;
+    -webkit-transition: opacity 0.5s, -webkit-transform 0.5s;
+    transition: opacity 0.5s, transform 0.5s; }
+  #video_user .vertical .dummy-img, #video_user .vertical .dummy-text {
+    -webkit-transform: translateY(100px);
+    transform: translateY(100px); }
+  #video_user .horizontal .dummy-img, #video_user .horizontal .dummy-text {
+    -webkit-transform: translateX(-100px);
+    transform: translateX(-100px); }
+  #video_user .content > div.show .dummy-img, #video_user .content > div.show .dummy-text {
+    opacity: 1; }
+  #video_user .vertical .content > div.show .dummy-img, #video_user .vertical .content > div.show .dummy-text {
+    -webkit-transform: translateY(0);
+    transform: translateY(0); }
+  #video_user .horizontal .content > div.show .dummy-img, #video_user .horizontal .content > div.show .dummy-text {
+    -webkit-transform: translateX(0);
+    transform: translateX(0); }
+  #video_user p.dummy-text:nth-child(2) {
+    -webkit-transition-delay: 0.1s;
+    transition-delay: 0.1s; }
+  #video_user p.dummy-text:nth-child(3) {
+    -webkit-transition-delay: 0.2s;
+    transition-delay: 0.2s; }
+  #video_user .dummy-img {
+    height: 400px;
+    background-color: #ddd;
+    margin: 30px auto; }
+  #video_user .dummy-text {
+    text-align: left;
+    margin: 0 auto;
+    padding: 10px 0;
+    color: #ddd;
+    font-size: 1em;
+    font-family: 'Blokk', Arial, serif; }
+  #video_user .dummy-text:last-child {
+    padding-bottom: 100px; }
+  @media screen and (max-width: 1000px) {
+    #video_user .grid figure, #video_user .grid .placeholder {
+      width: 240px;
+      height: 212px; }
+ }
