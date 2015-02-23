@@ -14,7 +14,8 @@ You need to install "ffmpeg" on your computer before run the API, you can downlo
 
 ## Running API
 * Before run mongoDB with `mongod`
-* In the directory Mewpipe/Api run `node server.js` or `nodemon server.js`
+* In the directory Mewpipe/Api install dependencies with `npm install` 
+* And run `node server.js` or `nodemon server.js`
 
 ## Running Client
 * In the directory Mewpipe/Client install dependencies with `npm install` and `bower install`
