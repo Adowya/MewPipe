@@ -13,8 +13,9 @@ You need to install "ffmpeg" on your computer before run the API, you can downlo
 * add the path to Environment variable ( http://www.computerhope.com/issues/ch000549.htm )
 
 ## Running API
-run 'mongod'
-In the directory Mewpipe/Api run 'node server.js'
+* Before run mongoDB with `mongod`
+* In the directory Mewpipe/Api run `node server.js` or `nodemon server.js`
 
 ## Running Client
-In the directory Mewpipe/Client run 'npm install' and 'bower install'
+* In the directory Mewpipe/Client install dependencies with `npm install` and `bower install`
+* Finaly run `gulp` and the projet start on port 3000 you will use the port 8080 for login
