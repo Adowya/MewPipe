@@ -7,7 +7,7 @@ You need to install "ffmpeg" on your computer before run the API, you can downlo
 * copy "ffmpeg" and "ffprobe" to /usr/bin
 * add "/usr/bin/ffmpeg" and "/usr/bin/ffprobe" to your .bash_profile in your home 
 * source ~/.bash_profile
-* 
+
 ### For Windows: 
 * copy "ffmpeg" and "ffprobe" to C:/User/YOUR_USERNAME/ffmpeg
 * add the path to Environment variable ( http://www.computerhope.com/issues/ch000549.htm )
