@@ -19,16 +19,17 @@ mewPipeApp.run([
 	'$rootScope',
 	'$http',
 	'$location',
+	'$route',
 	'$callService',
 	'$cookies',
-	function ($rootScope, $http, $location, $callService, $cookies) {
+	function ($rootScope, $http, $location, $route, $callService, $cookies) {
 
 		$rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
 			if(typeof current.$$route != "undefined"){
 
 				if($rootScope.getToken() && $rootScope.getToken() != "undefined"){
 					$rootScope.isConnect = true;
-					if(localStorage.getItem("user") == null && localStorage.getItem("user") != "undefined"){
+					if(localStorage.getItem("user") && localStorage.getItem("user") == "undefined"){
 						$callService.requestGet('user_readOne', null, $rootScope.getToken(), function (success, data) {
 							if(success){
 								appStorage.set("user", data);
@@ -64,7 +65,7 @@ mewPipeApp.run([
 			}
 		});
 
-/* Notification Error */
+		/* Notification Error */
 		// Type : notice, warning, error, success
 		$rootScope.showNotif = function(msg, type){
 			if(appConfig.debug){
@@ -107,6 +108,23 @@ mewPipeApp.run([
 		// 		};
 		// 	}(console.log);
 		// }
+
+		$rootScope.logOut = function() {
+			if($rootScope.getToken()){
+				$callService.logout($rootScope.getToken(), function (success, data) {	
+					if(success){
+						$cookies.token = undefined;
+						appStorage.delete("user");
+						$route.reload();
+					}else {
+						$rootScope.showNotif(data, 'notice');
+					}
+				});
+			}else {
+				$rootScope.showNotif('You don\'t allow.', 'error');
+			}
+		};
+
 
 		/* Settings Http Error */
 		$rootScope.httpError = function(code, err){

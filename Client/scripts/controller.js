@@ -12,23 +12,6 @@ mewPipeApp.controller('MainCtrl', ['$rootScope', '$http', '$scope', '$route', '$
 			}
 		};
 
-		$rootScope.logOut = function() {
-			if($rootScope.getToken()){
-				$callService.logout($rootScope.getToken(), function (success, data) {	
-					if(success){
-						$cookies.token = undefined;
-						appStorage.delete("user");
-						$route.reload();
-					}else {
-						$rootScope.showNotif(data, 'notice');
-					}
-				});
-			}else {
-				$rootScope.showNotif('You don\'t allow.', 'error');
-			}
-		};
-
-
 		$scope.videos = [];
 		$scope.readAll = function() {
 			$callService.requestGet('video_read', null, null, function (success, data) {	

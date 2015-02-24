@@ -1,6 +1,6 @@
 'use strict';
-var scanModule = angular.module('callModule', []);
-scanModule.factory('$callService', [
+var MewPipeModule = angular.module('callModule', []);
+MewPipeModule.factory('$callService', [
 	'$rootScope', '$http',
 	function ($rootScope, $http) {
 
@@ -75,7 +75,7 @@ scanModule.factory('$callService', [
 				})
 				.success(function (res) {
 					if (typeof callback === "function") {
-							// console.log(res);
+							console.log(res);
 							if(res.error){
 								callback(res.success, res.error);
 							}else {

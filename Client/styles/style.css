@@ -1293,8 +1293,8 @@ figure.effect-hera:hover p i:empty {
     -webkit-transform: translateZ(-1500px);
     transform: translateZ(-1500px); }
   #video_user .grid figure, #video_user .grid .placeholder {
-    width: 340px;
-    height: 300px; }
+    width: 320px;
+    height: 220px; }
   #video_user .grid figure {
     margin: 10px;
     cursor: pointer;
