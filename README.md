@@ -116,7 +116,7 @@ Our client application is a straight HTML/Javascript application. Gulp relies up
 The default gulp task will compile all the files `scss` in directory styles in `style.css` and run the application at [http://localhost:3000] with a `refresh on change` to help on the devlopment.
 
     ```
-    cd client`
+    cd client
     gulp
     ```
     
