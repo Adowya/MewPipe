@@ -115,6 +115,7 @@ Our client application is a straight HTML/Javascript application. Gulp relies up
 
 The default gulp task will compile all the files `scss` in directory styles in `style.css` and run the application at [http://localhost:3000] with a `refresh on change` to help on the devlopment.
 
+
     ```
     cd client
     gulp
@@ -130,7 +131,7 @@ The default gulp task will compile all the files `scss` in directory styles in `
 At the top level, the repository is split into a Client folder and a API folder.  The client folder contains all the client-side AngularJS application. 
 
 Within the client folder you have the following structure:
-* `node_modules` contains build tasks for GUlp along with other, user-installed, Node packages
+* `node_modules` contains build tasks for Gulp along with other, user-installed, Node packages
 * `bower_components` contains Javascript libraries essential for the development 
 * `scripts` contains application's sources
 * `style` contains the css compile by the sass files
