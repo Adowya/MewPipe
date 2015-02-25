@@ -15,6 +15,7 @@ It is a complete project with a build system focused on AngularJS apps and tight
 * build supporting JS, CSS and AngularJS templates minification
 * Css custom with SCSS templates processing integrated into the build
 
+
 ## Installation
 
 ### Platform & tools
@@ -85,6 +86,8 @@ Our client application is a straight HTML/Javascript application. Gulp relies up
 
   (This will install the dependencies declared in the Client/bower.json file)
 
+
+
 ## Running
 
 ### Start the Server
@@ -107,12 +110,19 @@ Our client application is a straight HTML/Javascript application. Gulp relies up
 
 * Start the server at [http://localhost:8080]
 
+
 ### Start the Client
 
-The default gulp task will compile all the files `scss` in directory styles in `style.css` and run the application at [http://localhost:3000] with a `refresh on change` for help the devlopment.
-* `cd client`
-* `gulp`
+The default gulp task will compile all the files `scss` in directory styles in `style.css` and run the application at [http://localhost:3000] with a `refresh on change` to help on the devlopment.
+
+    ```
+    cd client`
+    gulp
+    ```
+    
 * Open one browser and point them to [http://localhost:3000/]. But for login with OpenId you will connect to the port `8080`.
+
+
 
 ## Development
 
