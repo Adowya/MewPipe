@@ -51,15 +51,29 @@ Our backend application server is a NodeJS application that relies upon some 3rd
 
   (This will install the dependencies declared in the API/package.json file)
 
-* You need to install "ffmpeg" on your computer before run the API, you can download it here: [ffmpeg](https://www.ffmpeg.org/download.html)
+### MongoDb
+You need to install "MongoDB" on your computer before run the API, you can download it here: [mongoDB](http://www.mongodb.org/downloads)
 
-### For Mac:
+##### For Windows: 
+* move the directory install `c:/program files/MongoDB` on `c:/MongoDB` and create data directrory on  `c:/MongoDB/data`
+* next for run service mongoDB open a new cmd and start service : 
+    
+    ```
+    c:\mongodb\bin\mongod.exe --dbpath c:\mongodb\data
+    OR
+    c:\mongodb\Server\3.0\bin\mongod.exe --dbpath c:\mongodb\data
+    ```
+
+### FFMPEG
+You need to install "ffmpeg" on your computer before run the API, you can download it here: [ffmpeg](https://www.ffmpeg.org/download.html)
+
+##### For Mac:
 * copy `ffmpeg` and `ffprobe` to `/usr/bin`
 * add `/usr/bin/ffmpeg` and `/usr/bin/ffprobe` to your `.bash_profile` in your home 
 * Finaly run this command for reload the bash `source ~/.bash_profile`
 
-### For Windows: 
-* copy `ffmpeg` and `ffprobe` to `C:/User/YOUR_USERNAME/ffmpeg`
+#####For Windows: 
+* copy `ffmpeg` and `ffprobe` to `C:/ffmpeg`
 * add the full path to Environment variable ( http://www.computerhope.com/issues/ch000549.htm )
 
 
@@ -113,14 +127,34 @@ Our client application is a straight HTML/Javascript application. Gulp relies up
 
 ### Start the Client
 
-The default gulp task will compile all the files `scss` in directory styles in `style.css` and run the application at [http://localhost:3000] with a `refresh on change` to help on the devlopment.
-
+* Berfore start gulp you should install `gulp` on global in your machine and `sass` with `compass`
 
     ```
-    cd client
-    gulp
+    cd c:/
+    npm install -g gulp
     ```
     
+* If you don't have `gem` dependances, install it :[rubygem](http://rubyinstaller.org/downloads/) and update the gem with : 
+    
+    ```
+    chcp 1252 \\for windows
+    gem source -a http://rubygems.org
+    gem update
+    ```
+    
+* Adn install sass and compass with gem installer : 
+    
+    ```
+    gem install sass
+    gem install compass
+    ```
+    
+The default gulp task will compile all the files `scss` in directory styles in `style.css` and run the application at [http://localhost:3000] with a `refresh on change` to help on the devlopment.
+```    
+cd client
+gulp
+```
+
 * Open one browser and point them to [http://localhost:3000/]. But for login with OpenId you will connect to the port `8080`.
 
 
