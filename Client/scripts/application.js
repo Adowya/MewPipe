@@ -65,7 +65,7 @@ mewPipeApp.run([
 			}
 		});
 
-		/* Notification Error */
+/* Notification Error */
 		// Type : notice, warning, error, success
 		$rootScope.showNotif = function(msg, type){
 			if(appConfig.debug){
@@ -91,7 +91,9 @@ mewPipeApp.run([
 
 		/* Manage cookie token */
 		$rootScope.getToken = function(){
-			if($cookies.token != null || $cookies.token != "undefined") {
+			if(localStorage.getItem("token")){
+				return localStorage.getItem("token");
+			}else if($cookies.token != null || $cookies.token != "undefined") {
 				return $cookies.token;
 			}else {
 				return null;

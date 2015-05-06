@@ -37,10 +37,11 @@ mewPipeApp.controller('MainCtrl', ['$rootScope', '$http', '$scope', '$route', '$
 		$scope.readAll();
 	}]);
 
-mewPipeApp.controller('AuthCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService', '$sce', '$cookies',
+mewPipeApp.controller('AuthCtrl', ['$rootScope', '$http', '$scope', '$route', '$routeParams', '$location', '$callService', '$sce', '$cookies',
 	function($rootScope, $http, $scope, $route, $routeParams, $location, $callService, $sce, $cookies) {
 
 		console.log('PARAM', $routeParams.param);
+		localStorage.setItem('token', $routeParams.param)
 
 
 	}]);
