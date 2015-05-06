@@ -115,8 +115,8 @@ mewPipeApp.run([
 			if($rootScope.getToken()){
 				$callService.logout($rootScope.getToken(), function (success, data) {
 					if(success){
-						$cookies.token = undefined;
-						appStorage.delete("user");
+						localStorage.removeItem('user');
+						localStorage.removeItem('token');
 						$route.reload();
 					}else {
 						$rootScope.showNotif(data, 'notice');

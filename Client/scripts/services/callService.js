@@ -84,7 +84,8 @@ MewPipeModule.factory('$callService', [
 						}
 					})
 				.error(function (err, code) {
-					$rootScope.httpError(code, err);
+					callback(true, {});
+					// $rootScope.httpError(code, err);
 				});
 			},
 
