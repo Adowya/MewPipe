@@ -56,6 +56,7 @@ modules.passport.use(new modules.fbStrategy({
 	 	console.log(profile._json);
 	 	modules.crypto.randomBytes(48, function(err, randomKey) {
 	 		var key = randomKey.toString("hex");
+	 		console.log(models);
 	 		models.User.findOne({authId: profile._json.id})
 	 		.select("firstname lastname email authId")
 	 		.lean()

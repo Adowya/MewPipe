@@ -13,6 +13,11 @@ mewPipeApp.config(['$routeProvider',
       restrict: 0
     })
 
+    .when('/auth/success/:param',{
+      templateUrl: 'views/auth/success.html',
+      controller: 'AuthCtrl',
+      restrict: 1
+    })
 
     .when('/video/upload',{
       templateUrl: 'views/video/upload.html',

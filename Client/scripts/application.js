@@ -111,7 +111,7 @@ mewPipeApp.run([
 
 		$rootScope.logOut = function() {
 			if($rootScope.getToken()){
-				$callService.logout($rootScope.getToken(), function (success, data) {	
+				$callService.logout($rootScope.getToken(), function (success, data) {
 					if(success){
 						$cookies.token = undefined;
 						appStorage.delete("user");
@@ -120,6 +120,10 @@ mewPipeApp.run([
 						$rootScope.showNotif(data, 'notice');
 					}
 				});
+				// TODO error callback
+				$cookies.token = undefined;
+				appStorage.delete("user");
+				$route.reload();
 			}else {
 				$rootScope.showNotif('You don\'t allow.', 'error');
 			}
