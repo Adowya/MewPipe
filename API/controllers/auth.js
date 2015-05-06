@@ -46,9 +46,9 @@
  			}
  			req.login(user, function(err) {
  				if(err){ return next(err); }
- 				res.cookie('token', user.token, {expires: new Date(Date.now() + config.ttlToken*1000)});
+ 				//res.cookie('token', user.token, {expires: new Date(Date.now() + config.ttlToken*1000)});
  				console.log(sessions);
- 				return res.redirect('/#/auth/success');
+ 				return res.redirect('/#/auth/success/'+user.token);
  			});
  		})(req, res, next);
  	});
