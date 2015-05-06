@@ -19,7 +19,7 @@ var config = {
 config.videoDirectory = config.storageDirectory+"/videos";
 config.thumbnailsDirectory = config.storageDirectory+"/thumbnails";
 config.tmpDirectory = config.storageDirectory+"/.tmp";
-config.videoAllowedExt = ["avi", "mp4", "mov", "mkv", "ogg", "webm", "mpeg"];
+config.videoAllowedExt = ["mp4", "ogg", "webm"];
 config.maxVideoSize = 524288000;
 config.thumbnailsSize = "300x300"; //Eg: 300x300, 300x?, ?x300
 

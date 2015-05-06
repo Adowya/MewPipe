@@ -128,7 +128,7 @@ router.post('/videos/upload', middlewares.checkAuth, middlewares.multipart, func
 									console.log(err);
 									res.json({"success": false, "error": err});
 								}else{
-									var proc = modules.ffmpeg(config.videoDirectory+"/"+video.path)
+									var proc = modules.ffmpeg(config.videoDirectory+video.path)
 									.on('end', function(files) {
 										modules.fs.unlink(tmp_path, function() {
 											if(err){
@@ -143,7 +143,7 @@ router.post('/videos/upload', middlewares.checkAuth, middlewares.multipart, func
 									.on('error', function(err) {
 										res.json({"success": false, "error": "An error occured (can not generate video thumbnails)."});
 									})
-									.takeScreenshots({ filename: video._id+'.png', size: config.thumbnailsSize, count: 1, timemarks: [ '20%' ]}, config.thumbnailsDirectory);
+									.takeScreenshots({ filename: video._id+'.png', size: config.thumbnailsSize, count: 1, timemarks: [ '20%' ]}, config.thumbnailsDirectory);  
 								}
 							});
 						}else{
@@ -197,6 +197,47 @@ router.get('/videos', function(req, res) {
 			res.json({"success": false, "error": err});
 		}
 	});
+});
+
+/**
+* VIDEO SUGGESTION
+**/
+router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) {
+	models.View.find({_user: req.user._id})
+	.populate("_video")
+	.exec(function(err, views){
+		console.log(views);
+	});
+
+
+	// models.Video.find({rights: "public"})
+	// .where("archived").ne(true)
+	// .select("-__v -archived")
+	// .populate("_user", "-openId -__v")
+	// .lean()
+	// .exec(function(err, videos){
+	// 	if(videos){
+	// 		if(videos.length == 0){
+	// 			res.json({"success": true, "data": videos});
+	// 		}
+	// 		var	last = 0;
+	// 		var pushNbViews = function(count, i){
+	// 			videos[i].views = count;
+	// 			last++;
+	// 			if(last >= videos.length){
+	// 				res.json({"success": true, "data": videos});
+	// 			}
+	// 		};
+	// 		for(var i=0; i < videos.length; i++){
+	// 			models.View.find({_video: videos[i]._id})
+	// 			.exec(function(i, err, views){
+	// 				pushNbViews(views.length, i);	
+	// 			}.bind(models.View, i));
+	// 		}
+	// 	}else{
+	// 		res.json({"success": false, "error": err});
+	// 	}
+	// });
 });
 
 /**

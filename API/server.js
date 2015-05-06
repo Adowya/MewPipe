@@ -14,7 +14,7 @@ var modules = {
 	url: require('url'),
 	multipart: require('connect-multiparty'),
 	passport: require('passport'),
-	googleStrategy: require('passport-google').Strategy,
+	fbStrategy: require('passport-facebook').Strategy,
 	ffmpeg: require('fluent-ffmpeg')
 };
 
@@ -43,50 +43,56 @@ modules.passport.deserializeUser(function(obj, done) {
 	done(null, obj);
 });
 
-modules.passport.use(new modules.googleStrategy({
-	returnURL: 'http://'+config.server.address+':'+config.server.port+'/auth/google/return',
-	realm: 'http://'+config.server.address+':'+config.server.port
-},
-function(identifier, profile, done) {
-	process.nextTick(function () {
-		modules.crypto.randomBytes(48, function(err, randomKey) {
-			var key = randomKey.toString("hex");
-			models.User.findOne({openId: identifier})
-			.select("firstname lastname email openId")
-			.lean()
-			.exec(function(err, user){
-				if(user){
-					user.token = key;
-					var ttlToken = Math.round(+new Date() / 1000) + config.ttlToken;
-					for(var i=0; i<sessions.length; i++){
-						if(String(sessions[i].userId) == String(user._id)){
-							sessions.splice(i, 1);
-						}
-					}
-					sessions.push({userId: user._id, token: user.token, ttl: ttlToken});
-					return done(null, user);
-				}else{
-					var user = {
-						firstname: profile.name.givenName,
-						lastname: profile.name.familyName,
-						email: profile.emails[0].value,
-						openId: identifier
-					};
-					var newUser = new models.User(user);
-					user.token = key;
-					var ttlToken = Math.round(+new Date() / 1000) + config.ttlToken;
-					newUser.save(function(err, newUser){
-						for(var i=0; i<sessions.length; i++){
-							if(String(sessions[i].userId) == String(newUser._id)){
-								sessions.splice(i, 1);
-							}
-						}
-						sessions.push({userId: newUser._id, token: user.token, ttl: ttlToken});
-						return done(err, user);
-					});
-				}
-			});
-		});
+modules.passport.use(new modules.fbStrategy({
+    clientID: "1647756815458866",
+    clientSecret: "b52fc244f477e2335cdd41e83e8b40f2",
+    callbackURL: "/auth/facebook/callback",
+    enableProof: false
+ },
+ function(accessToken, refreshToken, profile, done) {
+ 	process.nextTick(function () {
+	 	//console.log("AccessToken: "+accessToken);
+	 	//console.log("refreshToken: "+refreshToken);
+	 	console.log(profile._json);
+	 	modules.crypto.randomBytes(48, function(err, randomKey) {
+	 		var key = randomKey.toString("hex");
+	 		models.User.findOne({authId: profile._json.id})
+	 		.select("firstname lastname email authId")
+	 		.lean()
+	 		.exec(function(err, user){
+	 			if(user){
+	 				user.token = key;
+	 				var ttlToken = Math.round(+new Date() / 1000) + config.ttlToken;
+	 				for(var i=0; i<sessions.length; i++){
+	 					if(String(sessions[i].userId) == String(user._id)){
+	 						sessions.splice(i, 1);
+	 					}
+	 				}
+	 				sessions.push({userId: user._id, token: user.token, ttl: ttlToken});
+	 				return done(null, user);
+	 			}else{
+	 				var user = {
+	 					firstname: profile._json.first_name,
+	 					lastname: profile._json.last_name,
+	 					email: profile._json.email,
+	 					authId: profile._json.id,
+	 					birthdate: profile._json.birthday
+	 				};
+	 				var newUser = new models.User(user);
+	 				user.token = key;
+	 				var ttlToken = Math.round(+new Date() / 1000) + config.ttlToken;
+	 				newUser.save(function(err, newUser){
+	 					for(var i=0; i<sessions.length; i++){
+	 						if(String(sessions[i].userId) == String(newUser._id)){
+	 							sessions.splice(i, 1);
+	 						}
+	 					}
+	 					sessions.push({userId: newUser._id, token: user.token, ttl: ttlToken});
+	 					return done(err, user);
+	 				});
+	 			}
+	 		});
+	 	});
 	});
 }));
 

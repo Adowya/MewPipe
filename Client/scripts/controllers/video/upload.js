@@ -6,7 +6,7 @@ mewPipeApp.controller('VideoUploadCtrl', ['$rootScope', '$http', '$scope', '$rou
 			for (var i = 0; i < $files.length; i++) {
 				var file = $files[i];
                 console.log(bytesToSize(file.size));
-                if(bytesToSize(file.size) <= 500) {
+                if(file.size <= 524288000) {
     				$scope.upload = $upload.upload({
     					url: url,
     					method: "POST",

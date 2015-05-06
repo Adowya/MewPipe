@@ -1,7 +1,7 @@
 var mongoose = require('./bdd.js').mongoose;
 
 userSchema = mongoose.Schema({
-	openId: {
+	authId: {
 		type: String,
 		required: true
 	},
@@ -18,7 +18,7 @@ userSchema = mongoose.Schema({
 		required: true
 	},
 	birthdate: {
-		type: Date
+		type: String
 	},
 
 });
