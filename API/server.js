@@ -82,6 +82,9 @@ modules.passport.use(new modules.fbStrategy({
 	 				user.token = key;
 	 				var ttlToken = Math.round(+new Date() / 1000) + config.ttlToken;
 	 				newUser.save(function(err, newUser){
+	 					if(err){
+	 						console.log(err);
+	 					}
 	 					for(var i=0; i<sessions.length; i++){
 	 						if(String(sessions[i].userId) == String(newUser._id)){
 	 							sessions.splice(i, 1);
