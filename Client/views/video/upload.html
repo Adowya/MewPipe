@@ -1,66 +1,84 @@
 <section id="upload">
 	<div class="row">
+		<div class="col-lg-12">
+			<div class="page-header">
+				<h1 id="container">Upload</h1>
+			</div>
+			<div class="col-md-6">
 
-
-		<button data-dialog="somedialog" class="trigger" ng-dialog>Open Dialog</button>
-		<button data-dialog="test" class="trigger" ng-dialog>Open Dialog</button>
-
-
-		<div class="ten columns centered text-center">
-			<h2>Upload</h2>
-			<p>What do you want Upload ?</p>
-			<div class="row">
-				<div class="span9" style="text-align:center;display: table;margin: 0 auto;">
-					<div ng-file-drop="videoUpload($files)" class="drop-box" ng-file-drag-over-class="optional-css-class" ng-show="dropSupported">
-						Drop files here !
-					</div>
-					<div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">
-						HTML5 Drop File is not supported!
+				<div class="progress">
+					<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{dynamic}}" aria-valuemin="0" aria-valuemax="100" style="width: {{dynamic}}%;">
+						{{dynamic}}%
 					</div>
 				</div>
-				<p>OR</p>
-				<input type="file" ng-file-select="videoUpload($files)" multiple>
-			</div>
-			<p>Upload :</p>
 
-			<div class="progress">
-				<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{dynamic}}" aria-valuemin="0" aria-valuemax="100" style="width: {{dynamic}}%;">
-					{{dynamic}}%
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<h3 class="panel-title">Upload Here</h3>
+					</div>
+					<div class="panel-body">
+						<!-- Drag'n drop -->
+						<div ngf-drop ng-model="files" class="drop-box center" 
+						ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
+						ngf-accept="'.mp4,.avi'">Drop files here !</div>
+
+						<input class="center input_upload" ng-class="catchclass" ng-change="catchclass='center input_upload'" type="file" ngf-select ng-model="files"
+						ngf-multiple="true"></input>
+
+						<button ng-click="submitUpload()" class="progress-button center" data-style="shrink" data-horizontal ng-progressbtnn>Submit</button>
+					</div>
 				</div>
 			</div>
+			<div class="col-md-6">
+				<div class="panel panel-primary" ng-repeat="file in files">
+					<div class="panel-heading">
+						<h3 class="panel-title">Video informations</h3>
+					</div>
+					<div class="panel-body">
+						<div class="form-group">
+							<label class="control-label" for="focusedInput">Title</label>
+							<input class="form-control" id="focusedInput" ng-model="file.name" type="text">
+						</div>
 
-			<button class="progress-button" data-style="shrink" data-horizontal ng-progressbtnn>Submit</button>
+						<div class="form-group">
+							<label for="textArea" class="col-lg-2 control-label">Description</label>
+							<div class="col-lg-10">
+								<textarea class="form-control" rows="3" id="textArea" ng-model="file.description"></textarea>
+								<span class="help-block">A longer block of help text that breaks onto a new line and may extend beyond one line.</span>
+							</div>
+						</div>
 
+						
+						<div class="form-group">
+							<label class="col-lg-2 control-label">Rights</label>
+							<div class="col-lg-10">
+								<div class="radio">
+									<label>
+										<input type="radio" name="optionsRadios" id="optionsRadios1" value="public" checked="">
+										Public
+									</label>
+								</div>
+								<div class="radio">
+									<label>
+										<input type="radio" name="optionsRadios" id="optionsRadios2" value="private">
+										Private
+									</label>
+								</div>
+							</div>
+						</div>
+
+						tag
+						<span class="label label-primary">Primary</span>
+						<span class="label label-success">Success</span>
+						<span class="label label-warning">Warning</span>
+						<span class="label label-danger">Danger</span>
+						<span class="label label-info">Info</span>
+
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </section>
 
-
-<!-- dialog -->
-<div id="somedialog" class="dialog">
-	<div class="dialog__overlay"></div>
-	<div class="dialog__content">
-		<h2>
-			<strong>Howdy</strong>, I'm a first dialog box
-		</h2>
-		<div>
-			<button class="action" data-dialog-close>Close</button>
-		</div>
-	</div>
-</div>
-<!-- /dialog -->
-
-<!-- dialog -->
-<div id="test" class="dialog">
-	<div class="dialog__overlay"></div>
-	<div class="dialog__content">
-		<h2>
-			<strong>Howdy</strong>, I'm a second dialog box
-		</h2>
-		<div>
-			<button class="action" data-dialog-close>Close</button>
-		</div>
-	</div>
-</div>
-<!-- /dialog -->
 

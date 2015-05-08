@@ -1,28 +1,37 @@
 <section id="profile">
-	<article>
-		<div class="row">
-			<div class="two columns image circle">
-				<img src="">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="page-header">
+				<h1 id="container">Profile</h1>
 			</div>
-			<section class="tabs">
-
-				<ul class="tab-nav">
-					<li><a href="#">First Tab</a></li>
-					<li class="active"> <a href="#">Second Tab</a></li>
-					<li><a href="#">Third Tab</a></li>
-				</ul>
-
-				<div class="tab-content">
-					<p>Here's the first piece of content</p>
+			<div class="bs-component">
+				<div class="well">	
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#dropdown0" data-toggle="tab" aria-expanded="true">You</a></li>
+						<li><a href="#dropdown1" data-toggle="tab" aria-expanded="false">Stats</a>
+						</li>
+					</ul>
+					<div id="myTabContent" class="tab-content">
+						<div class="tab-pane fade active in" id="dropdown0">
+							<strong> Hello! </strong> 
+							<br>
+							{{user._id}}
+							{{user.firstname}}<br>
+							{{user.lastname}}<br>
+							{{user.email}}<br>
+						</div>
+						<div class="tab-pane fade" id="dropdown1">
+							<p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork.</p>
+						</div>
+					</div>
 				</div>
-				<div class="tab-content active">
-					<p>My tab is active so I'll show up first! Inb4 tab 3!</p>
-				</div>
-				<div class="tab-content">
-					<p>Don't forget about me! I'm tab 3!</p>
-				</div>
-
-			</section>
+			</div>
 		</div>
-	</article>
+	</div>
 </section>
+<script>
+	$('.nav-tabs a').click(function (e) {
+		e.preventDefault();
+		$(this).tab('show');
+	});
+</script>
