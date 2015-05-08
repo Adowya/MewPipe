@@ -8,9 +8,9 @@ MewPipeModule.factory('$callService', [
 
 			requestGet: function (model, param, token, callback) {
 				if(param != null){
-					var url = getApiAddr() + apiUrl.route[model] +"/"+ param;
+					var url = getApiAddr() + api.route[model] +"/"+ param;
 				}else {
-					var url = getApiAddr() + apiUrl.route[model];
+					var url = getApiAddr() + api.route[model];
 				}
 				// console.log('Request GET at ', url);
 				$http({
@@ -38,7 +38,7 @@ MewPipeModule.factory('$callService', [
 			},
 
 			requestPost: function (model, data, token, callback) {
-				var url = getApiAddr() + apiUrl.route[model];
+				var url = getApiAddr() + api.route[model];
 				console.log('Request POST at ', url);
 				$http({
 					url: url,
@@ -63,7 +63,7 @@ MewPipeModule.factory('$callService', [
 			},
 
 			logout: function (token, callback) {
-				var url = appConfig.api.prefix + appConfig.api.addr+":"+appConfig.api.port + apiUrl.route['logout'];
+				var url = appConfig.api.prefix + appConfig.api.addr+":"+appConfig.api.port + api.route['logout'];
 				$http({
 					url: url,
 					method: "GET",

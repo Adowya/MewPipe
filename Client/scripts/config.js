@@ -5,7 +5,7 @@ if("dev" == env){
 		currentVersion: "0.0.1",
 		api: {
 			prefix: "http://",
-			addr: "127.0.0.1",
+			addr: "localhost",
 			port: 8080,
 			sub:'/api'
 		},
@@ -24,7 +24,7 @@ if("dev" == env){
 	};
 }
 
-var apiUrl = {
+var api = {
 	route: {
 		login: "/auth/google",
 		logout: "/auth/logout",

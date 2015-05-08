@@ -5,10 +5,9 @@ var mewPipeApp = angular.module('mewPipeApp', [
 	'ngRoute',
 	'ngSanitize',
 	'ngTouch',
-	'ui.sortable',
-	'callModule',
-	'angularFileUpload',
+	'ngFileUpload',
 	'xeditable',
+	'callModule',
 	"com.2fdevs.videogular",
 	"com.2fdevs.videogular.plugins.controls",
 	"com.2fdevs.videogular.plugins.overlayplay",
@@ -22,7 +21,8 @@ mewPipeApp.run([
 	'$route',
 	'$callService',
 	'$cookies',
-	function ($rootScope, $http, $location, $route, $callService, $cookies) {
+	'$sce',
+	function ($rootScope, $http, $location, $route, $callService, $cookies, $sce) {
 
 		$rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
 			if(typeof current.$$route != "undefined"){
@@ -98,18 +98,20 @@ mewPipeApp.run([
 			}else {
 				return null;
 			}
-		}
+		};
 
-		/* Debug log */
-		// if (appConfig.debug) {
-		// 	console.log = function (log) {
-		// 		return function () {
-		// 			var args = Array.prototype.slice.call(arguments);
-		// 			log.apply(console, args);
-		// 			var logs = [];
-		// 		};
-		// 	}(console.log);
-		// }
+		$rootScope.getApi = function() {
+			return getApiAddr().substr(0, getApiAddr().length-4);
+		};
+
+		$rootScope.onPlayerReady = function($API) {
+			console.log($API);
+            $rootScope.API = $API;
+        };
+		
+		$rootScope.stopVideo = function(){
+			$rootScope.API.stop();
+		};
 
 		$rootScope.logOut = function() {
 			if($rootScope.getToken()){
