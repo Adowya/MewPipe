@@ -10,25 +10,26 @@
 						{{dynamic}}%
 					</div>
 				</div> -->
+				<div class="panel-upload">
+					<div class="panel panel-success ">
+						<div class="panel-heading">
+							<h3 class="panel-title">Upload Here</h3>
+						</div>
+						<div class="panel-body">
+							<!-- Drag'n drop -->
+							<div ngf-drop ng-model="files" class="drop-box center" 
+							ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
+							ngf-accept="'.mp4,.avi'">Drop files here !</div>
 
-				<div class="panel panel-success">
-					<div class="panel-heading">
-						<h3 class="panel-title">Upload Here</h3>
-					</div>
-					<div class="panel-body">
-						<!-- Drag'n drop -->
-						<div ngf-drop ng-model="files" class="drop-box center" 
-						ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
-						ngf-accept="'.mp4,.avi'">Drop files here !</div>
-
-						<button class="center btn btn-primary btn-lg" ngf-select ng-model="files" ngf-multiple="true">Select file</button>
-						<br>
-						<button ng-click="submitUpload()" class="progress-button center" data-style="shrink" data-horizontal ng-progressbtnn>Submit</button>
+							<button class="center btn btn-primary btn-lg" ngf-select ng-model="files" ngf-multiple="true">Select file</button>
+							<br>
+							<button ng-click="submitUpload()" class="progress-button center" data-style="shrink" data-horizontal ng-progressbtnn>Submit</button>
+						</div>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-6">
-				<div class="panel panel-primary" ng-repeat="file in files" ng-init="file.rights = 'public'">
+				<div class="panel panel-primary" ng-repeat="file in files" ng-init="file.rights = 'private'">
 					<div class="panel-heading">
 						<h3 class="panel-title">Video informations</h3>
 					</div>
@@ -52,13 +53,13 @@
 							<div class="col-lg-10">
 								<div class="radio">
 									<label>
-										<input type="radio" name="optionsRadios" id="optionsRadios1" ng-model="file.rights" value="public" checked="checked">
+										<input type="radio" name="optionsRadios" ng-model="file.rights" value="public" checked="checked">
 										Public
 									</label>
 								</div>
 								<div class="radio">
 									<label>
-										<input type="radio" name="optionsRadios" id="optionsRadios2" ng-model="file.rights" value="private">
+										<input type="radio" name="optionsRadios" ng-model="file.rights" value="private">
 										Private
 									</label>
 								</div>
@@ -66,7 +67,7 @@
 						</div>
 						<label for="tag">Tag</label>
 						<span ng-repeat="tag in tags" class="label tags" ng-class="tag.checked ? 'label-success' : 'label-info'" ng-click="tag.checked = !tag.checked">
-						{{tag.name}}
+							{{tag.name}}
 						</span>
 					</div>
 				</div>
@@ -74,5 +75,20 @@
 		</div>
 	</div>
 </section>
+
+<script>
+	$(window).scroll(function(){
+		if($(window).scrollTop() > 400){
+		    //begin to scroll
+		    $(".panel-upload").css("position","fixed");
+		    $(".panel-upload").css("top",0).addClass('col-md-5');
+		}
+		else{
+		    //lock it back into place
+		    $(".panel-upload").css("position","relative").removeClass('col-md-5');
+		}
+
+	});
+</script>
 
 

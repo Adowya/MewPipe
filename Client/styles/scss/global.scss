@@ -43,6 +43,21 @@ $background-of-the-line: #f07719;
 	float: left;
 }
 
+footer {
+	background-color:#1d2a36;
+	display: block;
+	margin: 0 auto;
+	padding: 2%;
+
+	ul li {
+		display: inline-block;
+		content: '|';
+		padding: 9px;
+		margin: 0 auto;
+		position: relative;
+	}
+}
+
 /* .loading-line starts :D */
 
 .loading-line {  

@@ -1,7 +1,7 @@
 /*!
  * MewPipe
  * https://github.com/Adowya/MewPipe/graphs/contributors
- * Version: 0.0.2 - 2015-05-08T15:21:03.994Z
+ * Version: 0.0.2 - 2015-05-08T19:27:59.585Z
  * License: MIT
  */
 
@@ -14,7 +14,7 @@
 #index .grid-wrap { margin: 10px auto 0; max-width: 1090px; width: 100%; padding: 0; -webkit-perspective: 1500px; perspective: 1500px; }
 #index .grid { position: relative; -webkit-transition: all 0.5s cubic-bezier(0, 0, 0.25, 1); transition: all 0.5s cubic-bezier(0, 0, 0.25, 1); -webkit-transform-style: preserve-3d; transform-style: preserve-3d; }
 #index .view-full .grid { -webkit-transform: translateZ(-1500px); transform: translateZ(-1500px); }
-#index .grid figure, #index .grid .placeholder { width: 340px; height: 300px; }
+#index .grid figure, #index .grid .placeholder { width: 320px; height: 290px; }
 #index .grid figure { margin: 10px; display: inline-block; cursor: pointer; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
 #index .grid figure.active { opacity: 0; }
 #index .grid .placeholder { pointer-events: none; position: absolute; -webkit-transform-style: preserve-3d; transform-style: preserve-3d; -webkit-transition: all 0.5s ease-out; transition: all 0.5s ease-out; }
@@ -271,6 +271,9 @@ figure.effect-hera:hover p i:empty { -webkit-transform: translate3d(0, 0, 0); tr
 .image_right { height: 200px; display: block; position: relative; margin: 30px; float: right; }
 
 .image_left { height: 200px; display: block; position: relative; margin: 30px; float: left; }
+
+footer { background-color: #1d2a36; display: block; margin: 0 auto; padding: 2%; }
+footer ul li { display: inline-block; content: '|'; padding: 9px; margin: 0 auto; position: relative; }
 
 /* .loading-line starts :D */
 .loading-line { height: 0.3em; left: 0; position: fixed; top: 0; width: 100%; z-index: 999; -moz-animation: loading 5s linear; -webkit-animation: loading 5s linear; animation: loading 5s linear; -moz-transition: all 1s ease-in-out; -o-transition: all 1s ease-in-out; -webkit-transition: all 1s ease-in-out; transition: all 1s ease-in-out; }

@@ -110,13 +110,14 @@ router.post('/videos/upload', middlewares.checkAuth, middlewares.multipart, func
 				var tmp_path = req.files.file.path;
 				var ext = tmp_path.split('.').pop().toLowerCase();
 				if(config.videoAllowedExt.indexOf(ext) > -1){
+					var metadata = JSON.parse(req.body.data);
 					var newVideo = new models.Video({
 						_user: req.user._id,
 						name: req.body.name,
-						description: req.body.description,
+						description: metadata.description,
 						size: req.files.file.size,
 						ext: ext,
-						rights: req.body.rights
+						rights: metadata.rights
 					});
 					newVideo.save(function(err, video) {
 						if(!err){
