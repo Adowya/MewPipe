@@ -1,43 +1,53 @@
-mewPipeApp.controller('VideoUploadCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService', '$upload', 
-	function($rootScope, $http, $scope, $route, $location, $callService, $upload){
+mewPipeApp.controller('VideoUploadCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService', 'Upload', 
+	function($rootScope, $http, $scope, $route, $location, $callService, Upload){
 
-		$scope.videoUpload = function($files) {
-			var url = getApiAddr() + apiUrl.route['video_upload'];
-			for (var i = 0; i < $files.length; i++) {
-				var file = $files[i];
-                console.log(bytesToSize(file.size));
-                if(file.size <= 524288000) {
-    				$scope.upload = $upload.upload({
-    					url: url,
-    					method: "POST",
-    					headers: {
-    						'x-access-token': $rootScope.getToken()
-            			},
-            			data: {
-            				"name": "",
-            				"description": "aa",
-            				"rights": "public"
-            			},
-            			file: file,
-            		}).progress(function(evt) {
-            			$scope.dynamic = parseInt(100.0 * evt.loaded / evt.total);
-            		}).success(function(data, status, headers, config) {
-                        if(success){
-                            console.log(data);
-                            console.log(status); 
-                        }else {
-                             $rootScope.showNotif(data.error, 'error');
-                        }
-            		})
-            		.error(function(err){
-            			console.log(err);
-            			return;
-            		});
-                }else {
-                    $rootScope.showNotif('Video allowed on the platform mustn’t exceed 500MB size.', 'error');
+        // $scope.$watch('files', function () {
+        //     console.log($scope.files);
+        // });
+
+        $scope.submitUpload = function() {
+            var url = getApiAddr() + api.route['video_upload'];
+            if(typeof $scope.files !== 'undefined'){
+                console.log($scope.files);
+                for (var i = 0; i < $scope.files.length; i++) {
+                    var file = $scope.files[i];
+                    console.log(bytesToSize(file.size));
+                    if(file.size <= 524288000) {
+                        $scope.upload = Upload.upload({
+                            url: url,
+                            method: "POST",
+                            headers: {
+                                'x-access-token': $rootScope.getToken()
+                            },
+                            data: {
+                                "name": file.name,
+                                "description": file.description,
+                                "rights": "public"
+                            },
+                            file: file,
+                        }).progress(function(evt) {
+                            $scope.dynamic = parseInt(100.0 * evt.loaded / evt.total);
+                        }).success(function(data, status, headers, config) {
+                            if(data.success){
+                                console.log('success', data);
+                                $scope.files = [];
+                                // $location.path('/video/show/'+data._id);
+                            }else {
+                                console.log('error', data);
+                                $rootScope.showNotif(data.error, 'error');
+                            }
+                     })
+                        .error(function(err, code){
+                            $rootScope.httpError(code, err);
+                        });
+                    }else {
+                        $rootScope.showNotif('Video allowed on the platform mustn’t exceed 500MB size.', 'error');
+                    }
+
                 }
-
-        	}
+            }else {
+                console.log('check nothing file to upload');
+            }
         };
 
     }]);

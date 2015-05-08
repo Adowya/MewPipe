@@ -2,21 +2,21 @@ mewPipeApp.controller('UserProfileCtrl', ['$rootScope', '$http', '$scope', '$rou
 	function($rootScope, $http, $scope, $route, $location, $callService){
 
 		$scope.showUser = function(){
-			$callService.requestGet('login', null, null, function (success, data) {
+			$callService.requestGet('user_readOne', null, $rootScope.getToken(), function (success, data) {
 				if(success){
-					console.log(data);
+					$scope.user = data;
 				}else {
 					$rootScope.showNotif(data.error, 'error');
 				}
 			});
 		};
-		// $scope.showUser();
+		$scope.showUser();
 
 		$scope.editUser = function(){
 			var data = {
 
 			};
-			$callService.requestPost('login', data, function (resp) {
+			$callService.requestPost('user_update', data, function (success, data) {
 				if(resp){
 					console.log(resp);
 				}else {

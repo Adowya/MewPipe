@@ -29,7 +29,7 @@ mewPipeApp.controller('VideoShowCtrl', ['$rootScope', '$http', '$scope', '$route
 				plugins: {
 					poster: ""
 				},
-				theme: "bower_components/videogular-themes-default/videogular.css"
+				theme: "lib/videogular-themes-default/videogular.css"
 			};
 
 			$scope.videoRead = function(){
