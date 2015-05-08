@@ -28,4 +28,5 @@ API/STORAGE
 ############################
 Client/node_modules
 Client/bower_components
+Client/lib
 Client/.sass-cache
