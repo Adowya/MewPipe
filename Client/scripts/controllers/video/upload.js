@@ -22,7 +22,7 @@ mewPipeApp.controller('VideoUploadCtrl', ['$rootScope', '$http', '$scope', '$rou
                             data: {
                                 "name": file.name,
                                 "description": file.description,
-                                "rights": "public"
+                                "rights": file.rights
                             },
                             file: file,
                         }).progress(function(evt) {
@@ -36,7 +36,7 @@ mewPipeApp.controller('VideoUploadCtrl', ['$rootScope', '$http', '$scope', '$rou
                                 console.log('error', data);
                                 $rootScope.showNotif(data.error, 'error');
                             }
-                     })
+                        })
                         .error(function(err, code){
                             $rootScope.httpError(code, err);
                         });
@@ -49,5 +49,23 @@ mewPipeApp.controller('VideoUploadCtrl', ['$rootScope', '$http', '$scope', '$rou
                 console.log('check nothing file to upload');
             }
         };
+
+        $scope.tags = [{name: 'Animation', checked: false},
+        {name: 'Arts & Design', checked: false},
+        {name: 'Cameras & Techniques', checked: false},
+        {name: 'Comedy', checked: false},
+        {name: 'Documentary', checked: false},
+        {name: 'Experimental', checked: false},
+        {name: 'Fashion', checked: false},
+        {name: 'Food', checked: false},
+        {name: 'Instructionals', checked: false},
+        {name: 'Music', checked: false},
+        {name: 'Narrative', checked: false},
+        {name: 'Personal', checked: false},
+        {name: 'Reporting & Journalism', checked: false},
+        {name: 'Sports', checked: false},
+        {name: 'Talks', checked: false},
+        {name: 'Travel', checked: false},
+        ]
 
     }]);

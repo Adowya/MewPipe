@@ -1,6 +1,41 @@
 <section id="profile">
 	<div class="row">
-		<div class="col-lg-12">
+		<div class="col-sm-3">
+            <!--left col-->
+            <ul class="list-group">
+            	<li class="list-group-item text-right"><span class="pull-left"><strong class="">Joined</strong></span> 2.13.2014</li>
+            	<li class="list-group-item text-right"><span class="pull-left"><strong class="">Last seen</strong></span> Yesterday {{user.update}}</li>
+            	<li class="list-group-item text-right"><span class="pull-left"><strong class="">Real name</strong></span>{{user.firstname}}</li>
+            	<li class="list-group-item text-right"><span class="pull-left"><strong class="">Role: </strong></span>Client {{user.role}}</li>
+            	<li class="list-group-item text-right"><span class="pull-left"><strong class="">Email: </strong></span>{{user.email}}</li>
+            </ul>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Website <i class="fa fa-link fa-1x"></i>
+
+                </div>
+                <div class="panel-body"><a href="#/" class="">{{user.site}}</a>
+
+                </div>
+            </div>
+          
+            <ul class="list-group">
+                <li class="list-group-item">Activity</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Shares</strong></span> 125</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Likes</strong></span> 13</li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong class="">Posts</strong></span> 37</li>
+                        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Followers</strong></span> 78</li>
+            </ul>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Social Media</div>
+                <div class="panel-body">	<i class="fa fa-facebook fa-2x"></i>  <i class="fa fa-github fa-2x"></i> 
+                    <i class="fa fa-twitter fa-2x"></i> <i class="fa fa-pinterest fa-2x"></i>  <i class="fa fa-google-plus fa-2x"></i>
+
+                </div>
+            </div>
+        </div>
+		<div class="col-sm-9">
 			<div class="page-header">
 				<h1 id="container">Profile</h1>
 			</div>
@@ -13,12 +48,11 @@
 					</ul>
 					<div id="myTabContent" class="tab-content">
 						<div class="tab-pane fade active in" id="dropdown0">
-							<strong> Hello! </strong> 
-							<br>
-							{{user._id}}
-							{{user.firstname}}<br>
-							{{user.lastname}}<br>
-							{{user.email}}<br>
+							<ul class="list-group">
+								<li class="list-group-item">
+									<h4><strong>Hello</strong> {{user.firstname}} {{user.lastname}} !</h4>
+								</li>
+							</ul>
 						</div>
 						<div class="tab-pane fade" id="dropdown1">
 							<p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork.</p>

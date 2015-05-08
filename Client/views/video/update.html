@@ -1,95 +1,62 @@
 <section id="update">
-    <div class="wrapper">
-        <form editable-form name="editableForm" onaftersave="updateVideo()">
-            <div class="right-center">
-                <div  class="action" ng-click="editableForm.$show()" ng-show="!editableForm.$visible">
-                    <a class="edit">Edit</a>
-                </div>
-                <span ng-show="editableForm.$visible">
+    <div class="page-header">
+        <h1 class="container">{{video.name}}</h1>
+    </div>
+    <div class="col-md-8">
+        <h4>{{user.lastname}} {{user.firstname}}</h4>
+        <videogular vg-theme="video.theme">
+            <vg-media vg-src="video.sources">
+            </vg-media>
 
-                  <div  class="action" ng-disabled="editableForm.$waiting" ng-click="editableForm.$cancel()">
-                      <a>Cancel</a>
-                  </div>
-                  <div  class="action" ng-disabled="editableForm.$waiting">
-                      <a class="save">Save</a>
-                  </div>
-              </span>
-          </div>
-          <div class="left-center">
-            <h2>
-                <span editable-text="video.name" e-name="name" onbeforesave="checkName($data)" e-required>
-                   {{ video.name || 'empty' }}</span>
-               </h2>
-           </div>
-           <videogular vg-theme="video.theme">
-            <vg-video vg-src="video.sources"></vg-video>
             <vg-controls>
-            <vg-play-pause-button></vg-play-pause-button>
-            <vg-timedisplay>{{ currentTime | date:'mm:ss' }}</vg-timedisplay>
-            <vg-scrubBar>
-            <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime></vg-scrubBar>
-            <vg-timedisplay>{{ timeLeft | date:'mm:ss' }}</vg-timedisplay>
-            <vg-volume>
-            <vg-mutebutton></vg-mutebutton>
-            <vg-volumebar></vg-volumebar></vg-volume>
-            <vg-fullscreenButton></vg-fullscreenButton></vg-controls>
-            <vg-overlay-play></vg-overlay-play>
-            <vg-poster-image vg-url='video.plugins.poster'></vg-poster-image>
-        </videogular>
-        <article class="row">
-            <div class="right-center">
-                <h4>
-                 <b>By :</b> {{user.lastname}} {{user.firstname}}
-             </h4>
-         </div>
-         <div class="left-center">
+                <vg-play-pause-button></vg-play-pause-button>
+                <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+                <vg-scrub-bar>
+                    <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                </vg-scrub-bar>
+                <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
+                <vg-time-display>{{ totalTime | date:'mm:ss' }}</vg-time-display>
+                <vg-volume>
+                    <vg-mute-button></vg-mute-button>
+                    <vg-volume-bar></vg-volume-bar>
+                </vg-volume>
+                <vg-fullscreen-button></vg-fullscreen-button>
+            </vg-controls>
 
-            <h2>{{video.views}} Views</h2>
-            <i class="icon-eye"></i>
-        </div>
-        <div class="right-center">
-            <p>Post on {{video.created}}</p>
-            <p>Size : {{video.size}}</p>
-            <span class="title">Share with </span>
-            <span editable-select="video.share" e-name="share" onshow="loadShare()" e-ng-options="s.id as s.text for s in shares">
-                {{ showShare() }}
-            </span>
-        </div>
-        <div>
-            <legend>
-                <h4>Description :</h4>
-            </legend>
+            <vg-overlay-play></vg-overlay-play>
+            <vg-poster vg-url='video.plugins.poster'></vg-poster>
+        </videogular>
+        
+        <div class="well well-lg">
             <ul>
-                <li class="field">
-                    <a editable-textarea="video.description" e-rows="7" e-cols="40">
-                        <pre>{{ video.description || 'empty' }}</pre>
-                    </a>
-                </li>
-                <li class="field right-center">
-                    <p>
-                        <i class="icon-facebook-squared primary"></i>
-                        <i class="icon-twitter"></i>
-                        <i class="icon-pinterest"></i>
-                        <i class="icon-gplus"></i>
-                    </p>
+                <li>Post: {{video.created}}</li>
+                <li>View: {{video.views}}</li>
+                <li>Size : {{video.size}}</li>
+                <li>Description : {{video.description}}</li>
+                <li></li>
+            </ul>
+            <ul>
+                <li>
+                    <i class="icon-facebook-squared primary"></i>
+                    <i class="icon-twitter"></i>
+                    <i class="icon-pinterest"></i>
+                    <i class="icon-gplus"></i>
                 </li>
             </ul>
         </div>
-    </article>
-    
-</form>
 
-<aside class="four columns">
-    <h2>Related</h2>
-    <article class="row">
-        <div class="left-center">
-            <h4>Gumby Framework is cool.</h4>
-            <p>Face tattoos are not.</p>
-        </div>
-        <div class="center-center">
-            <img src="" width="145" />
-        </div>
-    </article>
-</aside>
-</div>
+
+    </div>
+    <div class="col-md-4">
+        <section class="well">
+            <h2>Related</h2>
+            <aside class="row">
+
+            </aside>
+        </section>
+    </div>
 </section>
+
+
+
+

@@ -5,12 +5,11 @@
 				<h1 id="container">Upload</h1>
 			</div>
 			<div class="col-md-6">
-
-				<div class="progress">
+<!-- 				<div class="progress">
 					<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{dynamic}}" aria-valuemin="0" aria-valuemax="100" style="width: {{dynamic}}%;">
 						{{dynamic}}%
 					</div>
-				</div>
+				</div> -->
 
 				<div class="panel panel-success">
 					<div class="panel-heading">
@@ -22,15 +21,14 @@
 						ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
 						ngf-accept="'.mp4,.avi'">Drop files here !</div>
 
-						<input class="center input_upload" ng-class="catchclass" ng-change="catchclass='center input_upload'" type="file" ngf-select ng-model="files"
-						ngf-multiple="true"></input>
-
+						<button class="center btn btn-primary btn-lg" ngf-select ng-model="files" ngf-multiple="true">Select file</button>
+						<br>
 						<button ng-click="submitUpload()" class="progress-button center" data-style="shrink" data-horizontal ng-progressbtnn>Submit</button>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-6">
-				<div class="panel panel-primary" ng-repeat="file in files">
+				<div class="panel panel-primary" ng-repeat="file in files" ng-init="file.rights = 'public'">
 					<div class="panel-heading">
 						<h3 class="panel-title">Video informations</h3>
 					</div>
@@ -54,26 +52,22 @@
 							<div class="col-lg-10">
 								<div class="radio">
 									<label>
-										<input type="radio" name="optionsRadios" id="optionsRadios1" value="public" checked="">
+										<input type="radio" name="optionsRadios" id="optionsRadios1" ng-model="file.rights" value="public" checked="checked">
 										Public
 									</label>
 								</div>
 								<div class="radio">
 									<label>
-										<input type="radio" name="optionsRadios" id="optionsRadios2" value="private">
+										<input type="radio" name="optionsRadios" id="optionsRadios2" ng-model="file.rights" value="private">
 										Private
 									</label>
 								</div>
 							</div>
 						</div>
-
-						tag
-						<span class="label label-primary">Primary</span>
-						<span class="label label-success">Success</span>
-						<span class="label label-warning">Warning</span>
-						<span class="label label-danger">Danger</span>
-						<span class="label label-info">Info</span>
-
+						<label for="tag">Tag</label>
+						<span ng-repeat="tag in tags" class="label tags" ng-class="tag.checked ? 'label-success' : 'label-info'" ng-click="tag.checked = !tag.checked">
+						{{tag.name}}
+						</span>
 					</div>
 				</div>
 			</div>
