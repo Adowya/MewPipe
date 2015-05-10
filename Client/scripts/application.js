@@ -6,7 +6,6 @@ var mewPipeApp = angular.module('mewPipeApp', [
 	'ngSanitize',
 	'ngTouch',
 	'ngFileUpload',
-	'xeditable',
 	'callModule',
 	"com.2fdevs.videogular",
 	"com.2fdevs.videogular.plugins.controls",
@@ -27,14 +26,14 @@ mewPipeApp.run([
 		$rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
 			if(typeof current.$$route != "undefined"){
 
-				if($rootScope.getToken() && $rootScope.getToken() != "undefined"){
+				if($rootScope.app.getToken() && $rootScope.app.getToken() != "undefined"){
 					$rootScope.isConnect = true;
 					if(localStorage.getItem("user") && localStorage.getItem("user") == "undefined"){
-						$callService.requestGet('user_readOne', null, $rootScope.getToken(), function (success, data) {
+						$callService.requestGet('user_readOne', null, $rootScope.app.getToken(), function (success, data) {
 							if(success){
 								appStorage.set("user", data);
 							}else {
-								$rootScope.showNotif(data, 'notice');
+								$rootScope.app.showNotif(data, 'notice');
 							}
 						});
 					}
@@ -44,84 +43,174 @@ mewPipeApp.run([
 					var user;
 					appStorage.set("user", user);
 				}
-				
 
-				/* ------------------------------------------- Restrict Auth ------------------------------------------- */
-	           /* 
-				0 = Allow-*
-				1 = Allow-User
-				2 = Allow-Admin
-				*/
+	           /** 
+				* Restrict Auth
+				* 0 = Allow-*
+				* 1 = Allow-User
+				* 2 = Allow-Admin
+			    */ 
 				var restrict = current.$$route.restrict;
 				if(restrict == 1){
 					if(!$rootScope.isConnect){
 						$location.path("/");
-						$rootScope.showNotif('Tanks log you or create an account.', 'error');
+						$rootScope.app.showNotif('Tanks log you or create an account.', 'error');
 					}
 				} else if(restrict == 2){
 					$location.path("/index");
-					$rootScope.showNotif('You don\'t allow for this page.', 'error');
+					$rootScope.app.showNotif('You don\'t allow for this page.', 'error');
 				}
 			}
 		});
-
-/* Notification Error */
-		// Type : notice, warning, error, success
-		$rootScope.showNotif = function(msg, type){
-			if(appConfig.debug){
-				var flag = false;
-				setTimeout( function() {
-					if(flag) return;
-					flag = true;
+		
+		
+		$rootScope.app = {
+			
+			/** 
+			 * Return Api address
+			 */
+			getApi() {
+				return getApiAddr().substr(0, getApiAddr().length-4);
+			},
+			
+			/**
+			 * Return Token from localstorage or cookie
+			 */
+			getToken() {
+				if (localStorage.getItem("token")) {
+					return localStorage.getItem("token");
+				} else if ($cookies.token != null || $cookies.token != "undefined") {
+					return $cookies.token;
+				} else {
+					return null;
+				}
+			},
+			
+			/**
+			 * Show notification multi type
+			 * @msg String message to show
+			 * @Type String 'notice', 'warning', 'error' or 'success'
+			 */
+			showNotif(msg, type) {
+				if (appConfig.debug) {
+					var flag = false;
+					setTimeout(function () {
+						if (flag) return;
+						flag = true;
 						// create the notification
 						var notification = new NotificationFx({
-							message : '<span class="icon icon-'+type+'"></span><p>'+msg+'.</p>',
-							layout : 'attached',
-							effect : 'bouncyflip',
-							type : type, // notice, warning or error
-							onClose : function() {
+							message: '<span class="icon icon-' + type + '"></span><p>' + msg + '.</p>',
+							layout: 'attached',
+							effect: 'bouncyflip',
+							type: type, // notice, warning or error
+							onClose: function () {
 								flag = false;
 							}
 						});
 						// show the notification
 						notification.show();
-					}, 1200 );
+					}, 1200);
+				}
+			},
+			
+			/**
+			 * Catch request error 
+			 * @Error message
+			 * @Code code http error
+ 			 */
+			httpError(err, code) {
+				if (401 == code) {
+					$location.path("/");
+					console.error('Error 401');
+				} else if (404 == code) {
+					$location.path("/");
+					console.error('Error 404');
+				} else if (500 == code || 503 == code) {
+					$location.path("/");
+					console.error('Error 500 or 503');
+				} else {
+					console.error('Error inconue', err, code);
+				}
+			},
+			
+			/**
+			 * Generique object type videogular with custom functions
+			 */
+			video : {
+				name: "",
+				description: "",
+				created: "",
+				size: "",
+				views: 0,
+				sources: [
+					{
+						src: $sce.trustAsResourceUrl('${this.getApi()}/api/videos/download/${video_id}'),
+						type: "video/mp4"
+					}
+				],
+				plugins: {
+					poster: ""
+				},
+				theme: "lib/videogular-themes-default/videogular.css",
+				
+				/**
+				 * Return obj videogular formated
+				 */
+				download(id) {
+					$rootScope.app.video.sources[0].src = $sce.trustAsResourceUrl($rootScope.app.getApi()+'/api/videos/download/'+id);
+					return angular.copy($rootScope.app.video);
+				},
+				
+				play(id){
+					$rootScope.app.video.sources[0].src = $sce.trustAsResourceUrl($rootScope.app.getApi()+'/api/videos/play/'+id);
+					return angular.copy($rootScope.app.video);
+				},
+				
+				link(id) {
+					/**
+					 * Todo request API
+					 */
+					/*$callService.requestGet('share_create', id, null, function (success, data) {
+						console.log(success);
+						console.log(data);
+						if(success){
+							console.log(data);
+							return data;
+						}else{
+							$rootScope.app.showNotif(data, 'notice');
+						}
+					});*/
+				},
+				
+				/**
+				 * Stop all players
+				 */
+				stop() {
+					
+				}, 
+				
+				/**
+				 * onPlayerReady()
+				 * return obj videogular-control
+				 */
+				onPlayerReady($API) {
+					console.log($API);
+				}
 			}
 		};
-
-		/* Manage cookie token */
-		$rootScope.getToken = function(){
-			if(localStorage.getItem("token")){
-				return localStorage.getItem("token");
-			}else if($cookies.token != null || $cookies.token != "undefined") {
-				return $cookies.token;
-			}else {
-				return null;
-			}
-		};
-
-		$rootScope.getApi = function() {
-			return getApiAddr().substr(0, getApiAddr().length-4);
-		};
-
-		$rootScope.onPlayerReady = function($API) {
-			console.log($API);
-            $rootScope.API = $API;
-        };
 		
-		$rootScope.stopVideo = function(){
-			$rootScope.API.stop();
-		};
-
+		/**
+		 * Auth Logout 
+		 */
 		$rootScope.logOut = function() {
-			if($rootScope.getToken()){
-				$callService.logout($rootScope.getToken(), function (success, data) {
+			if($rootScope.app.getToken()){
+				$callService.logout($rootScope.app.getToken(), function (success, data) {
 					if(success){
 						localStorage.removeItem('user');
 						localStorage.removeItem('token');
 						$route.reload();
 					}else {
-						$rootScope.showNotif(data, 'notice');
+						$rootScope.app.showNotif(data, 'notice');
 					}
 				});
 				// TODO error callback
@@ -129,37 +218,8 @@ mewPipeApp.run([
 				appStorage.delete("user");
 				$route.reload();
 			}else {
-				$rootScope.showNotif('You don\'t allow.', 'error');
-			}
-		};
-
-
-		/* Settings Http Error */
-		$rootScope.httpError = function(code, err){
-			if(401 == code) {
-				$location.path("/");
-				console.log('Error 401');
-			}else if(500 == code || 503 == code){
-				console.log('Error 500 or 503');
-				$location.path("/");
-			}else if(404 == code){
-				console.log('Error 404');
-				$location.path("/");
-			}else{
-				console.log('Error inconue', err);
+				$rootScope.app.showNotif('You don\'t allow.', 'error');
 			}
 		};
 
 	}]);
-
-mewPipeApp.filter('getById', function () {
-	return function (input, id) {
-		var i = 0, len = input.length;
-		for (; i < len; i++) {
-			if (+input[i].id === +id) {
-				return input[i];
-			}
-		}
-		return null;
-	};
-});

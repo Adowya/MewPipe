@@ -2,11 +2,11 @@ mewPipeApp.controller('UserProfileCtrl', ['$rootScope', '$http', '$scope', '$rou
 	function($rootScope, $http, $scope, $route, $location, $callService){
 
 		$scope.showUser = function(){
-			$callService.requestGet('user_readOne', null, $rootScope.getToken(), function (success, data) {
+			$callService.requestGet('user_readOne', null, $rootScope.app.getToken(), function (success, data) {
 				if(success){
 					$scope.user = data;
 				}else {
-					$rootScope.showNotif(data.error, 'error');
+					$rootScope.app.showNotif(data.error, 'error');
 				}
 			});
 		};
@@ -20,7 +20,7 @@ mewPipeApp.controller('UserProfileCtrl', ['$rootScope', '$http', '$scope', '$rou
 				if(resp){
 					console.log(resp);
 				}else {
-					$rootScope.showNotif(resp.error, 'error');
+					$rootScope.app.showNotif(resp.error, 'error');
 				}
 			});
 		};

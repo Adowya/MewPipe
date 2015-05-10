@@ -26,7 +26,6 @@ if("dev" == env){
 
 var api = {
 	route: {
-		login: "/auth/google",
 		logout: "/auth/logout",
 
 		share_create: "/share",
@@ -46,9 +45,9 @@ var api = {
 		video_upload: "/videos/upload", // *x-access-token
 		video_read: "/videos",
 		video_user: "/videos/user", // +uid
-		video_delete: "/video/delete", // :vid *x-access-token
-		video_archive: "/video/archive", //*x-access-token
-		video_download: "/video/download", // :vid
+		video_delete: "/videos/delete", // :vid *x-access-token
+		video_archive: "/videos/archive", //*x-access-token
+		video_download: "/videos/download", // :vid
 		video_image: "/videos/thumbnails", // :vid
 		video_play: "/videos/play",
 

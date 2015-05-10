@@ -20,7 +20,6 @@ $height-of-loading-line: 0.3em;
 $animation-duration: 5s;
 $background-of-the-line: #f07719;
 
-
 .center {
 	margin: 0 auto;
 	display: block;
@@ -48,6 +47,7 @@ footer {
 	display: block;
 	margin: 0 auto;
 	padding: 2%;
+	margin-top: 20px;
 
 	ul li {
 		display: inline-block;

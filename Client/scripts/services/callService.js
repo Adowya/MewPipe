@@ -7,12 +7,9 @@ MewPipeModule.factory('$callService', [
 		var $callService = {
 
 			requestGet: function (model, param, token, callback) {
-				if(param != null){
-					var url = getApiAddr() + api.route[model] +"/"+ param;
-				}else {
-					var url = getApiAddr() + api.route[model];
-				}
-				// console.log('Request GET at ', url);
+				var url = null;
+				(param != null) ? url = getApiAddr() + api.route[model] + "/" + param : url = getApiAddr() + api.route[model];
+				console.log('%cRequest GET at '+ url, 'color: purple');
 				$http({
 					url: url,
 					method: "GET",
@@ -22,18 +19,18 @@ MewPipeModule.factory('$callService', [
 					data: {
 					}
 				})
-				.success(function (res) {
+					.success(function (res) {
 					if (typeof callback === "function") {
-							// console.log(res);
-							if(res.error){
-								callback(res.success, res.error);
-							}else {
-								callback(res.success, res.data);
-							}
+						if (res.error) {
+							callback(res.success, res.error);
+						} else {
+							console.log(res);
+							callback(res.success, res.data);
 						}
-					})
-				.error(function (err, code) {
-					$rootScope.httpError(code, err);
+					}
+				})
+					.error(function (err, code) {
+					$rootScope.app.httpError(err, code);
 				});
 			},
 
@@ -45,47 +42,47 @@ MewPipeModule.factory('$callService', [
 					method: "POST",
 					headers: {
 						'x-access-token': token
-							// 'Authorization': 'Basic ' + login_base64
-						},
-						data: {
-							data: data
-						}
-					})
-				.success(function (res) {
+						// 'Authorization': 'Basic ' + login_base64
+					},
+					data: {
+						data: data
+					}
+				})
+					.success(function (res) {
 					if (typeof callback === "function") {
 						// console.log(res);
 						callback(res);
 					}
 				})
-				.error(function (err, code) {
-					$rootScope.httpError(code, err);
+					.error(function (err, code) {
+					$rootScope.app.httpError(err, code);
 				});
 			},
 
 			logout: function (token, callback) {
-				var url = appConfig.api.prefix + appConfig.api.addr+":"+appConfig.api.port + api.route['logout'];
+				var url = appConfig.api.prefix + appConfig.api.addr + ":" + appConfig.api.port + api.route['logout'];
 				$http({
 					url: url,
 					method: "GET",
 					headers: {
-						'x-access-token':token
+						'x-access-token': token
 					},
 					data: {
 					}
 				})
-				.success(function (res) {
+					.success(function (res) {
 					if (typeof callback === "function") {
-							console.log(res);
-							if(res.error){
-								callback(res.success, res.error);
-							}else {
-								callback(res.success, res.data);
-							}
+						console.log(res);
+						if (res.error) {
+							callback(res.success, res.error);
+						} else {
+							callback(res.success, res.data);
 						}
-					})
-				.error(function (err, code) {
+					}
+				})
+					.error(function (err, code) {
 					callback(true, {});
-					// $rootScope.httpError(code, err);
+					// $rootScope.httpError(err, code);
 				});
 			},
 

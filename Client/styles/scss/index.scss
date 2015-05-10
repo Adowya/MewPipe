@@ -3,6 +3,14 @@
 	/*
 	 * Windows Video Popup 
 	 * */
+	 .partial_show {
+		 padding-left: 100px;
+		 background: url(./../images/bg2.jpg) 0 0/cover!important;
+		 .well-bg {
+			 background-color: rgba(0,0,0,.3);
+		 }
+	 }
+	 
 	.noscroll {
 		overflow: hidden;
 	}

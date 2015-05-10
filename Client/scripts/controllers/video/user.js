@@ -3,7 +3,7 @@ mewPipeApp.controller('VideoUserCtrl', ['$rootScope', '$http', '$scope', '$route
 
 		$scope.videos = [];
 		$scope.allVideo = function() {
-			$callService.requestGet('video_user', appStorage.get("user")._id, $rootScope.getToken(), function (success, data) { 
+			$callService.requestGet('video_user', appStorage.get("user")._id, $rootScope.app.getToken(), function (success, data) { 
 				if(success){
 					if(data.length > 0 ){
 						for(var i in data) {
@@ -17,7 +17,7 @@ mewPipeApp.controller('VideoUserCtrl', ['$rootScope', '$http', '$scope', '$route
 						$scope.videos = [];
 					}
 				}else {
-					$rootScope.showNotif(data, 'notice');
+					$rootScope.app.showNotif(data, 'notice');
 				}
 			});
 		}

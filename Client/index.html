@@ -86,9 +86,9 @@
 				<h2>
 					<strong>Sign In</strong>, with :
 					<br>
-					<a ng-href="/auth/google">Google</a>
+					<a ng-href="{{app.getApi()+'/auth/google'}}">Google</a>
 					<br>
-					<a ng-href="{{getApi()+'/auth/facebook'}}">Facebook</a>
+					<a ng-href="{{app.getApi()+'/auth/facebook'}}">Facebook</a>
 
 				</h2>
 				<div>
@@ -170,7 +170,6 @@
 	<!-- Controllers -->
 	<script src="/scripts/controllers/user/profile.js"></script>
 	<script src="/scripts/controllers/video/upload.js"></script>
-	<script src="/scripts/controllers/video/download.js"></script>
 	<script src="/scripts/controllers/video/show.js"></script>
 	<script src="/scripts/controllers/video/update.js"></script>
 	<script src="/scripts/controllers/video/user.js"></script>

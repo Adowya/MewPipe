@@ -38,6 +38,7 @@
                                     <p>Views : {{video.views}}</p>
                                 </td>
                                 <td>
+                                    <button type="button" class="btn btn-warning" ng-click='app.video.download(video.id)'>Download</button>
                                     <button go-click="/video/update/{{video._id}}" class="btn btn-info" type="button">Edit</button>
                                     <button class="btn btn-danger" type="button">Delete</button>
                                 </td>

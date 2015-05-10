@@ -9,7 +9,7 @@ mewPipeApp.controller('MainCtrl', ['$rootScope', '$http', '$scope', '$route', '$
 						$scope.videos.push(data[i]);
 						$scope.videos[i].image = getApiAddr() + api.route['video_image'] +"/"+ data[i]._id;
 						$scope.videos[i].sources = [{
-							src: $sce.trustAsResourceUrl("http://127.0.0.1:8080/api/videos/download/"+$scope.videos[i]._id), 
+							src: $sce.trustAsResourceUrl("http://127.0.0.1:8080/api/videos/download/"+data[i]._id), 
 							type: "video/mp4"
 						}];
 						$scope.videos[i].theme = "lib/videogular-themes-default/videogular.css";
@@ -23,7 +23,7 @@ mewPipeApp.controller('MainCtrl', ['$rootScope', '$http', '$scope', '$route', '$
 						new grid3D( document.getElementById( 'suggestedVideo' ) );
 					}, 200 );
 				}else {
-					$rootScope.showNotif(data, 'notice');
+					$rootScope.app.showNotif(data, 'notice');
 				}
 			});
 		};
