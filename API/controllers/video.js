@@ -81,7 +81,7 @@ router.get('/videos/thumbnails/:vid', function(req, res){
 router.get('/videos/:vid', function(req, res){
 	models.Video.findOne({_id: req.params.vid})
 	.select("-__v -archived")
-	.populate("_user", "-openId -__v")
+	.populate("_user", "-authId -__v")
 	.lean()
 	.exec(function(err, video){
 		if(video){
@@ -173,7 +173,7 @@ router.get('/videos', function(req, res) {
 	models.Video.find({rights: "public"})
 	.where("archived").ne(true)
 	.select("-__v -archived")
-	.populate("_user", "-openId -__v")
+	.populate("_user", "-authId -__v")
 	.lean()
 	.exec(function(err, videos){
 		if(videos){
@@ -201,6 +201,46 @@ router.get('/videos', function(req, res) {
 });
 
 /**
+* LAST VIDEOS
+**/
+router.get('/videos/last/:number', function(req, res) {
+	if(!isNaN(req.params.number)){
+		models.Video.find({rights: "public"})
+		.where("archived").ne(true)
+		.select("-__v -archived")
+		.populate("_user", "-authId -__v")
+		.limit(req.params.number)
+		.sort("-created")
+		.lean()
+		.exec(function(err, videos){
+			if(videos){
+				if(videos.length == 0){
+					res.json({"success": true, "data": videos});
+				}
+				var	last = 0;
+				var pushNbViews = function(count, i){
+					videos[i].views = count;
+					last++;
+					if(last >= videos.length){
+						res.json({"success": true, "data": videos});
+					}
+				};
+				for(var i=0; i < videos.length; i++){
+					models.View.find({_video: videos[i]._id})
+					.exec(function(i, err, views){
+						pushNbViews(views.length, i);	
+					}.bind(models.View, i));
+				}
+			}else{
+				res.json({"success": false, "error": err});
+			}
+		});
+	}else{
+		res.json({"success": false, "error": "Invalid parameter."});
+	}
+});
+
+/**
 * VIDEO SUGGESTION
 **/
 router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) {
@@ -214,7 +254,7 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 	// models.Video.find({rights: "public"})
 	// .where("archived").ne(true)
 	// .select("-__v -archived")
-	// .populate("_user", "-openId -__v")
+	// .populate("_user", "-authId -__v")
 	// .lean()
 	// .exec(function(err, videos){
 	// 	if(videos){
@@ -247,7 +287,7 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 router.get('/videos/user/:uid', function(req, res) {
 	models.Video.find({rights: "public", _user: req.params.uid})
 	.where("archived").ne(true)
-	.populate("_user", "-openId -__v")
+	.populate("_user", "-authId -__v")
 	.select("-__v -archived")
 	.lean()
 	.exec(function(err, videos){
