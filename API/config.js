@@ -23,6 +23,18 @@ config.videoAllowedExt = ["mp4", "ogg", "webm"];
 config.maxVideoSize = 524288000;
 config.thumbnailsSize = "300x300"; //Eg: 300x300, 300x?, ?x300
 
+// oAuth properties
+config.oauth = {
+	facebook: {
+		clientId: "1647756815458866",
+		clientSecret: "b52fc244f477e2335cdd41e83e8b40f2"
+	},
+	google: {
+		clientId: "372818500221-d0ji2k3398a0ht0pcbogenonf8ske7qi.apps.googleusercontent.com",
+		clientSecret: "_kfG-LFvPhpQQ5VpF6tLldhd"
+	}
+};
+
 // Dev properties
 if("DEV" == env){
 	config.server.address = "localhost";
