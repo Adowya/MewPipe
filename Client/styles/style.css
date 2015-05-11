@@ -1,7 +1,7 @@
 /*!
  * MewPipe
  * https://github.com/Adowya/MewPipe/graphs/contributors
- * Version: 0.0.2 - 2015-05-10T09:47:37.904Z
+ * Version: 0.0.2 - 2015-05-11T20:50:06.136Z
  * License: MIT
  */
 
@@ -54,7 +54,7 @@
 
 .dialog, .dialog__overlay { width: 100%; height: 100%; top: 0; left: 0; }
 
-.dialog { position: fixed; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; justify-content: center; pointer-events: none; }
+.dialog { position: fixed; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; justify-content: center; pointer-events: none; z-index: 999; }
 
 .dialog__overlay { position: absolute; z-index: 1; background: rgba(55, 58, 71, 0.9); opacity: 0; -webkit-transition: opacity 0.3s; transition: opacity 0.3s; -webkit-backface-visibility: hidden; }
 

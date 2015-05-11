@@ -69,14 +69,14 @@ mewPipeApp.run([
 			/** 
 			 * Return Api address
 			 */
-			getApi() {
+			getApi: function() {
 				return getApiAddr().substr(0, getApiAddr().length-4);
 			},
 			
 			/**
 			 * Return Token from localstorage or cookie
 			 */
-			getToken() {
+			getToken: function() {
 				if (localStorage.getItem("token")) {
 					return localStorage.getItem("token");
 				} else if ($cookies.token != null || $cookies.token != "undefined") {
@@ -91,7 +91,7 @@ mewPipeApp.run([
 			 * @msg String message to show
 			 * @Type String 'notice', 'warning', 'error' or 'success'
 			 */
-			showNotif(msg, type) {
+			showNotif: function(msg, type) {
 				if (appConfig.debug) {
 					var flag = false;
 					setTimeout(function () {
@@ -118,7 +118,7 @@ mewPipeApp.run([
 			 * @Error message
 			 * @Code code http error
  			 */
-			httpError(err, code) {
+			httpError: function(err, code) {
 				if (401 == code) {
 					$location.path("/");
 					console.error('Error 401');
@@ -156,17 +156,17 @@ mewPipeApp.run([
 				/**
 				 * Return obj videogular formated
 				 */
-				download(id) {
+				download: function(id) {
 					$rootScope.app.video.sources[0].src = $sce.trustAsResourceUrl($rootScope.app.getApi()+'/api/videos/download/'+id);
 					return angular.copy($rootScope.app.video);
 				},
 				
-				play(id){
+				play: function(id){
 					$rootScope.app.video.sources[0].src = $sce.trustAsResourceUrl($rootScope.app.getApi()+'/api/videos/play/'+id);
 					return angular.copy($rootScope.app.video);
 				},
 				
-				link(id) {
+				link: function(id) {
 					/**
 					 * Todo request API
 					 */
@@ -185,7 +185,7 @@ mewPipeApp.run([
 				/**
 				 * Stop all players
 				 */
-				stop() {
+				stop: function() {
 					
 				}, 
 				
@@ -193,7 +193,7 @@ mewPipeApp.run([
 				 * onPlayerReady()
 				 * return obj videogular-control
 				 */
-				onPlayerReady($API) {
+				onPlayerReady: function($API) {
 					console.log($API);
 				}
 			}
