@@ -148,7 +148,7 @@ router.post('/videos/upload', middlewares.checkAuth, middlewares.multipart, func
 								}
 							});
 						}else{
-							res.json({"success": false, "error": err.errors.description.message});
+							res.json({"success": false, "error": err});
 						}
 					});
 				}else{
