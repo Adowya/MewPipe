@@ -315,6 +315,40 @@ router.get('/videos/user/:uid', function(req, res) {
 	});
 });
 
+/**
+* UPDATE
+**/
+router.put("/videos/:vid", middlewares.checkAuth, function(req, res){
+	if(req.body.name && req.body.description && req.body.rights){
+		var editVideo = {
+			name: req.body.name,
+			description: req.body.description,
+			rights: req.body.rights
+		};
+		models.Video.find({_id: req.params.vid})
+		.select("-__v -archived")
+		.where("archived").ne(true)
+		.exec(function(err, video){
+			if(video){
+				models.Video.update({_id: req.params.vid}, editVideo, function(err){
+					if(err) {
+						if(config.debug == true){
+							console.log({"error_PUT_video": err});
+						}
+						res.json({"success": false, "error": "An error occurred."});
+					}else {
+						res.json({"success": true});
+					}
+				});
+			}else{
+				res.json({"success": false, "error": "Video not found."});
+			}
+		});
+	}else{
+		res.json({"success": false, "error": "All fields must be completed."});
+	}
+});
+
 
 /**
 * DELETE VIDEO
