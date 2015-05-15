@@ -282,6 +282,41 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 });
 
 /**
+* READ USER'S VIDEOS
+**/
+router.get('/videos/user/all', middlewares.checkAuth, function(req, res) {
+	models.Video.find({_user: req.user._id})
+	.where("archived").ne(true)
+	.populate("_user", "-authId -__v")
+	.select("-__v -archived")
+	.lean()
+	.exec(function(err, videos){
+		if(!err){
+			if(videos.length == 0){
+				res.json({"success": true, "data": videos});
+			}
+			var	last = 0;
+			var pushNbViews = function(count, i){
+				videos[i].views = count;
+				last++;
+				if(last >= videos.length){
+					res.json({"success": true, "data": videos});
+				}
+			};
+			for(var i=0; i < videos.length; i++){
+				models.View.find({_video: videos[i]._id})
+				.exec(function(i, err, views){
+					pushNbViews(views.length, i);	
+				}.bind(models.View, i));
+			}
+		}else{
+			res.json({"success": false, "error": err});
+		}
+	});
+});
+
+
+/**
 * BROWSE VIDEO BY USER
 **/
 router.get('/videos/user/:uid', function(req, res) {
@@ -314,6 +349,7 @@ router.get('/videos/user/:uid', function(req, res) {
 		}
 	});
 });
+
 
 /**
 * UPDATE
@@ -353,7 +389,7 @@ router.put("/videos/:vid", middlewares.checkAuth, function(req, res){
 /**
 * DELETE VIDEO
 **/
-router.get('/videos/delete/:vid', middlewares.checkAuth, function(req, res){
+router.delete('/videos/:vid', middlewares.checkAuth, function(req, res){
 	models.Video.findOne({_id: req.params.vid, _user: req.user._id})
 	.exec(function(err, video){
 		if(video){

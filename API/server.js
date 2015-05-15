@@ -190,8 +190,20 @@ modules.fs.readdirSync(__dirname+"/controllers").forEach(function (file) {
 });
 
 /**
-* CLEAR TEMP
+* CREATE STORAGE DIR
 **/
+if(!modules.fs.existsSync(__dirname+"/STORAGE/")){
+	modules.fs.mkdirSync(__dirname+"/STORAGE/");
+}
+if(!modules.fs.existsSync(__dirname+"/STORAGE/.tmp")){
+	modules.fs.mkdirSync(__dirname+"/STORAGE/.tmp");
+}
+if(!modules.fs.existsSync(__dirname+"/STORAGE/videos")){
+	modules.fs.mkdirSync(__dirname+"/STORAGE/videos");
+}
+if(!modules.fs.existsSync(__dirname+"/STORAGE/thumbnails")){
+	modules.fs.mkdirSync(__dirname+"/STORAGE/thumbnails");
+}
 modules.fs.readdirSync(config.tmpDirectory).forEach(function (file) {
 	modules.fs.unlink(config.tmpDirectory+"/"+file, function(){return});
 });
