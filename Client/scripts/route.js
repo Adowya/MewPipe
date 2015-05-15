@@ -43,12 +43,24 @@ mewPipeApp.config(['$routeProvider',
       restrict: 1
     })
 
-    .when('/video/user/',{
+    .when('/video/user',{
       templateUrl: 'views/video/user.html',
       controller: 'VideoUserCtrl',
       restrict: 1
     })
-
+    
+    .when('/video/users/:param',{
+      templateUrl: 'views/video/users.html',
+      controller: 'VideoUsersCtrl',
+      restrict: 1
+    })
+    
+    .when('/user/update',{
+      templateUrl: 'views/user/update.html',
+      controller: 'UserUpdateCtrl',
+      restrict: 1
+    })
+    
     .when('/user/profile',{
       templateUrl: 'views/user/profile.html',
       controller: 'UserProfileCtrl',

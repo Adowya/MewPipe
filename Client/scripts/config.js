@@ -1,81 +1,72 @@
-var env = "dev";
+/**
+* CONFIG
+**/
+var env = "DEV";
+var config = {
+	currentVersion: "0.0.2",
+	debug: false,
 
-if("dev" == env){
-	var appConfig = {
-		currentVersion: "0.0.1",
-		api: {
-			prefix: "http://",
-			addr: "localhost",
-			port: 8080,
-			sub:'/api'
+	getApiAddr: function () {
+		return config.api.prefix + config.api.addr + ":" + config.api.port + config.api.sub;
+	},
+
+	api: {
+		prefix: "https://",
+		addr: "MYIP",
+		port: 8080,
+		sub: '/api',
+		route: {
+			logout: "/auth/logout",
+
+			share_create: "/share",
+			share_readOne: "/share/users",
+			share_readAll: "/shares",
+			share_delete: "/share/delete",
+
+			user_create: "/user",
+			user_readOne: "/user", // *x-access-token
+			user_readAll: "/users",
+			user_update: "/users",
+			user_delete: "/user/delete/",
+			user_findByUsername: "/users/findByUsername",
+			user_changePassword: "/user/changePassword",
+
+			video_guest: "/videos/user", // :id
+			video_update: "/videos",
+			video_last: "/videos/last",
+			video_upload: "/videos/upload", // *x-access-token
+			video_read: "/videos",
+			video_user: "/videos/user/all",
+			video_delete: "/videos", // :id *x-access-token
+			video_archive: "/videos/archive", // *x-access-token
+			video_download: "/videos/download", // :id
+			video_image: "/videos/thumbnails", // :id
+			video_play: "/videos/play",
+
+			video_browse: "/user/items"
+		}
+	},
+
+	storage: {
+		get: function (item) {
+			return JSON.parse(localStorage.getItem(item));
 		},
-		debug: true
-	};
-}else if(env == "dist"){
-	var appConfig = {
-		currentVersion: "0.0.1",
-		api: {
-			prefix: "https://",
-			addr: "",
-			port: '80',
-			sub:'/api'
+		set: function (name, value) {
+			var itemString = JSON.stringify(value);
+			localStorage.setItem(name, itemString);
+			return true;
 		},
-		debug: false
-	};
-}
-
-var api = {
-	route: {
-		logout: "/auth/logout",
-
-		share_create: "/share",
-		share_readOne: "/share/users",
-		share_readAll: "/shares",
-		share_update: "",
-		share_delete: "/share/delete",
-
-		user_create: "/user",
-		user_readOne: "/user", // *x-access-token
-		user_readAll: "/users",
-		user_update: "/user",
-		user_delete: "/user/delete/",
-		user_findByUsername: "/users/findByUsername",
-		user_changePassword : "/user/changePassword",
-
-		video_upload: "/videos/upload", // *x-access-token
-		video_read: "/videos",
-		video_user: "/videos/user", // +uid
-		video_delete: "/videos/delete", // :vid *x-access-token
-		video_archive: "/videos/archive", //*x-access-token
-		video_download: "/videos/download", // :vid
-		video_image: "/videos/thumbnails", // :vid
-		video_play: "/videos/play",
-
-		video_browse: "/user/items"
-	},
-}
-
-// -New route:
-// GET /api/users ->read all users
-// GET /api/user (token) -> read connected user
-
-
-var getApiAddr = function () {
-	var apiAddr = appConfig.api.prefix + appConfig.api.addr+":"+appConfig.api.port+appConfig.api.sub;;
-	return apiAddr;
-};
-
-var appStorage = {
-	get: function (item) {
-		return JSON.parse(localStorage.getItem(item));
-	},
-	set: function (name, value) {
-		var itemString = JSON.stringify(value);
-		localStorage.setItem(name, itemString);
-		return true;
-	},
-	delete: function (item) {
-		localStorage.removeItem(item);
-		return true;
+		delete: function (item) {
+			localStorage.removeItem(item);
+			return true;
+		}
 	}
 };
+
+// Dev properties
+if (env == "DEV") {
+	config.api.prefix = "http://";
+	config.api.addr = "localhost";
+	config.api.port = 8080;
+	config.debug = true;
+}

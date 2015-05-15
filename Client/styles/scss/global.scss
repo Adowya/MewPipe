@@ -4,11 +4,12 @@
 @import "../../lib/bootswatch-dist/css/bootstrap.css";
 //@import url("http://fonts.googleapis.com/css?family=Lato:300,400,700");
 
-@import "index.scss";
+@import "components/_var.scss";
 @import "components/dialog.scss";
 @import "components/hover.scss";
 @import "components/notification.scss";
 @import "components/progress.scss";
+@import "index.scss";
 @import "user/profile.scss";
 @import "video/show.scss";
 @import "video/update.scss";
@@ -55,6 +56,7 @@ footer {
 		padding: 9px;
 		margin: 0 auto;
 		position: relative;
+		
 	}
 }
 

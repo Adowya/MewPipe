@@ -3,11 +3,9 @@
         <h1 class="container">{{video.name}}</h1>
     </div>
     <div class="col-md-8">
-        <h4>{{user.lastname}} {{user.firstname}}</h4>
+        <h4><a ng-href="#/video/users/{{video._user._id}}">{{video._user.lastname}} {{video._user.firstname}}</a></h4>
         <videogular vg-theme="video.theme">
-            <vg-media vg-src="video.sources">
-            </vg-media>
-
+            <vg-media vg-src="video.sources"></vg-media>
             <vg-controls>
                 <vg-play-pause-button></vg-play-pause-button>
                 <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
@@ -22,11 +20,9 @@
                 </vg-volume>
                 <vg-fullscreen-button></vg-fullscreen-button>
             </vg-controls>
-
             <vg-overlay-play></vg-overlay-play>
             <vg-poster vg-url='video.plugins.poster'></vg-poster>
         </videogular>
-        
         <div class="well well-lg well-bg">
             <ul>
                 <li>Post: {{video.created}}</li>
@@ -35,31 +31,22 @@
                 <li>Description : {{video.description}}</li>
                 <li></li>
             </ul>
-
             <div class="panel panel-default">
                 <div class="panel-heading">Social Media</div>
-                <div class="panel-body">    
-                <i class="fa fa-facebook fa-2x"></i>  
-                <i class="fa fa-github fa-2x"></i> 
-                <i class="fa fa-twitter fa-2x"></i> 
-                <i class="fa fa-pinterest fa-2x"></i>  
-                <i class="fa fa-google-plus fa-2x"></i>
+                <div class="panel-body">
+                    <i class="fa fa-facebook fa-2x"></i>
+                    <i class="fa fa-github fa-2x"></i>
+                    <i class="fa fa-twitter fa-2x"></i>
+                    <i class="fa fa-pinterest fa-2x"></i>
+                    <i class="fa fa-google-plus fa-2x"></i>
                 </div>
             </div>
         </div>
-
-
     </div>
     <div class="col-md-4">
         <section class="well well-bg">
             <h2>Related</h2>
-            <aside class="row">
-
-            </aside>
+            <aside class="row"></aside>
         </section>
     </div>
 </div>
-
-
-
-

@@ -3,7 +3,7 @@
         <h1 class="container">{{video.name}}</h1>
     </div>
     <div class="col-md-8">
-        <h4>{{user.lastname}} {{user.firstname}}</h4>
+        <h4><a ng-href="#/video/users/{{user._id}}">{{user.firstname}} {{user.lastname}}</a></h4>
         <videogular vg-theme="video.theme">
             <vg-media vg-src="video.sources"></vg-media>
             <vg-controls>

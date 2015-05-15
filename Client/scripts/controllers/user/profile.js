@@ -1,28 +1,14 @@
 mewPipeApp.controller('UserProfileCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService',
-	function($rootScope, $http, $scope, $route, $location, $callService){
+	function ($rootScope, $http, $scope, $route, $location, $callService) {
 
-		$scope.showUser = function(){
-			$callService.requestGet('user_readOne', null, $rootScope.app.getToken(), function (success, data) {
-				if(success){
-					$scope.user = data;
-				}else {
-					$rootScope.app.showNotif(data.error, 'error');
-				}
+		$callService.request(null, 'user_readOne', null, null, true, function (data) {
+			$scope.user = data;
+		});
+
+		$scope.submitDelete = function () {
+			$callService.request("DELETE", "user_delete", null, null, true, function (data) {
+				console.log(data);
+				$location.path('/user/profile');
 			});
 		};
-		$scope.showUser();
-
-		$scope.editUser = function(){
-			var data = {
-
-			};
-			$callService.requestPost('user_update', data, function (success, data) {
-				if(resp){
-					console.log(resp);
-				}else {
-					$rootScope.app.showNotif(resp.error, 'error');
-				}
-			});
-		};
-
 	}]);

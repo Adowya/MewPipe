@@ -1,7 +1,7 @@
 /*!
  * MewPipe
  * https://github.com/Adowya/MewPipe/graphs/contributors
- * Version: 0.0.2 - 2015-05-11T20:50:06.136Z
+ * Version: 0.0.2 - 2015-05-15T18:45:17.333Z
  * License: MIT
  */
 
@@ -9,49 +9,6 @@
 @import url(../../lib/normalize.css/normalize.css);
 @import url(../../lib/angular-xeditable/dist/css/xeditable.css);
 @import url(../../lib/bootswatch-dist/css/bootstrap.css);
-#index { /* Windows Video Popup  */ /* Dummy content */ /* Simple fallback */ /* if any of these are not supported, a simple fallback will be shown */ }
-#index .partial_show { padding-left: 100px; background: url(./../images/bg2.jpg) 0 0/cover !important; }
-#index .partial_show .well-bg { background-color: rgba(0, 0, 0, 0.3); }
-#index .noscroll { overflow: hidden; }
-#index .grid-wrap { margin: 10px auto 0; max-width: 1090px; width: 100%; padding: 0; -webkit-perspective: 1500px; perspective: 1500px; }
-#index .grid { position: relative; -webkit-transition: all 0.5s cubic-bezier(0, 0, 0.25, 1); transition: all 0.5s cubic-bezier(0, 0, 0.25, 1); -webkit-transform-style: preserve-3d; transform-style: preserve-3d; }
-#index .view-full .grid { -webkit-transform: translateZ(-1500px); transform: translateZ(-1500px); }
-#index .grid figure, #index .grid .placeholder { width: 320px; height: 290px; }
-#index .grid figure { margin: 10px; display: inline-block; cursor: pointer; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
-#index .grid figure.active { opacity: 0; }
-#index .grid .placeholder { pointer-events: none; position: absolute; -webkit-transform-style: preserve-3d; transform-style: preserve-3d; -webkit-transition: all 0.5s ease-out; transition: all 0.5s ease-out; }
-#index .placeholder > div { display: block; position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
-#index .placeholder .front img { width: 100%; height: 100%; }
-#index .placeholder .back { background: white; -webkit-transform: rotateY(180deg); transform: rotateY(180deg); }
-#index .view-full .placeholder { -webkit-transition: all 0.5s 0.1s cubic-bezier(0, 0, 0.25, 1); transition: all 0.5s 0.1s cubic-bezier(0, 0, 0.25, 1); }
-#index .vertical .view-full .placeholder { -webkit-transform: translateZ(1500px) rotateX(-179.9deg); transform: translateZ(1500px) rotateX(-179.9deg); /* FF, Chrome, can we agree on one direction, pleeease? */ }
-#index .horizontal .view-full .placeholder { -webkit-transform: translateZ(1500px) rotateY(-179.9deg); transform: translateZ(1500px) rotateY(-179.9deg); }
-#index .grid figure img { display: block; width: 100%; }
-#index .content, #index .loading { position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; /* Careful, does not work in IE < 11 http://caniuse.com/#search=pointer-events */ }
-#index .content { overflow-y: scroll; height: 0; /* What seems to be the problem, officer? Well, we have a second scroll bar in Chrome! */ background: #fff; visibility: hidden; z-index: 400; -webkit-overflow-scrolling: touch; }
-#index .loading { opacity: 0; z-index: 1; background: transparent url(../images/preloader.gif) no-repeat center center; -webkit-transform: scale(0.5); transform: scale(0.5); -webkit-transition: opacity 0.5s, -webkit-transform 0.5s; transition: opacity 0.5s, transform 0.5s; }
-#index .loading.show { opacity: 1; -webkit-transform: scale(1); transform: scale(1); }
-#index .content.show { height: auto; pointer-events: auto; visibility: visible; }
-#index .content > div { z-index: 10; position: absolute; top: 0; width: 100%; overflow: hidden; height: 0; opacity: 0; background: #fff; }
-#index .content > div.show { height: auto; opacity: 1; -webkit-transition: opacity 0.6s; transition: opacity 0.6s; }
-#index .icon:before { font-family: 'fontawesome'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-#index .close-content { position: fixed; z-index: 1000; top: 0; right: 10px; font-size: 1.6em; color: #aaa; cursor: pointer; pointer-events: none; padding: 1em; opacity: 0; -webkit-transition: opacity 0.3s; transition: opacity 0.3s; }
-#index .content > div.show ~ .close-content { opacity: 1; pointer-events: auto; }
-#index .dummy-img, #index .dummy-text { max-width: 600px; width: 90%; opacity: 0; -webkit-transition: opacity 0.5s, -webkit-transform 0.5s; transition: opacity 0.5s, transform 0.5s; }
-#index .vertical .dummy-img, #index .vertical .dummy-text { -webkit-transform: translateY(100px); transform: translateY(100px); }
-#index .horizontal .dummy-img, #index .horizontal .dummy-text { -webkit-transform: translateX(-100px); transform: translateX(-100px); }
-#index .content > div.show .dummy-img, #index .content > div.show .dummy-text { opacity: 1; }
-#index .vertical .content > div.show .dummy-img, #index .vertical .content > div.show .dummy-text { -webkit-transform: translateY(0); transform: translateY(0); }
-#index .horizontal .content > div.show .dummy-img, #index .horizontal .content > div.show .dummy-text { -webkit-transform: translateX(0); transform: translateX(0); }
-#index p.dummy-text:nth-child(2) { -webkit-transition-delay: 0.1s; transition-delay: 0.1s; }
-#index p.dummy-text:nth-child(3) { -webkit-transition-delay: 0.2s; transition-delay: 0.2s; }
-#index .dummy-img { height: 400px; background-color: #ddd; margin: 30px auto; }
-#index .dummy-text { text-align: left; margin: 0 auto; padding: 10px 0; color: #ddd; font-size: 1em; font-family: 'Blokk', Arial, serif; }
-#index .dummy-text:last-child { padding-bottom: 100px; }
-#index .no-pointerevents .content, #index .no-csstransforms3d .content, #index .no-csstransitions .content, #index .no-pointerevents .content > div, #index .no-csstransforms3d .content > div, #index .no-csstransitions .content > div, #index .no-pointerevents .close-content, #index .no-csstransforms3d .close-content, #index .no-csstransitions .close-content { opacity: 1; visibility: visible; display: none; height: auto; }
-#index .no-pointerevents .show .close-content, #index .no-csstransforms3d .show .close-content, #index .no-csstransition .show .close-content, #index .no-pointerevents div.show, #index .no-csstransforms3d div.show, #index .no-csstransitions div.show, #index .no-csstransitions .dummy-img, #index .no-csstransitions .dummy-text, #index .no-csstransforms3d .dummy-img, #index .no-csstransforms3d .dummy-text, #index .no-pointerevents .dummy-img, #index .no-pointerevents .dummy-text { display: block !important; opacity: 1; }
-@media screen and (max-width: 1000px) { #index .grid figure, #index .grid .placeholder { width: 240px; height: 212px; } }
-
 .dialog, .dialog__overlay { width: 100%; height: 100%; top: 0; left: 0; }
 
 .dialog { position: fixed; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; justify-content: center; pointer-events: none; z-index: 999; }
@@ -86,8 +43,6 @@
 @keyframes anim-close { 0% { opacity: 1; -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); }
   50% { opacity: 1; -webkit-transform: translate3d(-100px, 0, 0) scale3d(1.1, 1.1, 1); transform: translate3d(-100px, 0, 0) scale3d(1.1, 1.1, 1); }
   100% { opacity: 0; -webkit-transform: translate3d(calc(100vw + 50%), 0, 0); transform: translate3d(calc(100vw + 50%), 0, 0); } }
-figure.effect-hera { background: #303fa9; }
-
 figure.effect-hera h2 { font-size: 158.75%; }
 
 figure.effect-hera h2, figure.effect-hera p { position: absolute; top: 50%; left: 50%; -webkit-transition: opacity 0.35s, -webkit-transform 0.35s; transition: opacity 0.35s, transform 0.35s; -webkit-transform: translate3d(-50%, -50%, 0); transform: translate3d(-50%, -50%, 0); -webkit-transform-origin: 50%; transform-origin: 50%; }
@@ -116,7 +71,7 @@ figure.effect-hera:hover h2 { opacity: 0; -webkit-transform: translate3d(-50%, -
 
 figure.effect-hera:hover p i:empty { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); /* just because it's stronger than nth-child */ opacity: 1; }
 
-.grid figure { position: relative; overflow: hidden; margin: 10px 1%; min-width: 320px; max-width: 480px; max-height: 360px; width: 48%; height: auto; background: #2b3e50; text-align: center; cursor: pointer; }
+.grid figure { position: relative; overflow: hidden; margin: 10px 1%; min-width: 320px; max-width: 480px; max-height: 360px; width: 48%; height: auto; text-align: center; cursor: pointer; }
 
 .grid figure img { position: relative; display: block; min-height: 100%; max-width: 100%; opacity: 0.8; }
 
@@ -263,6 +218,49 @@ figure.effect-hera:hover p i:empty { -webkit-transform: translate3d(0, 0, 0); tr
 .progress-button[data-style="shrink"][data-horizontal].state-loading .content { opacity: 0; }
 
 .progress-button[data-style="shrink"][data-horizontal].state-success .content, .progress-button[data-style="shrink"][data-horizontal].state-error .content { -webkit-transform: translateY(-100%); transform: translateY(-100%); }
+
+#index { /* Windows Video Popup  */ /* Dummy content */ /* Simple fallback */ /* if any of these are not supported, a simple fallback will be shown */ }
+#index .partial_show { padding-left: 100px; background: url(./../images/bg2.jpg) 0 0/cover !important; }
+#index .partial_show .well-bg { background-color: rgba(0, 0, 0, 0.3); }
+#index .noscroll { overflow: hidden; }
+#index .grid-wrap { margin: 10px auto 0; max-width: 1090px; width: 100%; padding: 0; -webkit-perspective: 1500px; perspective: 1500px; }
+#index .grid { position: relative; -webkit-transition: all 0.5s cubic-bezier(0, 0, 0.25, 1); transition: all 0.5s cubic-bezier(0, 0, 0.25, 1); -webkit-transform-style: preserve-3d; transform-style: preserve-3d; }
+#index .view-full .grid { -webkit-transform: translateZ(-1500px); transform: translateZ(-1500px); }
+#index .grid figure, #index .grid .placeholder { width: 320px; height: 290px; }
+#index .grid figure { margin: 10px; display: inline-block; cursor: pointer; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+#index .grid figure.active { opacity: 0; }
+#index .grid .placeholder { pointer-events: none; position: absolute; -webkit-transform-style: preserve-3d; transform-style: preserve-3d; -webkit-transition: all 0.5s ease-out; transition: all 0.5s ease-out; }
+#index .placeholder > div { display: block; position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+#index .placeholder .front img { width: 100%; height: 100%; }
+#index .placeholder .back { background: white; -webkit-transform: rotateY(180deg); transform: rotateY(180deg); }
+#index .view-full .placeholder { -webkit-transition: all 0.5s 0.1s cubic-bezier(0, 0, 0.25, 1); transition: all 0.5s 0.1s cubic-bezier(0, 0, 0.25, 1); }
+#index .vertical .view-full .placeholder { -webkit-transform: translateZ(1500px) rotateX(-179.9deg); transform: translateZ(1500px) rotateX(-179.9deg); /* FF, Chrome, can we agree on one direction, pleeease? */ }
+#index .horizontal .view-full .placeholder { -webkit-transform: translateZ(1500px) rotateY(-179.9deg); transform: translateZ(1500px) rotateY(-179.9deg); }
+#index .grid figure img { display: block; width: 100%; }
+#index .content, #index .loading { position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; /* Careful, does not work in IE < 11 http://caniuse.com/#search=pointer-events */ }
+#index .content { overflow-y: scroll; height: 0; /* What seems to be the problem, officer? Well, we have a second scroll bar in Chrome! */ background: #fff; visibility: hidden; z-index: 400; -webkit-overflow-scrolling: touch; }
+#index .loading { opacity: 0; z-index: 1; background: transparent url(../images/preloader.gif) no-repeat center center; -webkit-transform: scale(0.5); transform: scale(0.5); -webkit-transition: opacity 0.5s, -webkit-transform 0.5s; transition: opacity 0.5s, transform 0.5s; }
+#index .loading.show { opacity: 1; -webkit-transform: scale(1); transform: scale(1); }
+#index .content.show { height: auto; pointer-events: auto; visibility: visible; }
+#index .content > div { z-index: 10; position: absolute; top: 0; width: 100%; overflow: hidden; height: 0; opacity: 0; background: #fff; }
+#index .content > div.show { height: auto; opacity: 1; -webkit-transition: opacity 0.6s; transition: opacity 0.6s; }
+#index .icon:before { font-family: 'fontawesome'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+#index .close-content { position: fixed; z-index: 1000; top: 0; right: 10px; font-size: 1.6em; color: #aaa; cursor: pointer; pointer-events: none; padding: 1em; opacity: 0; -webkit-transition: opacity 0.3s; transition: opacity 0.3s; }
+#index .content > div.show ~ .close-content { opacity: 1; pointer-events: auto; }
+#index .dummy-img, #index .dummy-text { max-width: 600px; width: 90%; opacity: 0; -webkit-transition: opacity 0.5s, -webkit-transform 0.5s; transition: opacity 0.5s, transform 0.5s; }
+#index .vertical .dummy-img, #index .vertical .dummy-text { -webkit-transform: translateY(100px); transform: translateY(100px); }
+#index .horizontal .dummy-img, #index .horizontal .dummy-text { -webkit-transform: translateX(-100px); transform: translateX(-100px); }
+#index .content > div.show .dummy-img, #index .content > div.show .dummy-text { opacity: 1; }
+#index .vertical .content > div.show .dummy-img, #index .vertical .content > div.show .dummy-text { -webkit-transform: translateY(0); transform: translateY(0); }
+#index .horizontal .content > div.show .dummy-img, #index .horizontal .content > div.show .dummy-text { -webkit-transform: translateX(0); transform: translateX(0); }
+#index p.dummy-text:nth-child(2) { -webkit-transition-delay: 0.1s; transition-delay: 0.1s; }
+#index p.dummy-text:nth-child(3) { -webkit-transition-delay: 0.2s; transition-delay: 0.2s; }
+#index .dummy-img { height: 400px; background-color: #ddd; margin: 30px auto; }
+#index .dummy-text { text-align: left; margin: 0 auto; padding: 10px 0; color: #ddd; font-size: 1em; font-family: 'Blokk', Arial, serif; }
+#index .dummy-text:last-child { padding-bottom: 100px; }
+#index .no-pointerevents .content, #index .no-csstransforms3d .content, #index .no-csstransitions .content, #index .no-pointerevents .content > div, #index .no-csstransforms3d .content > div, #index .no-csstransitions .content > div, #index .no-pointerevents .close-content, #index .no-csstransforms3d .close-content, #index .no-csstransitions .close-content { opacity: 1; visibility: visible; display: none; height: auto; }
+#index .no-pointerevents .show .close-content, #index .no-csstransforms3d .show .close-content, #index .no-csstransition .show .close-content, #index .no-pointerevents div.show, #index .no-csstransforms3d div.show, #index .no-csstransitions div.show, #index .no-csstransitions .dummy-img, #index .no-csstransitions .dummy-text, #index .no-csstransforms3d .dummy-img, #index .no-csstransforms3d .dummy-text, #index .no-pointerevents .dummy-img, #index .no-pointerevents .dummy-text { display: block !important; opacity: 1; }
+@media screen and (max-width: 1000px) { #index .grid figure, #index .grid .placeholder { width: 240px; height: 212px; } }
 
 #upload .drop-box { border: dotted 3px; min-height: 20px; padding: 19px; margin-bottom: 20px; border: 1px solid #e3e3e3; border-radius: 4px; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05); width: 210px; }
 #upload .drop-box.dragover { border: 5px dashed blue; }

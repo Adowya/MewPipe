@@ -29,19 +29,15 @@ mewPipeApp.run([
 				if($rootScope.app.getToken() && $rootScope.app.getToken() != "undefined"){
 					$rootScope.isConnect = true;
 					if(localStorage.getItem("user") && localStorage.getItem("user") == "undefined"){
-						$callService.requestGet('user_readOne', null, $rootScope.app.getToken(), function (success, data) {
-							if(success){
-								appStorage.set("user", data);
-							}else {
-								$rootScope.app.showNotif(data, 'notice');
-							}
+						$callService.request(null, 'user_readOne', null, null, true, function (data) {
+							config.storage.set("user", data);
 						});
 					}
 				}else {
 					$rootScope.isConnect = false;
 					$cookies.token = undefined;
 					var user;
-					appStorage.set("user", user);
+					config.storage.set("user", user);
 				}
 
 	           /** 
@@ -63,14 +59,14 @@ mewPipeApp.run([
 			}
 		});
 		
-		
+		var flag = false;
 		$rootScope.app = {
 			
 			/** 
 			 * Return Api address
 			 */
 			getApi: function() {
-				return getApiAddr().substr(0, getApiAddr().length-4);
+				return config.getApiAddr().substr(0, config.getApiAddr().length-4);
 			},
 			
 			/**
@@ -92,47 +88,24 @@ mewPipeApp.run([
 			 * @Type String 'notice', 'warning', 'error' or 'success'
 			 */
 			showNotif: function(msg, type) {
-				if (appConfig.debug) {
-					var flag = false;
-					setTimeout(function () {
-						if (flag) return;
-						flag = true;
-						// create the notification
-						var notification = new NotificationFx({
-							message: '<span class="icon icon-' + type + '"></span><p>' + msg + '.</p>',
-							layout: 'attached',
-							effect: 'bouncyflip',
-							type: type, // notice, warning or error
-							onClose: function () {
-								flag = false;
-							}
-						});
-						// show the notification
-						notification.show();
-					}, 1200);
-				}
+				setTimeout(function () {
+					if (flag) return;
+					flag = true;
+					// create the notification
+					var notification = new NotificationFx({
+						message: '<span class="icon icon-' + type + '"></span><p>' + msg + '.</p>',
+						layout: 'attached',
+						effect: 'bouncyflip',
+						type: type, // notice, warning or error
+						onClose: function () {
+							flag = false;
+						}
+					});
+					// show the notification
+					notification.show();
+				}, 1200);
 			},
-			
-			/**
-			 * Catch request error 
-			 * @Error message
-			 * @Code code http error
- 			 */
-			httpError: function(err, code) {
-				if (401 == code) {
-					$location.path("/");
-					console.error('Error 401');
-				} else if (404 == code) {
-					$location.path("/");
-					console.error('Error 404');
-				} else if (500 == code || 503 == code) {
-					$location.path("/");
-					console.error('Error 500 or 503');
-				} else {
-					console.error('Error inconue', err, code);
-				}
-			},
-			
+						
 			/**
 			 * Generique object type videogular with custom functions
 			 */
@@ -166,19 +139,17 @@ mewPipeApp.run([
 					return angular.copy($rootScope.app.video);
 				},
 				
+				image: function(){
+						
+				},
+				
 				link: function(id) {
 					/**
 					 * Todo request API
 					 */
-					/*$callService.requestGet('share_create', id, null, function (success, data) {
-						console.log(success);
+					/*$callService.request(null, 'share_create', id, null, null, function (data) {
 						console.log(data);
-						if(success){
-							console.log(data);
-							return data;
-						}else{
-							$rootScope.app.showNotif(data, 'notice');
-						}
+						return data;
 					});*/
 				},
 				
@@ -215,7 +186,7 @@ mewPipeApp.run([
 				});
 				// TODO error callback
 				$cookies.token = undefined;
-				appStorage.delete("user");
+				config.storage.delete("user");
 				$route.reload();
 			}else {
 				$rootScope.app.showNotif('You don\'t allow.', 'error');

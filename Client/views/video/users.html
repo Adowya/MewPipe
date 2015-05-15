@@ -1,8 +1,8 @@
-<div id="video_user" class="row">
+<div id="video_users" class="row">
     <div class="rox">
         <div class="col-md-12">
             <div class="page-header">
-                <h1 id="container">Your videos</h1>
+                <h1 id="container">Videos by {{videos[0]._user.firstname}} {{videos[0]._user.lastname}}</h1>
             </div>
         </div>
     </div>
@@ -39,11 +39,6 @@
             <p>Rights : {{video.rights}}</p>
             <p>Size : {{video.size}}</p>
             <p>Views : {{video.views}}</p>
-        </div>
-        <div class="col-md-4">
-            <button type="button" class="btn btn-warning" ng-click='app.video.download(video._id)'>Share link</button>
-            <button go-click="/video/update/{{video._id}}" class="btn btn-info" type="button">Edit</button>
-            <button class="btn btn-danger" ng-click="submitDelete(video._id)" type="button">Delete</button>
         </div>
     </section>
 </div>
