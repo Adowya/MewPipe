@@ -1,6 +1,3 @@
-/** 
- * User update
- */
 mewPipeApp.controller('UserUpdateCtrl', ['$rootScope', '$http', '$scope', '$route', '$routeParams', '$location', '$callService',
 	function ($rootScope, $http, $scope, $route, $routeParams, $location, $callService) {
 

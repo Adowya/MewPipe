@@ -1,4 +1,6 @@
-
+/**
+ * Video show
+ */
 mewPipeApp.controller('VideoShowCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService', '$routeParams', '$sce',
 	function ($rootScope, $http, $scope, $route, $location, $callService, $routeParams, $sce) {
 

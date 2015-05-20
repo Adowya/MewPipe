@@ -1,3 +1,6 @@
+/**
+ * Video user
+ */
 mewPipeApp.controller('VideoUserCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService', '$routeParams', '$sce',
 	function ($rootScope, $http, $scope, $route, $location, $callService, $routeParams, $sce) {
 
@@ -26,7 +29,9 @@ mewPipeApp.controller('VideoUserCtrl', ['$rootScope', '$http', '$scope', '$route
 
 	}]);
 
-
+/**
+ * Video users
+ */
 mewPipeApp.controller('VideoUsersCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService', '$routeParams', '$sce',
 	function ($rootScope, $http, $scope, $route, $location, $callService, $routeParams, $sce) {
 		

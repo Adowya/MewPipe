@@ -10,11 +10,8 @@
 @import "components/notification.scss";
 @import "components/progress.scss";
 @import "index.scss";
-@import "user/profile.scss";
-@import "video/show.scss";
-@import "video/update.scss";
-@import "video/upload.scss";
-@import "video/user.scss";
+@import "user.scss";
+@import "video.scss";
 
 
 $height-of-loading-line: 0.3em;

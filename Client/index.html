@@ -58,7 +58,7 @@
 					</nav>
 
 					<!-- btn auth -->
-					<a href="" ng-show="!isConnect" data-dialog="signIn" class="btn btn-info pull-right" ng-dialog>Sign In</a>
+					<a href="" ng-if="!isConnect" data-dialog="signIn" class="btn btn-info pull-right" ng-dialog>Sign In</a>
 					<a href="" ng-if="isConnect" ng-click="logOut()" class="btn btn-info pull-right">Log out</a>
 				</div>
 			</div>

@@ -1,3 +1,6 @@
+/**
+ * Video upload
+ */
 mewPipeApp.controller('VideoUploadCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService', 'Upload',
     function ($rootScope, $http, $scope, $route, $location, $callService, Upload) {
           

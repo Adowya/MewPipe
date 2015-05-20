@@ -13,7 +13,6 @@ mewPipeApp.controller('MainCtrl', ['$rootScope', '$http', '$scope', '$route', '$
 				$scope.relatedVideos[i].theme = "lib/videogular-themes-default/videogular.css";
 				$scope.user = data._user;
 			}
-
 		});
 
 		$scope.suggestVideos = [];
@@ -27,7 +26,6 @@ mewPipeApp.controller('MainCtrl', ['$rootScope', '$http', '$scope', '$route', '$
 				}];
 				$scope.suggestVideos[i].theme = "lib/videogular-themes-default/videogular.css";
 				$scope.user = data._user;
-
 			}
 		});
 
@@ -46,6 +44,5 @@ mewPipeApp.controller('AuthCtrl', ['$rootScope', '$http', '$scope', '$route', '$
 
 		localStorage.setItem('token', $routeParams.param)
 		$location.path("/");
-
 
 	}]);

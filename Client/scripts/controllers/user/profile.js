@@ -1,3 +1,6 @@
+/**
+ * User profile
+ */
 mewPipeApp.controller('UserProfileCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService',
 	function ($rootScope, $http, $scope, $route, $location, $callService) {
 
