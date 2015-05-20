@@ -19,7 +19,10 @@ userSchema = mongoose.Schema({
 	birthdate: {
 		type: String
 	},
-
+	created: {
+		type: Date,
+		default: Date.now
+	}
 });
 userModel = mongoose.model('User', userSchema);
 

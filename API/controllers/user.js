@@ -50,7 +50,7 @@ router.get('/users', function(req, res){
 router.get("/user", middlewares.checkAuth, function(req, res){
 	var id = req.user._id;
 	models.User.findOne({_id: id})
-	.select("_id firstname lastname email bithdate")
+	.select("_id firstname lastname email bithdate created")
 	.exec(function(err, user){
 		if(err){
 			if(config.debug == true){
