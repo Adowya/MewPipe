@@ -7,7 +7,7 @@ var config = {
 		port: 80,
 		address: "192.168.1.13"
 	},
-	salt: "$2a$10$sU3LKpiKHhQfcEezTKuZnY",
+	salt: "$2a$10$sU3LKpiKHhQghEezTKuZnY",
 	ttlToken: 7200, //1H
 	debug: false,
 	env: env,

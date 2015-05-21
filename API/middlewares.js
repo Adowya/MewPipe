@@ -1,42 +1,28 @@
 module.exports.controller = function(app, config, modules, models, middlewares, sessions) {
 
 	exports.checkAuth = function(req, res, next) {
-		var noAuth = false;
-		if(noAuth == true){
-			var uid = "54ab334261a2d4e70a0597eb";
-			models.User.findOne({_id: uid})
-			.exec(function(error, user){
-				if(user){
-					req.user = user;
-					return next();
+		var token = req.headers["x-access-token"];
+		for(var i=0; i<sessions.length; i++){
+			if(token == sessions[i].token){
+				if(sessions[i].ttl >= Math.round(+new Date() / 1000)){
+					models.User.findOne({_id: sessions[i].userId})
+					.exec(function(error, user){
+						if(user){
+							sessions[i].ttl = Math.round(+new Date() / 1000) + config.ttlToken;
+							req.user = user;
+							return next();
+						}else{
+							return res.status(401).end();
+						}
+					});
+					return;
 				}else{
+					sessions.splice(i, 1);
 					return res.status(401).end();
 				}
-			});
-		}else{
-			var token = req.headers["x-access-token"];
-			for(var i=0; i<sessions.length; i++){
-				if(token == sessions[i].token){
-					if(sessions[i].ttl >= Math.round(+new Date() / 1000)){
-						models.User.findOne({_id: sessions[i].userId})
-						.exec(function(error, user){
-							if(user){
-								sessions[i].ttl = Math.round(+new Date() / 1000) + config.ttlToken;
-								req.user = user;
-								return next();
-							}else{
-								return res.status(401).end();
-							}
-						});
-						return;
-					}else{
-						sessions.splice(i, 1);
-						return res.status(401).end();
-					}
-				}
 			}
-			return res.status(401).end();
 		}
+		return res.status(401).end();
 	};
 
 	exports.checkViews = function(req, res, next) {

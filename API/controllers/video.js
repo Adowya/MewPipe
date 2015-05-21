@@ -81,7 +81,7 @@ router.get('/videos/thumbnails/:vid', function(req, res){
 router.get('/videos/:vid', function(req, res){
 	models.Video.findOne({_id: req.params.vid})
 	.select("-__v -archived")
-	.populate("_user", "-authId -__v")
+	.populate("_user", "-accessToken -__v")
 	.lean()
 	.exec(function(err, video){
 		if(video){
@@ -173,7 +173,7 @@ router.get('/videos', function(req, res) {
 	models.Video.find({rights: "public"})
 	.where("archived").ne(true)
 	.select("-__v -archived")
-	.populate("_user", "-authId -__v")
+	.populate("_user", "-accessToken -__v")
 	.lean()
 	.exec(function(err, videos){
 		if(videos){
@@ -208,7 +208,7 @@ router.get('/videos/last/:number', function(req, res) {
 		models.Video.find({rights: "public"})
 		.where("archived").ne(true)
 		.select("-__v -archived")
-		.populate("_user", "-authId -__v")
+		.populate("_user", "-accessToken -__v")
 		.limit(req.params.number)
 		.sort("-created")
 		.lean()
@@ -254,7 +254,7 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 	// models.Video.find({rights: "public"})
 	// .where("archived").ne(true)
 	// .select("-__v -archived")
-	// .populate("_user", "-authId -__v")
+	// .populate("_user", "-accessToken -__v")
 	// .lean()
 	// .exec(function(err, videos){
 	// 	if(videos){
@@ -287,7 +287,7 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 router.get('/videos/user/all', middlewares.checkAuth, function(req, res) {
 	models.Video.find({_user: req.user._id})
 	.where("archived").ne(true)
-	.populate("_user", "-authId -__v")
+	.populate("_user", "-accessToken -__v")
 	.select("-__v -archived")
 	.lean()
 	.exec(function(err, videos){
@@ -322,7 +322,7 @@ router.get('/videos/user/all', middlewares.checkAuth, function(req, res) {
 router.get('/videos/user/:uid', function(req, res) {
 	models.Video.find({rights: "public", _user: req.params.uid})
 	.where("archived").ne(true)
-	.populate("_user", "-authId -__v")
+	.populate("_user", "-accessToken -__v")
 	.select("-__v -archived")
 	.lean()
 	.exec(function(err, videos){

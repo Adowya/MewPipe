@@ -1,7 +1,7 @@
 var mongoose = require('./bdd.js').mongoose;
 
 userSchema = mongoose.Schema({
-	authId: {
+	accessToken: {
 		type: String,
 		required: true
 	},

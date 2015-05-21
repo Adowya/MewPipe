@@ -67,10 +67,10 @@ router.get("/user", middlewares.checkAuth, function(req, res){
 * CREATE
 **/
 router.post("/users", function(req, res){
-	if(req.body.birthdate && req.body.email && req.body.firstname && req.body.lastname){
+	if(req.body.birthdate && req.body.email && req.body.password && req.body.firstname && req.body.lastname){
 		if(regExEmail.test(req.body.email)){
 			var newUser = new models.User({
-				authId: "localAuth",
+				accessToken: modules.bcrypt.hashSync(req.body.password, config.salt),
 				birthdate: req.body.birthdate,
 				email: req.body.email,
 				firstname: req.body.firstname,
@@ -89,9 +89,6 @@ router.post("/users", function(req, res){
 							}
 							res.json({"success": false, "error": "An error occurred."});
 						}else{
-							if(config.debug){
-								console.log({"New user": {"_id": newUser._id, "username": newUser.username}});
-							}
 							res.json({"success": true, "data": newUser});
 						}
 					});
