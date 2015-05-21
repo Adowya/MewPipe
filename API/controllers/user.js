@@ -146,12 +146,33 @@ router.put("/users", middlewares.checkAuth, function(req, res){
 /**
 * DELETE
 **/
-router.delete("/users", function(req, res){
+router.delete("/users", middlewares.checkAuth, function(req, res){
 	var id = req.user._id;
 	models.User.findOne({_id: id})
 	.exec(function(err, user){
 		if(user) {
-			console.log("Not implemented yet...");
+			//console.log("Not implemented yet..."); // implemented on 21 may 2015
+			models.Video.find({_user: id})
+			.exec(function(err, videos){
+				if(videos){
+					for(var i=0; i < videos.length; i++){
+						modules.fs.unlink(config.videoDirectory+"/"+videos[i]._id+"."+videos[i].ext, function(){return});
+						modules.fs.unlink(config.thumbnailsDirectory+"/"+videos[i]._id+".png", function(){return});
+					}
+				}
+			});
+			models.User.find({_id: id}).remove().exec(function(err){
+				return;
+			});
+			models.Video.find({_user: id}).remove().exec(function(err){
+				return;
+			});
+			models.Share.find({_user: id}).remove().exec(function(err){
+				return;
+			});
+			models.View.find({_user: id}).remove().exec(function(err){
+				return;
+			});
 			res.json({"success": true});
 		}else {
 			res.json({"success": false, "error": "Invalid user ID."});
