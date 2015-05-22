@@ -9,6 +9,12 @@
 		 .well-bg {
 			 background-color: rgba(0,0,0,.3);
 		 }
+		 .panel-default {
+			 background-color: rgba(0,0,0,.3);
+		 }
+		 .panel-heading {
+			 background-color: rgba(0,0,0,.3);
+		 }
 	 }
 	 
 	.noscroll {
@@ -306,12 +312,15 @@
 		opacity: 1;
 	}
 
+	
 	@media screen and (max-width: 1000px) {
 
 		.grid figure,
 		.grid .placeholder {
 			width: 240px;
 			height: 212px;
+			margin: 10px auto;
+    		display: block;
 		}
 
 	}

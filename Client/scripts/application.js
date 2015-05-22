@@ -6,73 +6,83 @@ var mewPipeApp = angular.module('mewPipeApp', [
 	'ngSanitize',
 	'ngTouch',
 	'ngFileUpload',
-	'callModule',
+	'ServiceModule',
 	"com.2fdevs.videogular",
 	"com.2fdevs.videogular.plugins.controls",
 	"com.2fdevs.videogular.plugins.overlayplay",
 	"com.2fdevs.videogular.plugins.poster"
-	]);
+]);
 
 mewPipeApp.run([
 	'$rootScope',
 	'$http',
 	'$location',
 	'$route',
-	'$callService',
 	'$cookies',
-	'$sce',
-	function ($rootScope, $http, $location, $route, $callService, $cookies, $sce) {
+	'$authService',
+	'$callService',
+	function ($rootScope, $http, $location, $route, $cookies, $authService, $callService) {
 
 		$rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
-			if(typeof current.$$route != "undefined"){
-
-				if($rootScope.app.getToken() && $rootScope.app.getToken() != "undefined"){
-					$rootScope.isConnect = true;
-					if(localStorage.getItem("user") && localStorage.getItem("user") == "undefined"){
-						$callService.request(null, 'user_readOne', null, null, true, function (data) {
-							config.storage.set("user", data);
-						});
-					}
-				}else {
-					$rootScope.isConnect = false;
-					$cookies.token = undefined;
-					var user;
-					config.storage.set("user", user);
-				}
-
-	           /** 
-				* Restrict Auth
-				* 0 = Allow-*
-				* 1 = Allow-User
-				* 2 = Allow-Admin
-			    */ 
-				var restrict = current.$$route.restrict;
-				if(restrict == 1){
-					if(!$rootScope.isConnect){
-						$location.path("/");
-						$rootScope.app.showNotif('Tanks log you or create an account.', 'error');
-					}
-				} else if(restrict == 2){
-					$location.path("/index");
-					$rootScope.app.showNotif('You don\'t allow for this page.', 'error');
-				}
-			}
 		});
+
+		$rootScope.$on('$routeChangeError', function (event, current, previous) {
+			console.log('$routeChangeError');
+			$location.path("/");
+			$rootScope.app.showNotif('You don\'t allow.', 'error');
+		});
+				
+		/**
+		 * Scope Logout 
+		 */
+		$rootScope.logOut = function () {
+			return $authService.logout();
+		};
 		
+		/**
+		 * Scope Login
+		 */
+		$rootScope.user = {};
+		$rootScope.submitLogin = function () {
+			$callService.request('POST', 'auth_login', null, $rootScope.user, null, function (res) {
+				var somedialog = document.getElementById('signIn');
+				var dlg = new DialogFx(somedialog);
+				dlg.toggle();
+				dlg.toggle(dlg);
+				localStorage.setItem('token', res.token);
+				$location.path('/user/profile');			
+			});
+			$rootScope.user = {};
+		};
+			 
+		 /**
+		  * Scope register
+		  */
+		  $rootScope.submitRegister = function() {		
+			  $callService.request('POST', 'user_create', null, $rootScope.user, null, function (res) {
+				  var somedialog = document.getElementById('signUp');
+				  var dlg = new DialogFx(somedialog);
+				  dlg.toggle();
+				  dlg.toggle(dlg);
+				  $route.reload();
+			  });
+			  $rootScope.user = {};
+		};
+	
 		var flag = false;
 		$rootScope.app = {
 			
 			/** 
 			 * Return Api address
 			 */
-			getApi: function() {
-				return config.getApiAddr().substr(0, config.getApiAddr().length-4);
+			getApi: function () {
+				return config.getApiAddr()
 			},
 			
 			/**
 			 * Return Token from localstorage or cookie
 			 */
-			getToken: function() {
+			getToken: function () {
 				if (localStorage.getItem("token")) {
 					return localStorage.getItem("token");
 				} else if ($cookies.token != null || $cookies.token != "undefined") {
@@ -87,7 +97,7 @@ mewPipeApp.run([
 			 * @msg String message to show
 			 * @Type String 'notice', 'warning', 'error' or 'success'
 			 */
-			showNotif: function(msg, type) {
+			showNotif: function (msg, type) {
 				setTimeout(function () {
 					if (flag) return;
 					flag = true;
@@ -104,92 +114,6 @@ mewPipeApp.run([
 					// show the notification
 					notification.show();
 				}, 1200);
-			},
-						
-			/**
-			 * Generique object type videogular with custom functions
-			 */
-			video : {
-				name: "",
-				description: "",
-				created: "",
-				size: "",
-				views: 0,
-				sources: [
-					{
-						src: $sce.trustAsResourceUrl('${this.getApi()}/api/videos/download/${video_id}'),
-						type: "video/mp4"
-					}
-				],
-				plugins: {
-					poster: ""
-				},
-				theme: "lib/videogular-themes-default/videogular.css",
-				
-				/**
-				 * Return obj videogular formated
-				 */
-				download: function(id) {
-					$rootScope.app.video.sources[0].src = $sce.trustAsResourceUrl($rootScope.app.getApi()+'/api/videos/download/'+id);
-					return angular.copy($rootScope.app.video);
-				},
-				
-				play: function(id){
-					$rootScope.app.video.sources[0].src = $sce.trustAsResourceUrl($rootScope.app.getApi()+'/api/videos/play/'+id);
-					return angular.copy($rootScope.app.video);
-				},
-				
-				image: function(){
-						
-				},
-				
-				link: function(id) {
-					/**
-					 * Todo request API
-					 */
-					/*$callService.request(null, 'share_create', id, null, null, function (data) {
-						console.log(data);
-						return data;
-					});*/
-				},
-				
-				/**
-				 * Stop all players
-				 */
-				stop: function() {
-					
-				}, 
-				
-				/**
-				 * onPlayerReady()
-				 * return obj videogular-control
-				 */
-				onPlayerReady: function($API) {
-					console.log($API);
-				}
-			}
-		};
-		
-		/**
-		 * Auth Logout 
-		 */
-		$rootScope.logOut = function() {
-			if($rootScope.app.getToken()){
-				$callService.logout($rootScope.app.getToken(), function (success, data) {
-					if(success){
-						localStorage.removeItem('user');
-						localStorage.removeItem('token');
-						$route.reload();
-					}else {
-						$rootScope.app.showNotif(data, 'notice');
-					}
-				});
-				// TODO error callback
-				$cookies.token = undefined;
-				config.storage.delete("user");
-				$route.reload();
-			}else {
-				$rootScope.app.showNotif('You don\'t allow.', 'error');
 			}
 		};
 

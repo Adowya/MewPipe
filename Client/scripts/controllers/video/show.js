@@ -1,8 +1,8 @@
 /**
  * Video show
  */
-mewPipeApp.controller('VideoShowCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService', '$routeParams', '$sce',
-	function ($rootScope, $http, $scope, $route, $location, $callService, $routeParams, $sce) {
+mewPipeApp.controller('VideoShowCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService', '$videoService', '$routeParams',
+	function ($rootScope, $http, $scope, $route, $location, $callService, $videoService, $routeParams) {
 
 		var video_id = null;
 		if ($routeParams.param != null || $routeParams.param == 'undefined') {
@@ -10,17 +10,10 @@ mewPipeApp.controller('VideoShowCtrl', ['$rootScope', '$http', '$scope', '$route
 		}
 
 		if (video_id != null) {
-			$scope.video = $rootScope.app.video.download(video_id);
-
+			$scope.video = [];
 			$callService.request(null, 'video_read', video_id, null, null, function (data) {
-				$scope.video.name = data.name;
-				$scope.video.description = data.description;
-				var dateString = moment(data.created).format("MM/DD/YYYY");
-				$scope.video.created = dateString;
-				$scope.video.size = bytesToSize(data.size);
+				$scope.video = $videoService(data, 'download');
 				$scope.user = data._user;
 			});
-
 		}
-
 	}]);

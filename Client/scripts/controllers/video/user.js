@@ -1,18 +1,14 @@
 /**
  * Video user
  */
-mewPipeApp.controller('VideoUserCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService', '$routeParams', '$sce',
-	function ($rootScope, $http, $scope, $route, $location, $callService, $routeParams, $sce) {
+mewPipeApp.controller('VideoUserCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService', '$routeParams', '$videoService',
+	function ($rootScope, $http, $scope, $route, $location, $callService, $routeParams, $videoService) {
 
 		$scope.videos = [];
 		$callService.request(null, 'video_user', null, null, true, function (data) {
 			if (data.length > 0) {
 				for (var i in data) {
-					$scope.videos.push(data[i]);
-					$scope.videos[i].image = config.getApiAddr() + config.api.route['video_image'] + "/" + data[i]._id;
-					var dateString = moment(data[i].created).format("MM/DD/YYYY");
-					$scope.videos[i].created = dateString;
-					$scope.videos[i].size = bytesToSize(data[i].size);
+					$scope.videos.push($videoService(data[i], null));
 				}
 			} else {
 				$scope.videos = [];
@@ -32,19 +28,15 @@ mewPipeApp.controller('VideoUserCtrl', ['$rootScope', '$http', '$scope', '$route
 /**
  * Video users
  */
-mewPipeApp.controller('VideoUsersCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService', '$routeParams', '$sce',
-	function ($rootScope, $http, $scope, $route, $location, $callService, $routeParams, $sce) {
-		
+mewPipeApp.controller('VideoUsersCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService', '$routeParams', '$videoService',
+	function ($rootScope, $http, $scope, $route, $location, $callService, $routeParams, $videoService) {
+
 		$scope.videos = [];
 		if ($routeParams.param) {
 			$callService.request(null, 'video_guest', $routeParams.param, null, null, function (data) {
 				if (data.length > 0) {
 					for (var i in data) {
-						$scope.videos.push(data[i]);
-						$scope.videos[i].image = config.getApiAddr() + config.api.route['video_image'] + "/" + data[i]._id;
-						var dateString = moment(data[i].created).format("MM/DD/YYYY");
-						$scope.videos[i].created = dateString;
-						$scope.videos[i].size = bytesToSize(data[i].size);
+						$scope.videos.push($videoService(data[i], null));
 					}
 				} else {
 					$scope.videos = [];
@@ -53,5 +45,5 @@ mewPipeApp.controller('VideoUsersCtrl', ['$rootScope', '$http', '$scope', '$rout
         } else {
 			$location.path('/video/user');
 		}
-		
+
 	}]);

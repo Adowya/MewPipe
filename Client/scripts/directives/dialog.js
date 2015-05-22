@@ -7,7 +7,6 @@ mewPipeApp.directive('ngDialog', function () {
 			dlgtrigger[i].addEventListener('click', dlg.toggle.bind(dlg));
 		}
 	};
-
 });
 
 mewPipeApp.directive('ngProgressbtnn', function () {

@@ -6,11 +6,11 @@ mewPipeApp.controller('UserProfileCtrl', ['$rootScope', '$http', '$scope', '$rou
 
 		$callService.request(null, 'user_readOne', null, null, true, function (data) {
 			$scope.user = data;
+			$scope.user.created = moment(data.created).format("MMMM Do YYYY, h:mm:ss");
 		});
 
 		$scope.submitDelete = function () {
 			$callService.request("DELETE", "user_delete", null, null, true, function (data) {
-				console.log(data);
 				$location.path('/user/profile');
 			});
 		};

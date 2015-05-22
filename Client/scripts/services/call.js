@@ -1,5 +1,5 @@
 'use strict';
-var MewPipeModule = angular.module('callModule', []);
+var MewPipeModule = angular.module('ServiceModule');
 MewPipeModule.factory('$callService', [
 	'$rootScope', '$http', '$location', 'Upload',
 	function ($rootScope, $http, $location, Upload) {
@@ -11,8 +11,8 @@ MewPipeModule.factory('$callService', [
 		 */
 		var httpError = function (err, code) {
 			if (401 == code) {
-				$rootScope.logOut();
 				console.error('Error 401');
+				config.storage.delete('token');
 				$location.path("/");
 			} else if (404 == code) {
 				$location.path("/");
@@ -26,22 +26,21 @@ MewPipeModule.factory('$callService', [
 		};
 
 		var $callService = {
-			
+
 			/**
 			 * Request Factory
 			 * @method {string} HTTP method GET, POST, PUT, DELETE
 			 * @model {string} API route
-			 * @param {string} param for url (optional)
-			 * @data {object} object json for request body (optional)
-			 * @token {bool} header token (optional)
-			 * @callback {function} return object data request or true
+			 * @param {string} url param  (optional)
+			 * @data {object} body object  (optional)
+			 * @token {bool} add header token  (optional)
+			 * @callback {function} return response object or true
 			 */
 			request: function (method, model, param, data, token, callback) {
 				var url = config.getApiAddr() + config.api.route[model];
 				if (param) { url = url + "/" + param; }
 				if (!method) { method = "GET"; }
-				if (config.debug) { console.log('%cRequest ' + method + ' ' + model + ' at ' + config.api.route[model], 'color: purple'); }
-
+				
 				$http({
 					url: url,
 					method: method,
@@ -58,6 +57,10 @@ MewPipeModule.factory('$callService', [
 						} else {
 							$rootScope.app.showNotif(res.error, 'error');
 						}
+					}
+					if (config.debug) {
+						console.log('%cRequest ' + method + ' ' + model + ' at ' + config.api.route[model], 'color: purple');
+						// console.log(res.data);
 					}
 				})
 					.error(function (err, code) {
@@ -99,33 +102,6 @@ MewPipeModule.factory('$callService', [
 				})
 					.error(function (err, code) {
 					httpError(err, code);
-				});
-			},
-
-			logout: function (token, callback) {
-				var url = config.api.prefix + config.api.addr + ":" + config.api.port + config.api.route['logout'];
-				$http({
-					url: url,
-					method: "GET",
-					headers: {
-						'x-access-token': token
-					},
-					data: {
-					}
-				})
-					.success(function (res) {
-					if (typeof callback === "function") {
-						if (config.debug) { console.log(res); }
-						if (res.error) {
-							callback(res.success, res.error);
-						} else {
-							callback(res.success, res.data);
-						}
-					}
-				})
-					.error(function (err, code) {
-					callback(true, {});
-					// httpError(err, code);
 				});
 			},
 

@@ -3,74 +3,117 @@
 ***/
 
 mewPipeApp.config(['$routeProvider',
-  function($routeProvider) {
+  function ($routeProvider) {
+        
+    /**
+     * Resolve authentication before route load
+     */
+    var authenticated = ['$q', '$rootScope', '$authService', function ($q, $rootScope, $authService) {
+      
+      /**
+       * Debug mode
+       */
+      if ($rootScope.app.getToken()) {
+        $rootScope.isConnect = true;
+        return true;
+      } else {
+        $rootScope.isConnect = false;
+        return false;
+      }
 
-    $routeProvider.
+      var deferred = $q.defer();
+      $authService.isLoggedIn(false)
+        .then(function (isLoggedIn) {
+        if (isLoggedIn) {
+          console.log('authenticated resolve');
+          $rootScope.isConnect = true;
+          deferred.resolve();
+        } else {
+          console.log('authenticated reject');
+          deferred.reject('Not logged in');
+        }
+      });
+      return deferred.promise;
+        }];
 
-    when('/',{
+
+    $routeProvider
+
+    /**
+     * Public routes
+     */
+      .when('/', {
       templateUrl: 'views/index.html',
-      controller: 'MainCtrl',
-      restrict: 0
+      controller: 'MainCtrl'
     })
 
-    .when('/auth/success/:param',{
+      .when('/404', {
+      templateUrl: '404.html'
+    })
+
+      .when('/auth/success/:param', {
       templateUrl: 'views/auth/success.html',
-      controller: 'AuthCtrl',
-      restrict: 0
+      controller: 'AuthCtrl'
     })
 
-    .when('/video/upload',{
+      .when('/video/show/:param', {
+      templateUrl: 'views/video/show.html',
+      controller: 'VideoShowCtrl'
+    })
+    
+    /**
+     * Authentificated routes
+     */
+      .when('/video/upload', {
       templateUrl: 'views/video/upload.html',
       controller: 'VideoUploadCtrl',
-      restrict: 1
+      resolve: {
+        authenticated: authenticated
+      }
     })
 
-    .when('/video/download/:param', {
-      templateUrl: 'views/video/download.html', 
-      controller: 'VideoDownloadCtrl',
-      restrict: 0
-    })
-
-    .when('/video/show/:param',{
-      templateUrl: 'views/video/show.html',
-      controller: 'VideoShowCtrl',
-      restrict: 1
-    })
-
-    .when('/video/update/:param',{
+      .when('/video/update/:param', {
       templateUrl: 'views/video/update.html',
       controller: 'VideoUpdateCtrl',
-      restrict: 1
+      resolve: {
+        authenticated: authenticated
+      }
     })
 
-    .when('/video/user',{
+      .when('/video/user', {
       templateUrl: 'views/video/user.html',
       controller: 'VideoUserCtrl',
-      restrict: 1
+      resolve: {
+        authenticated: authenticated
+      }
     })
-    
-    .when('/video/users/:param',{
+
+      .when('/video/users/:param', {
       templateUrl: 'views/video/users.html',
       controller: 'VideoUsersCtrl',
-      restrict: 1
+      resolve: {
+        authenticated: authenticated
+      }
     })
-    
-    .when('/user/update',{
+
+      .when('/user/update', {
       templateUrl: 'views/user/update.html',
       controller: 'UserUpdateCtrl',
-      restrict: 1
+      resolve: {
+        authenticated: authenticated
+      }
     })
-    
-    .when('/user/profile',{
+
+      .when('/user/profile', {
       templateUrl: 'views/user/profile.html',
       controller: 'UserProfileCtrl',
-      restrict: 1
+      resolve: {
+        authenticated: authenticated
+      }
     })
 
-
-
-    .otherwise({
-      redirectTo:'/'
+      .otherwise({
+      redirectTo: '/'
     });
 
   }]);

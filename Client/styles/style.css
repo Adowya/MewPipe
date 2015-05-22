@@ -1,14 +1,14 @@
 /*!
  * MewPipe
  * https://github.com/Adowya/MewPipe/graphs/contributors
- * Version: 0.0.2 - 2015-05-20T10:20:20.385Z
+ * Version: 0.0.2 - 2015-05-22T13:07:19.090Z
  * License: MIT
  */
 
 
 @import url(../../lib/normalize.css/normalize.css);
-@import url(../../lib/angular-xeditable/dist/css/xeditable.css);
 @import url(../../lib/bootswatch-dist/css/bootstrap.css);
+@import url(../../lib/fontawesome/css/font-awesome.css);
 .dialog, .dialog__overlay { width: 100%; height: 100%; top: 0; left: 0; }
 
 .dialog { position: fixed; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; justify-content: center; pointer-events: none; z-index: 999; }
@@ -17,11 +17,15 @@
 
 .dialog--open .dialog__overlay { opacity: 1; pointer-events: auto; }
 
-.dialog__content { color: #000; width: 50%; max-width: 560px; min-width: 290px; background: #fff; padding: 4em; text-align: center; position: relative; z-index: 5; opacity: 0; }
+.dialog__content { color: #000; width: 50%; max-width: 560px; min-width: 290px; background: rgba(250, 250, 250, 0.8); padding: 4em; text-align: center; position: relative; z-index: 5; opacity: 0; }
 
 .dialog--open .dialog__content { pointer-events: auto; }
 
-.dialog h2 { margin: 0; font-weight: 400; font-size: 2em; padding: 0 0 2em; margin: 0; }
+.dialog h2 { /**
+margin: 0;
+padding: 0 0 2em;
+margin: 0;
+*/ color: black; font-weight: 400; font-size: 2em; }
 
 .dialog--close .dialog__overlay { -webkit-transition-delay: 0.25s; transition-delay: 0.25s; }
 
@@ -180,9 +184,9 @@ figure.effect-hera:hover p i:empty { -webkit-transform: translate3d(0, 0, 0); tr
 
 .progress-button .content::before, .progress-button .content::after { position: absolute; right: 20px; color: #0e7138; opacity: 0; -webkit-transition: opacity 0.3s 0.3s; transition: opacity 0.3s 0.3s; }
 
-.progress-button .content::before { content: "\e600"; /* Checkmark for success */ }
+.progress-button .content::before { content: "\f00c"; /* Checkmark for success */ font: normal normal normal 14px/1 FontAwesome; font-size: 20px; top: 80px !important; text-rendering: auto; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; transform: translate(0, 0); }
 
-.progress-button .content::after { content: "\e601"; /* Cross for error */ }
+.progress-button .content::after { content: "\f00c"; /* Cross for error */ font: normal normal normal 14px/1 FontAwesome; font-size: inherit; text-rendering: auto; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; transform: translate(0, 0); }
 
 .progress-button.state-success .content::before, .progress-button.state-error .content::after { opacity: 1; }
 
@@ -222,6 +226,8 @@ figure.effect-hera:hover p i:empty { -webkit-transform: translate3d(0, 0, 0); tr
 #index { /* Windows Video Popup  */ /* Dummy content */ /* Simple fallback */ /* if any of these are not supported, a simple fallback will be shown */ }
 #index .partial_show { padding-left: 100px; background: url(./../images/bg2.jpg) 0 0/cover !important; }
 #index .partial_show .well-bg { background-color: rgba(0, 0, 0, 0.3); }
+#index .partial_show .panel-default { background-color: rgba(0, 0, 0, 0.3); }
+#index .partial_show .panel-heading { background-color: rgba(0, 0, 0, 0.3); }
 #index .noscroll { overflow: hidden; }
 #index .grid-wrap { margin: 10px auto 0; max-width: 1090px; width: 100%; padding: 0; -webkit-perspective: 1500px; perspective: 1500px; }
 #index .grid { position: relative; -webkit-transition: all 0.5s cubic-bezier(0, 0, 0.25, 1); transition: all 0.5s cubic-bezier(0, 0, 0.25, 1); -webkit-transform-style: preserve-3d; transform-style: preserve-3d; }
@@ -260,11 +266,17 @@ figure.effect-hera:hover p i:empty { -webkit-transform: translate3d(0, 0, 0); tr
 #index .dummy-text:last-child { padding-bottom: 100px; }
 #index .no-pointerevents .content, #index .no-csstransforms3d .content, #index .no-csstransitions .content, #index .no-pointerevents .content > div, #index .no-csstransforms3d .content > div, #index .no-csstransitions .content > div, #index .no-pointerevents .close-content, #index .no-csstransforms3d .close-content, #index .no-csstransitions .close-content { opacity: 1; visibility: visible; display: none; height: auto; }
 #index .no-pointerevents .show .close-content, #index .no-csstransforms3d .show .close-content, #index .no-csstransition .show .close-content, #index .no-pointerevents div.show, #index .no-csstransforms3d div.show, #index .no-csstransitions div.show, #index .no-csstransitions .dummy-img, #index .no-csstransitions .dummy-text, #index .no-csstransforms3d .dummy-img, #index .no-csstransforms3d .dummy-text, #index .no-pointerevents .dummy-img, #index .no-pointerevents .dummy-text { display: block !important; opacity: 1; }
-@media screen and (max-width: 1000px) { #index .grid figure, #index .grid .placeholder { width: 240px; height: 212px; } }
+@media screen and (max-width: 1000px) { #index .grid figure, #index .grid .placeholder { width: 240px; height: 212px; margin: 10px auto; display: block; } }
 
 #upload .drop-box { border: dotted 3px; min-height: 20px; padding: 19px; margin-bottom: 20px; border: 1px solid #e3e3e3; border-radius: 4px; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05); width: 210px; }
 #upload .drop-box.dragover { border: 5px dashed blue; }
 #upload .tags { display: inline-block !important; margin: 5px; cursor: pointer; }
+
+.fa { padding-right: 7px; }
+
+.pl { padding-left: 7px; }
+
+.pr { padding-right: 7px; }
 
 .center { margin: 0 auto; display: block; text-align: center; }
 

@@ -1,49 +1,52 @@
 /**
 * CONFIG
 **/
-var env = "DEV";
+var env = "PROD";
 var config = {
 	currentVersion: "0.0.2",
 	debug: false,
 
 	getApiAddr: function () {
-		return config.api.prefix + config.api.addr + ":" + config.api.port + config.api.sub;
+		return config.api.prefix + config.api.addr + ":" + config.api.port;
 	},
 
 	api: {
-		prefix: "https://",
-		addr: "MYIP",
+		prefix: "http://",
+		addr: "localhost",
 		port: 8080,
 		sub: '/api',
 		route: {
-			logout: "/auth/logout",
+			auth_logout: "/auth/logout",
+			auth_login: "/auth/local",
+			auth_user : "/auth/user",
+			
+			share_create: "/api/share",
+			share_readOne: "/api/share/users",
+			share_readAll: "/api/shares",
+			share_delete: "/api/share/delete",
+			
+			user_create: "/api/users",
+			user_readOne: "/api/user", // *x-access-token
+			user_readAll: "/api/users",
+			user_update: "/api/users",
+			user_delete: "/api/users/",
+			user_findByUsername: "/api/users/findByUsername",
+			user_changePassword: "/api/users/changePassword",
+			
+			video_update: "/api/videos",
+			video_read: "/api/videos",
+			video_delete: "/api/videos", // :id *x-access-token
+			video_upload: "/api/videos/upload", // *x-access-token
+			video_guest: "/api/videos/user", // :id
+			video_user: "/api/videos/user/all",
+			video_last: "/api/videos/last",
 
-			share_create: "/share",
-			share_readOne: "/share/users",
-			share_readAll: "/shares",
-			share_delete: "/share/delete",
-
-			user_create: "/user",
-			user_readOne: "/user", // *x-access-token
-			user_readAll: "/users",
-			user_update: "/users",
-			user_delete: "/user/delete/",
-			user_findByUsername: "/users/findByUsername",
-			user_changePassword: "/user/changePassword",
-
-			video_guest: "/videos/user", // :id
-			video_update: "/videos",
-			video_last: "/videos/last",
-			video_upload: "/videos/upload", // *x-access-token
-			video_read: "/videos",
-			video_user: "/videos/user/all",
-			video_delete: "/videos", // :id *x-access-token
-			video_archive: "/videos/archive", // *x-access-token
-			video_download: "/videos/download", // :id
-			video_image: "/videos/thumbnails", // :id
-			video_play: "/videos/play",
-
-			video_browse: "/user/items"
+			video_archive: "/api/videos/archive", // *x-access-token
+			video_download: "/api/videos/download", // :id
+			video_image: "/api/videos/thumbnails", // :id
+			video_play: "/api/videos/play",
+			
+			video_browse: "/api/user/items"
 		}
 	},
 

@@ -1,8 +1,7 @@
 @import "compass";
 @import "../../lib/normalize.css/normalize.css";
-@import "../../lib/angular-xeditable/dist/css/xeditable.css";
 @import "../../lib/bootswatch-dist/css/bootstrap.css";
-//@import url("http://fonts.googleapis.com/css?family=Lato:300,400,700");
+@import "../../lib/fontawesome/css/font-awesome.css";
 
 @import "components/_var.scss";
 @import "components/dialog.scss";
@@ -17,6 +16,18 @@
 $height-of-loading-line: 0.3em;
 $animation-duration: 5s;
 $background-of-the-line: #f07719;
+
+.fa {
+	padding-right: 7px;
+}
+
+.pl {
+	padding-left: 7px;
+}
+
+.pr {
+	padding-right: 7px;
+}
 
 .center {
 	margin: 0 auto;

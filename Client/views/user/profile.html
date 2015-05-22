@@ -2,19 +2,18 @@
 	<div class="row">
 		<div class="col-sm-3">
             <!--left col-->
-			<a class="btn btn-lg btn-block btn-warning ng-click=" ng-href="#/user/update" type="button">Edit account</a></br>
+			<a class="btn btn-lg btn-block btn-warning ng-click=" ng-href="#/user/update" type="button"><i class="fa fa-pencil-square-o"></i> Edit account</a></br>
 			<ul class="list-group">
-            	<li class="list-group-item text-right"><span class="pull-left"><strong class="">Joined</strong></span> 2.13.2014</li>
-            	<li class="list-group-item text-right"><span class="pull-left"><strong class="">Email: </strong></span> {{user.email}}</li>
-            	<li class="list-group-item text-right"><span class="pull-left"><strong class="">Last seen</strong></span> Yesterday {{user.update}}</li>
-            	<li class="list-group-item text-right"><span class="pull-left"><strong class="">Real name</strong></span>{{user.firstname}}</li>
-            	<li class="list-group-item text-right"><span class="pull-left"><strong class="">Role: </strong></span>Client {{user.role}}</li>
-            </ul>
+            	<li ng-if="user.created" class="list-group-item text-right"><span class="pull-left"><strong class=""><i class="fa fa-calendar"></i> Joined</strong></span> {{user.created}}</li>
+            	<li ng-if="user.email" class="list-group-item text-right"><span class="pull-left"><strong class=""><i class="fa fa-envelope-o"></i> Email: </strong></span> {{user.email}}</li>
+            	<li ng-if="user.firstname" class="list-group-item text-right"><span class="pull-left"><strong class=""><i class="fa fa-meh-o"></i> Real name</strong></span>{{user.firstname}}</li>
+            	<li ng-if="user.birthdate" class="list-group-item text-right"><span class="pull-left"><strong class=""><i class="fa fa-birthday-cake"></i> Birthdate</strong></span>{{user.birthdate}}</li>
+            	<li class="list-group-item text-right"><span class="pull-left"><strong class=""><i class="fa fa-user"></i> Role: </strong></span>Client {{user.role}}</li>
+            	<li class="list-group-item text-right"><span class="pull-left"><strong class=""><i class="fa fa-sign-out"></i> Last seen</strong></span> Yesterday {{user.update}}</li>
+			</ul>
 
             <div class="panel panel-default">
-                <div class="panel-heading">Website <i class="fa fa-link fa-1x"></i>
-
-                </div>
+                <div class="panel-heading"><i class="fa fa-link fa-1x"></i> Website </div>
                 <div class="panel-body"><a href="#/" class="">{{user.site}}</a>
 
                 </div>
@@ -22,20 +21,22 @@
           
             <ul class="list-group">
                 <li class="list-group-item">Activity</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Shares</strong></span> 125</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Likes</strong></span> 13</li>
-                    <li class="list-group-item text-right"><span class="pull-left"><strong class="">Posts</strong></span> 37</li>
-                        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Followers</strong></span> 78</li>
+                <li class="list-group-item text-right"><span class="pull-left"><i class="fa fa-share-alt"></i> <strong class="">Shares</strong></span> 125</li>
+                <li class="list-group-item text-right"><span class="pull-left"><i class="fa fa-eye"></i> <strong class="">Views</strong></span> 13</li>
+                <li class="list-group-item text-right"><span class="pull-left"><i class="fa fa-pencil-square-o"></i> <strong class="">Posts</strong></span> 37</li>
             </ul>
 
             <div class="panel panel-default">
                 <div class="panel-heading">Social Media</div>
-                <div class="panel-body">	<i class="fa fa-facebook fa-2x"></i>  <i class="fa fa-github fa-2x"></i> 
-                    <i class="fa fa-twitter fa-2x"></i> <i class="fa fa-pinterest fa-2x"></i>  <i class="fa fa-google-plus fa-2x"></i>
-
+                <div class="panel-body">	
+					<a href="" ><i class="fa fa-facebook fa-2x"></i></a>  
+					<a href="" ><i class="fa fa-github fa-2x"></i></a> 
+                    <a href="" ><i class="fa fa-twitter fa-2x"></i></a> 
+					<a href="" ><i class="fa fa-pinterest fa-2x"></i></a>
+					<a href="" ><i class="fa fa-google-plus fa-2x"></i></a>
                 </div>
             </div>
-			<button class="btn btn-lg btn-block btn-danger" ng-click="submitDelete()" type="button">Delete account</button>
+			<button class="btn btn-lg btn-block btn-danger" data-dialog="delete" type="button" ng-dialog><i class="fa fa-trash-o"></i> Delete account</button>
         </div>
 		<div class="col-sm-9">
 			<div class="page-header">
@@ -65,6 +66,20 @@
 		</div>
 	</div>
 </section>
+<!-- dialog -->
+<div id="delete" class="dialog">
+	<div class="dialog__overlay"></div>
+	<div class="dialog__content">
+		<h2>Are you drunk ?</h2>
+		<div>
+			<button class="btn btn-default btn-danger action" data-dialog-close>No</button>
+			<button class="btn btn-default btn-success" ng-click="submitDelete()">Yes</button>
+		</div>
+	</div>
+</div>
+<!-- /dialog -->
+
+
 <script>
 	$('.nav-tabs a').click(function (e) {
 		e.preventDefault();

@@ -58,8 +58,9 @@
 					</nav>
 
 					<!-- btn auth -->
-					<a href="" ng-if="!isConnect" data-dialog="signIn" class="btn btn-info pull-right" ng-dialog>Sign In</a>
-					<a href="" ng-if="isConnect" ng-click="logOut()" class="btn btn-info pull-right">Log out</a>
+					<a href="" ng-if="!isConnect" data-dialog="signIn" class="btn btn-default pull-right" ng-dialog>Sign In</a>
+					<a href="" ng-if="!isConnect" data-dialog="signUp" class="btn btn-default pull-right" ng-dialog>Sign Up</a>
+					<a href="" ng-if="isConnect" ng-click="logOut()" class="btn btn-primary pull-right">Log out <i class="fa fa-power-off pl"></i></a>
 				</div>
 			</div>
 		</header>
@@ -84,15 +85,93 @@
 			<div class="dialog__overlay"></div>
 			<div class="dialog__content">
 				<h2>
-					<strong>Sign In</strong>, with :
-					<br>
-					<a ng-href="{{app.getApi()+'/auth/google'}}">Google</a>
-					<br>
-					<a ng-href="{{app.getApi()+'/auth/facebook'}}">Facebook</a>
-
+					<strong>Sign In</strong>, with :			
 				</h2>
+				<form class="form-horizontal">
+					<fieldset>
+						<legend></legend>
+						<div class="form-group">
+							<label for="inputEmail" class="col-lg-2 control-label">Email</label>
+							<div class="col-lg-10">
+								<input type="email" class="form-control" ng-model="user.email" id="inputEmail" placeholder="Email">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputPassword" class="col-lg-2 control-label">Password</label>
+							<div class="col-lg-10">
+								<input type="password" class="form-control" ng-model="user.password" id="inputPassword" placeholder="Password">
+								<div class="checkbox">
+									<label>
+										<input type="checkbox">Remeber me</label>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+					
+				<div class="col-md-12">
+					<div class="well-lg">
+						<a href="" ng-href="{{app.getApi()+'/auth/facebook'}}"><i class="fa fa-facebook fa-2x pr"></i></a>
+						<a href="" ng-href="{{app.getApi()+'/auth/google'}}"><i class="fa fa-google-plus fa-2x pl"></i></a>
+					</div>
+				</div>
+				
 				<div>
 					<button class="btn btn-default btn-danger action" data-dialog-close>Close</button>
+					<button class="btn btn-default btn-danger action" ng-click="submitLogin()" ng-dialog-close>Login</button>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div id="signUp" class="dialog">
+			<div class="dialog__overlay"></div>
+			<div class="dialog__content">
+				<form class="form-horizontal">
+					<fieldset>
+						<h2>
+							<strong>Sign up</strong> :
+						</h2>
+						<div class="form-group">
+							<label for="inputLastName" class="col-lg-2 control-label">Lastname</label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control input" ng-model="user.lastname" ng-value="user.lastname" id="inputLastname" placeholder="Lastname">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="inputFirstname" class="col-lg-2 control-label">Firstname</label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control input" ng-model="user.firstname" ng-value="user.firstname" id="inputFirstname"
+								placeholder="Firstname">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="inputEmail" class="col-lg-2 control-label">Email</label>
+							<div class="col-lg-10">
+								<input type="email" class="form-control" ng-model="user.email" id="inputEmail" placeholder="Email">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="inputPassword" class="col-lg-2 control-label">Password</label>
+							<div class="col-lg-10">
+								<input type="password" class="form-control" ng-model="user.password" id="inputPassword" placeholder="Password">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="inputPassword" class="col-lg-2 control-label">Birthdate</label>
+							<div class="col-lg-10">
+								<input type="date" class="form-control" ng-model="user.birthdate" id="inputBirthdate" placeholder="Birthdate">
+							</div>
+						</div>
+					</fieldset>
+				</form>
+				<div>
+					<button class="btn btn-default btn-danger action" data-dialog-close>Close</button>
+					<button class="btn btn-default btn-info action" ng-click="submitRegister()">Create</button>
 				</div>
 			</div>
 		</div>
@@ -138,14 +217,8 @@
 		} else {
 			document.write('<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"><\/script>');
 		}
-	</script>
-	<script>
 		if (!window.jQuery) {
-			if (!oldieCheck) {
-				document.write('<script src="js/libs/jquery-2.0.2.min.js"><\/script>');
-			} else {
-				document.write('<script src="js/libs/jquery-1.10.1.min.js"><\/script>');
-			}
+				document.write('<script src="lib/jquery/dist/jquery.min.js"><\/script>');
 		}
 	</script>
 
@@ -165,9 +238,14 @@
 	<script src="/scripts/application.js"></script>
 	<script src="/scripts/route.js"></script>
 	<script src="/scripts/function.js"></script>
-	<script src="/scripts/controller.js"></script>
+		
+	<!-- Services  -->
+	<script src="/scripts/services/auth.js"></script>
+	<script src="/scripts/services/call.js"></script>
+	<script src="/scripts/services/video.js"></script>
 
 	<!-- Controllers -->
+	<script src="/scripts/controller.js"></script>
 	<script src="/scripts/controllers/user/profile.js"></script>
 	<script src="/scripts/controllers/user/update.js"></script>
 	<script src="/scripts/controllers/video/upload.js"></script>
@@ -178,9 +256,6 @@
 	<!-- Directives -->
 	<script src="/scripts/directives/limit.js"></script>
 	<script src="/scripts/directives/dialog.js"></script>
-
-	<!-- Services  -->
-	<script src="/scripts/services/callService.js"></script>
 
 	<script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

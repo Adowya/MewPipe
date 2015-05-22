@@ -35,11 +35,24 @@
 }
 
 .progress-button .content::before {
-	content: "\e600"; /* Checkmark for success */
+	content: "\f00c"; /* Checkmark for success */
+	font: normal normal normal 14px/1 FontAwesome;
+	font-size: 20px;
+	top: 80px!important;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	transform: translate(0, 0);
 }
 
 .progress-button .content::after {
-	content: "\e601"; /* Cross for error */
+	content: "\f00c"; /* Cross for error */
+	font: normal normal normal 14px/1 FontAwesome;
+	font-size: inherit;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	transform: translate(0, 0);
 }
 
 .progress-button.state-success .content::before,

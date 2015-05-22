@@ -38,12 +38,12 @@
             <p>Created : {{video.created}}</p>
             <p>Rights : {{video.rights}}</p>
             <p>Size : {{video.size}}</p>
-            <p>Views : {{video.views}}</p>
+            <i class="fa fa-eye"></i> <p>Views : {{video.views}}</p>
         </div>
         <div class="col-md-4">
-            <button type="button" class="btn btn-warning" ng-click='app.video.download(video._id)'>Share link</button>
-            <button go-click="/video/update/{{video._id}}" class="btn btn-info" type="button">Edit</button>
-            <button class="btn btn-danger" ng-click="submitDelete(video._id)" type="button">Delete</button>
+            <button type="button" class="btn btn-info" ng-click='app.video.download(video._id)'><i class="fa fa-link"></i> Share link</button>
+            <button go-click="/video/update/{{video._id}}" class="btn btn-warning" type="button"><i class="fa fa-pencil-square-o"></i> Edit</button>
+            <button class="btn btn-danger" ng-click="submitDelete(video._id)" type="button"><i class="fa fa-trash-o"></i> Delete</button>
         </div>
     </section>
 </div>
