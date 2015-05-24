@@ -122,6 +122,7 @@ router.post('/videos/upload', middlewares.checkAuth, middlewares.multipart, func
 					newVideo.save(function(err, video) {
 						if(!err){
 							video.path = "/"+video._id+"."+ext;
+							video.pathNoExt = "/"+video._id;
 							var target_path = config.videoDirectory+video.path;
 							var size = req.files.file.size;
 							modules.fs.rename(tmp_path, target_path, function(err) {
@@ -137,6 +138,19 @@ router.post('/videos/upload', middlewares.checkAuth, middlewares.multipart, func
 											}else{
 												video.archived = undefined;
 												video.__v = undefined;
+												var hbjs = require("handbrake-js");
+
+												modules.hbjs.spawn({ input: config.videoDirectory+video.path, output: config.videoDirectory+video.pathNoExt+".mp4" })
+												.on("error", function(err){
+												    // invalid user input, no video found etc
+												})
+												.on("progress", function(progress){
+													console.log(
+														"Percent complete: %s, ETA: %s", 
+														progress.percentComplete, 
+														progress.eta
+														);
+												});
 												res.json({"success": true, "data": video});
 											}
 										});

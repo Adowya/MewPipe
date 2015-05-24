@@ -17,7 +17,7 @@ module.exports.controller = function(app, router, config, modules, models, middl
 	});
 
 	app.post('/auth/local', function(req, res, next) {
-		modules.passport.authenticate('local', {}, function(err, user, info) {
+		modules.auth.authenticate('local', {}, function(err, user, info) {
 			if(err || !user){ 
 				console.log(info);
 				return res.json({"success": false, "error": "Invalid email / password."});
@@ -30,10 +30,10 @@ module.exports.controller = function(app, router, config, modules, models, middl
 		})(req, res, next);
 	});
 
-	app.get('/auth/google', modules.passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile'] }));
+	app.get('/auth/google', modules.auth.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile'] }));
 
 	app.get('/auth/google/callback', function(req, res, next) {
-		modules.passport.authenticate('google', { failureRedirect: '/#/auth/error' }, function(err, user) {
+		modules.auth.authenticate('google', { failureRedirect: '/#/auth/error' }, function(err, user) {
 			if(err || !user){ 
 				return res.redirect('/#/auth/error');
 			}
@@ -45,10 +45,10 @@ module.exports.controller = function(app, router, config, modules, models, middl
 		})(req, res, next);
 	});
 
-	app.get('/auth/facebook', modules.passport.authenticate('facebook',{ authType: 'rerequest', scope: ['email','user_birthday'] }));
+	app.get('/auth/facebook', modules.auth.authenticate('facebook',{ authType: 'rerequest', scope: ['email','user_birthday'] }));
 
 	app.get('/auth/facebook/callback', function(req, res, next) {
-		modules.passport.authenticate('facebook', { failureRedirect: '/#/auth/error' }, function(err, user) {
+		modules.auth.authenticate('facebook', { failureRedirect: '/#/auth/error' }, function(err, user) {
 			if(err || !user){ 
 				return res.redirect('/#/auth/error');
 			}
