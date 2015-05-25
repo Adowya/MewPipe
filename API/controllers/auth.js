@@ -19,7 +19,6 @@ module.exports.controller = function(app, router, config, modules, models, middl
 	app.post('/auth/local', function(req, res, next) {
 		modules.auth.authenticate('local', {}, function(err, user, info) {
 			if(err || !user){ 
-				console.log(info);
 				return res.json({"success": false, "error": "Invalid email / password."});
 			}
 			req.login(user, function(err) {

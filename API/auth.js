@@ -1,7 +1,7 @@
 var config = require(__dirname+"/config.js").config;
 var bcrypt = require("bcrypt-nodejs");
 var crypto = require("crypto");
-var	passport = require('passport');
+var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
 var fbStrategy = require('passport-facebook').Strategy;
 var googleStrategy = require('passport-google-oauth').OAuth2Strategy;
@@ -143,10 +143,8 @@ passport.use(new localStrategy({
 						}
 					}
 					passport.sessions.push({userId: user._id, token: user.token, ttl: ttlToken});
-					console.log(user);
 					return done(null, user);
 				}else{
-					console.log(user);
 					return done(err, user);
 				}
 			});

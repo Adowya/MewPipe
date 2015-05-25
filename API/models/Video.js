@@ -28,6 +28,10 @@ videoSchema = mongoose.Schema({
 		enum: ['public', 'private', 'link'],
 		default: 'private'
 	},
+	ready: {
+		type: Boolean,
+		default: false
+	},
 	created: {
 		type: Date,
 		default: Date.now

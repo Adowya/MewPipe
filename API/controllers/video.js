@@ -1,6 +1,21 @@
 module.exports.controller = function(app, router, config, modules, models, middlewares, sessions){
 
 /**
+* GENERATE THUMBNAILS
+**/
+var genrateThumbnails = function(videoName, videoId){
+	var proc = modules.ffmpeg(videoName)
+	.on('end', function(files) {
+		return true;
+	})
+	.on('error', function(err) {
+		return false;
+	})
+	.takeScreenshots({ filename: videoId+'.png', size: config.thumbnailsSize, count: 1, timemarks: [ '20%' ]}, config.thumbnailsDirectory); 
+};
+
+
+/**
 * DOWNLOAD VIDEO
 **/
 router.get('/videos/download/:vid', function(req, res){
@@ -67,6 +82,9 @@ router.get('/videos/thumbnails/:vid', function(req, res){
 		if(video){
 			var thumbnailPath = config.thumbnailsDirectory+"/"+video._id+".png";
 			var thumbnailName = video.name+".png";
+			if(!modules.fs.existsSync(config.thumbnailsDirectory+"/"+video._id+".png")){
+				return res.download(config.rootDirectory+"/img/no-thumbnails.png", thumbnailName);
+			}
 			res.download(thumbnailPath, thumbnailName);
 		}else{
 			res.json({"success": false, "error": "Can't found this video."});
@@ -116,8 +134,9 @@ router.post('/videos/upload', middlewares.checkAuth, middlewares.multipart, func
 						name: req.body.name,
 						description: metadata.description,
 						size: req.files.file.size,
-						ext: ext,
-						rights: metadata.rights
+						ext: "mp4",
+						rights: metadata.rights,
+						ready: false
 					});
 					newVideo.save(function(err, video) {
 						if(!err){
@@ -130,35 +149,34 @@ router.post('/videos/upload', middlewares.checkAuth, middlewares.multipart, func
 									console.log(err);
 									res.json({"success": false, "error": err});
 								}else{
-									var proc = modules.ffmpeg(config.videoDirectory+video.path)
-									.on('end', function(files) {
-										modules.fs.unlink(tmp_path, function() {
-											if(err){
-												res.json({"success": false, "error": err});
-											}else{
-												video.archived = undefined;
-												video.__v = undefined;
-												var hbjs = require("handbrake-js");
-
-												modules.hbjs.spawn({ input: config.videoDirectory+video.path, output: config.videoDirectory+video.pathNoExt+".mp4" })
+									modules.fs.unlink(tmp_path, function() {
+										if(err){
+											res.json({"success": false, "error": err});
+										}else{
+											video.archived = undefined;
+											video.__v = undefined;
+											if(ext != "mp4"){
+												modules.hbjs.spawn({ input: config.videoDirectory+video.path, output: config.videoDirectory+video.pathNoExt+".mp4", preset: "Normal"})
 												.on("error", function(err){
-												    // invalid user input, no video found etc
+													console.log(err);
+													res.json({"success": false, "error": "Can't convert video."});
 												})
 												.on("progress", function(progress){
-													console.log(
-														"Percent complete: %s, ETA: %s", 
-														progress.percentComplete, 
-														progress.eta
-														);
+													console.log("Video converting: %s %, ETA: %s", progress.percentComplete, progress.eta);
+													if(progress.percentComplete == 100){
+														models.Video.update({_id: video._id}, {ready: true}, function(){return});
+														modules.fs.unlink(config.videoDirectory+video.path, function(){return});
+														genrateThumbnails(config.videoDirectory+video.pathNoExt+".mp4", video._id);
+													}
 												});
-												res.json({"success": true, "data": video});
+											}else{
+												models.Video.update({_id: video._id}, {ready: true}, function(){return});
+												video.ready = true;
+												genrateThumbnails(config.videoDirectory+video.pathNoExt+".mp4", video._id);
 											}
-										});
-									})
-									.on('error', function(err) {
-										res.json({"success": false, "error": "An error occured (can not generate video thumbnails)."});
-									})
-									.takeScreenshots({ filename: video._id+'.png', size: config.thumbnailsSize, count: 1, timemarks: [ '20%' ]}, config.thumbnailsDirectory);  
+											res.json({"success": true, "data": video});
+										}
+									}); 
 								}
 							});
 						}else{
