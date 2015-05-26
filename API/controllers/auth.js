@@ -3,7 +3,7 @@ module.exports.controller = function(app, router, config, modules, models, middl
 	app.get('/auth/user', middlewares.checkAuth, function(req, res, next) {
 		var id = req.user._id;
 		models.User.findOne({_id: id})
-		.select("_id firstname lastname email bithdate")
+		.select("_id firstname lastname email birthdate")
 		.exec(function(err, user){
 			if(err){
 				if(config.debug == true){
@@ -39,7 +39,7 @@ module.exports.controller = function(app, router, config, modules, models, middl
 			req.login(user, function(err) {
 				if(err){ return next(err); }
  				//res.cookie('token', user.token, {expires: new Date(Date.now() + config.ttlToken*1000)});
- 				return res.redirect(req.headers.referer+'#/auth/success/'+user.token);
+ 				return res.redirect('/#/auth/success/'+user.token);
  			});
 		})(req, res, next);
 	});
@@ -54,7 +54,7 @@ module.exports.controller = function(app, router, config, modules, models, middl
 			req.login(user, function(err) {
 				if(err){ return next(err); }
  				//res.cookie('token', user.token, {expires: new Date(Date.now() + config.ttlToken*1000)});
- 				return res.redirect(req.headers.referer+'#/auth/success/'+user.token);
+ 				return res.redirect('/#/auth/success/'+user.token);
  			});
 		})(req, res, next);
 	});

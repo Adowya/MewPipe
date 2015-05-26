@@ -1,5 +1,27 @@
 module.exports.controller = function(app, router, config, modules, models, middlewares, sessions){
 
+var hbjsPercent = {};
+
+var convertVideo = function(videoPath, videoExt, videoId){
+	modules.hbjs.spawn({ input: videoPath+"."+videoExt, output: videoPath+".mp4", preset: "Normal"})
+	.on("error", function(err){
+		console.log(err);
+		res.json({"success": false, "error": "Can't convert video."});
+	})
+	.on("progress", function(progress){
+		console.log("Video converting: %s %, ETA: %s", progress.percentComplete, progress.eta);
+		hbjsPercent[videoId] = {
+			percent: progress.percentComplete,
+			eta: progress.eta
+		};
+		if(progress.percentComplete == 100){
+			hbjsPercent[videoId] = undefined;
+			models.Video.update({_id: videoId}, {ready: true}, function(){return});
+			modules.fs.unlink(videoPath+"."+videoExt, function(){return});
+			genrateThumbnails(videoPath+".mp4", videoId);
+		}
+	});
+};
 /**
 * GENERATE THUMBNAILS
 **/
@@ -14,6 +36,15 @@ var genrateThumbnails = function(videoName, videoId){
 	.takeScreenshots({ filename: videoId+'.png', size: config.thumbnailsSize, count: 1, timemarks: [ '20%' ]}, config.thumbnailsDirectory); 
 };
 
+/**
+* GET CONVERT PERCENT
+**/
+router.get('/videos/getConvertPercent/:vid', function(req, res){
+	if(hbjsPercent[req.params.vid]){
+		return res.json({"success": true, "data": hbjsPercent[req.params.vid]});
+	}
+	return res.json({"success": true, "data": {percent: 100, eta: "00h00m00s"}});
+});
 
 /**
 * DOWNLOAD VIDEO
@@ -156,19 +187,7 @@ router.post('/videos/upload', middlewares.checkAuth, middlewares.multipart, func
 											video.archived = undefined;
 											video.__v = undefined;
 											if(ext != "mp4"){
-												modules.hbjs.spawn({ input: config.videoDirectory+video.path, output: config.videoDirectory+video.pathNoExt+".mp4", preset: "Normal"})
-												.on("error", function(err){
-													console.log(err);
-													res.json({"success": false, "error": "Can't convert video."});
-												})
-												.on("progress", function(progress){
-													console.log("Video converting: %s %, ETA: %s", progress.percentComplete, progress.eta);
-													if(progress.percentComplete == 100){
-														models.Video.update({_id: video._id}, {ready: true}, function(){return});
-														modules.fs.unlink(config.videoDirectory+video.path, function(){return});
-														genrateThumbnails(config.videoDirectory+video.pathNoExt+".mp4", video._id);
-													}
-												});
+												convertVideo(config.videoDirectory+video.pathNoExt, ext, video._id)
 											}else{
 												models.Video.update({_id: video._id}, {ready: true}, function(){return});
 												video.ready = true;

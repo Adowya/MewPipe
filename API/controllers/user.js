@@ -7,7 +7,7 @@
 **/
 router.get('/users', function(req, res){
 	models.User.find()
-	.select("_id firstname lastname email bithdate")
+	.select("_id firstname lastname email birthdate")
 	.exec(function(err, users){
 		if(err){
 			if(config.debug == true){
@@ -27,7 +27,7 @@ router.get('/users', function(req, res){
 // 	if(req.body.username){
 // 		var regExSearch = new RegExp(req.body.username, 'i');
 // 		models.User.find()
-// 		.select("firstname lastname email bithdate")
+// 		.select("firstname lastname email birthdate")
 // 		.or([{'username': {$regex: regExSearch}}])
 // 		.exec(function(err, users){
 // 			if(err){
@@ -50,7 +50,7 @@ router.get('/users', function(req, res){
 router.get("/user", middlewares.checkAuth, function(req, res){
 	var id = req.user._id;
 	models.User.findOne({_id: id})
-	.select("_id firstname lastname email bithdate created")
+	.select("_id firstname lastname email birthdate created")
 	.exec(function(err, user){
 		if(err){
 			if(config.debug == true){
