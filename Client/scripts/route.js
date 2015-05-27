@@ -9,36 +9,23 @@ mewPipeApp.config(['$routeProvider',
      * Resolve authentication before route load
      */
     var authenticated = ['$q', '$rootScope', '$authService', function ($q, $rootScope, $authService) {
-      
-      /**
-       * Debug mode
-       */
-      if ($rootScope.app.getToken()) {
-        $rootScope.isConnect = true;
-        return true;
-      } else {
-        $rootScope.isConnect = false;
-        return false;
-      }
 
       var deferred = $q.defer();
-      $authService.isLoggedIn(false)
+
+      $authService.isLoggedIn()
         .then(function (isLoggedIn) {
         if (isLoggedIn) {
-          console.log('authenticated resolve');
           $rootScope.isConnect = true;
           deferred.resolve();
         } else {
-          console.log('authenticated reject');
-          deferred.reject('Not logged in');
+          $rootScope.isConnect = false;
+          deferred.reject();
         }
       });
       return deferred.promise;
         }];
 
-
     $routeProvider
-
     /**
      * Public routes
      */

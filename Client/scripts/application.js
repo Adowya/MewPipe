@@ -24,10 +24,14 @@ mewPipeApp.run([
 	function ($rootScope, $http, $location, $route, $cookies, $authService, $callService) {
 
 		$rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+			if ($rootScope.app.getToken()) {
+				$rootScope.isConnect = true;
+			} else {
+				$rootScope.isConnect = false;
+			}
 		});
 
 		$rootScope.$on('$routeChangeError', function (event, current, previous) {
-			console.log('$routeChangeError');
 			$location.path("/");
 			$rootScope.app.showNotif('You don\'t allow.', 'error');
 		});
@@ -44,21 +48,18 @@ mewPipeApp.run([
 		 */
 		$rootScope.user = {};
 		$rootScope.submitLogin = function () {
-			$callService.request('POST', 'auth_login', null, $rootScope.user, null, function (res) {
-				var somedialog = document.getElementById('signIn');
-				var dlg = new DialogFx(somedialog);
-				dlg.toggle();
-				dlg.toggle(dlg);
-				localStorage.setItem('token', res.token);
-				$location.path('/user/profile');			
-			});
+			var somedialog = document.getElementById('signIn');
+			var dlg = new DialogFx(somedialog);
+			dlg.toggle();
+			dlg.toggle(dlg);
+			$authService.login($rootScope.user);
 			$rootScope.user = {};
 		};
 			 
 		 /**
 		  * Scope register
 		  */
-		  $rootScope.submitRegister = function() {		
+		  $rootScope.submitRegister = function() {	
 			  $callService.request('POST', 'user_create', null, $rootScope.user, null, function (res) {
 				  var somedialog = document.getElementById('signUp');
 				  var dlg = new DialogFx(somedialog);
@@ -76,7 +77,7 @@ mewPipeApp.run([
 			 * Return Api address
 			 */
 			getApi: function () {
-				return config.getApiAddr()
+				return config.getApiAddr();
 			},
 			
 			/**
@@ -113,7 +114,7 @@ mewPipeApp.run([
 					});
 					// show the notification
 					notification.show();
-				}, 1200);
+				}, 800);
 			}
 		};
 

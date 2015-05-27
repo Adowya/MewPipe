@@ -43,6 +43,13 @@
 		<header class="page-header" id="banner">
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12">
+					<!-- btn auth -->
+					<div style="position: absolute;right: 0;" ng-show="!isConnect">
+						<a href="" ng-if="!isConnect" data-dialog="signIn" class="btn btn-default pull-right" ng-dialog>Sign In</a>
+						<a href="" ng-if="!isConnect" data-dialog="signUp" class="btn btn-default pull-right" ng-dialog>Sign Up</a>
+					</div>
+					<a href="" style="position: absolute;right: 0;" ng-show="isConnect" ng-if="isConnect" ng-click="logOut()" class="btn btn-primary pull-right">Log out <i class="fa fa-power-off pl"></i></a>
+						
 					<a href="#/">
 						<img class="center" src="images/logo.png">
 					</a>
@@ -56,11 +63,6 @@
 						<a href="#/video/upload"><span data-hover="Upload">Upload</span></a>
 						<a href="#/user/profile"><span data-hover="Profile">Profile</span></a>
 					</nav>
-
-					<!-- btn auth -->
-					<a href="" ng-if="!isConnect" data-dialog="signIn" class="btn btn-default pull-right" ng-dialog>Sign In</a>
-					<a href="" ng-if="!isConnect" data-dialog="signUp" class="btn btn-default pull-right" ng-dialog>Sign Up</a>
-					<a href="" ng-if="isConnect" ng-click="logOut()" class="btn btn-primary pull-right">Log out <i class="fa fa-power-off pl"></i></a>
 				</div>
 			</div>
 		</header>
@@ -87,7 +89,7 @@
 				<h2>
 					<strong>Sign In</strong>, with :			
 				</h2>
-				<form class="form-horizontal">
+				<form class="form-horizontal" ng-submit="submitLogin()">
 					<fieldset>
 						<legend></legend>
 						<div class="form-group">
@@ -107,8 +109,7 @@
 							</div>
 						</div>
 					</fieldset>
-				</form>
-					
+
 				<div class="col-md-12">
 					<div class="well-lg">
 						<a href="" ng-href="{{app.getApi()+'/auth/facebook'}}"><i class="fa fa-facebook fa-2x pr"></i></a>
@@ -118,8 +119,9 @@
 				
 				<div>
 					<button class="btn btn-default btn-danger action" data-dialog-close>Close</button>
-					<button class="btn btn-default btn-danger action" ng-click="submitLogin()" ng-dialog-close>Login</button>
+					<button class="btn btn-default btn-danger action" type="submit" id="submit" value="Submit" ng-dialog-close>Login</button>
 				</div>
+				</form>
 			</div>
 		</div>
 		
@@ -127,7 +129,7 @@
 		<div id="signUp" class="dialog">
 			<div class="dialog__overlay"></div>
 			<div class="dialog__content">
-				<form class="form-horizontal">
+				<form class="form-horizontal" ng-submit="submitRegister()">
 					<fieldset>
 						<h2>
 							<strong>Sign up</strong> :
@@ -168,11 +170,11 @@
 							</div>
 						</div>
 					</fieldset>
-				</form>
 				<div>
 					<button class="btn btn-default btn-danger action" data-dialog-close>Close</button>
-					<button class="btn btn-default btn-info action" ng-click="submitRegister()">Create</button>
+					<button class="btn btn-default btn-info action" type="submit" id="submit" value="Submit">Create</button>
 				</div>
+				</form>
 			</div>
 		</div>
 		<!-- /dialog -->

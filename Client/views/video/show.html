@@ -4,25 +4,30 @@
     </div>
     <div class="col-md-8">
         <h4><a ng-href="#/video/users/{{user._id}}">{{user.firstname}} {{user.lastname}}</a></h4>
-        <videogular vg-theme="video.theme">
-            <vg-media vg-src="video.sources"></vg-media>
-            <vg-controls>
-                <vg-play-pause-button></vg-play-pause-button>
-                <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
-                <vg-scrub-bar>
-                    <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-                </vg-scrub-bar>
-                <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
-                <vg-time-display>{{ totalTime | date:'mm:ss' }}</vg-time-display>
-                <vg-volume>
-                    <vg-mute-button></vg-mute-button>
-                    <vg-volume-bar></vg-volume-bar>
-                </vg-volume>
-                <vg-fullscreen-button></vg-fullscreen-button>
-            </vg-controls>
-            <vg-overlay-play></vg-overlay-play>
-            <vg-poster vg-url='video.plugins.poster'></vg-poster>
-        </videogular>
+        <div class="" ng-if="video.ready">
+            <videogular vg-theme="video.theme">
+                <vg-media vg-src="video.sources"></vg-media>
+                <vg-controls>
+                    <vg-play-pause-button></vg-play-pause-button>
+                    <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+                    <vg-scrub-bar>
+                        <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                    </vg-scrub-bar>
+                    <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
+                    <vg-time-display>{{ totalTime | date:'mm:ss' }}</vg-time-display>
+                    <vg-volume>
+                        <vg-mute-button></vg-mute-button>
+                        <vg-volume-bar></vg-volume-bar>
+                    </vg-volume>
+                    <vg-fullscreen-button></vg-fullscreen-button>
+                </vg-controls>
+                <vg-overlay-play></vg-overlay-play>
+                <vg-poster vg-url='video.plugins.poster'></vg-poster>
+            </videogular>
+        </div>
+        <div ng-if="!video.ready">
+            <div class="image" style="background: url('{{video.image}}');"></div>
+        </div>
         <div class="well well-lg">
             <button type="button" class="btn btn-warning pull-right" data-dialog="share" ng-dialog>Share link</button>
             <ul>

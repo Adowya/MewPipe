@@ -36,6 +36,7 @@ MewPipeModule.factory('$videoService', [
 				size: bytesToSize(data.size),
 				views: data.views,
 				rights: data.rights,
+				ready : data.ready,
 				sources: action,
 				plugins: {
 					poster: ''

@@ -7,50 +7,52 @@ MewPipeModule.factory('$authService', [
 		var $authService = {
 			userId: null,
 			isLoggedIn: isLoggedIn,
-			getUserName: getUserName,
+			login: login,
 			logout: logout
 		};
 
 		return $authService;
 
 		function isLoggedIn(redirectToLogin) {
-			return $callService.request(null, 'auth_user', null, null, true, function (res) {
-				$authService.userId = res._user._id;
-				if (res._user._id === null) {
-					if (redirectToLogin !== false) {
-						return $location.path("/");
+			return $http.get(config.getApiAddr() + config.api.route['auth_user'],
+				{
+					headers: {
+						'x-access-token': $rootScope.app.getToken()
 					}
-					return false;
-				}
-				return {
-					'userId': $authService.userId,
-				};
-			});
+				})
+				.then(
+				function (res) {
+					$authService.userId = res.data.data._id;
+					return {
+						'userId': $authService.userId
+					};
+				},
+				function (error) {
+				})
 		}
 
-		function getUserName() {
-			if ($authService.userName === undefined) {
-				return $authService.isLoggedIn();
+		function login(user) {
+			if ($rootScope.app.getToken()) {
+				$rootScope.app.showNotif('You don\'t allow.', 'error');
 			} else {
-				return $q.when({
-					'userId': $authService.userId
+				$callService.request('POST', 'auth_login', null, user, null, function (res) {
+					localStorage.setItem('token', res.token);
+					$location.path('/user/profile');
 				});
 			}
-		}
+		};
 
 		function logout() {
 			if ($rootScope.app.getToken()) {
 				$callService.request(null, 'auth_logout', null, null, true, function (data) {
 					if (data) {
+						$rootScope.isConnect = false;
 						config.storage.delete('token');
 						$location.path('/');
 					} else {
 						$rootScope.app.showNotif(data, 'notice');
 					}
 				});
-				// TODO error callback
-				//$cookies.token = undefined;
-				$location.path('/');
 			} else {
 				$rootScope.app.showNotif('You don\'t allow.', 'error');
 			}
