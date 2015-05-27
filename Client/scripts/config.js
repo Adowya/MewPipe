@@ -1,7 +1,7 @@
 /**
 * CONFIG
 **/
-var env = "PROD";
+var env = "DEV";
 var config = {
 	currentVersion: "0.0.2",
 	debug: false,

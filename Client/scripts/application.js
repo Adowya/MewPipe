@@ -60,7 +60,7 @@ mewPipeApp.run([
 		  * Scope register
 		  */
 		  $rootScope.submitRegister = function() {	
-			  $callService.request('POST', 'user_create', null, $rootScope.user, null, function (res) {
+			  $callService.request('POST', 'user_create', null, $rootScope.user, null).then(function (data) {
 				  var somedialog = document.getElementById('signUp');
 				  var dlg = new DialogFx(somedialog);
 				  dlg.toggle();

@@ -34,14 +34,14 @@ MewPipeModule.factory('$callService', [
 			 * @param {string} url param  (optional)
 			 * @data {object} body object  (optional)
 			 * @token {bool} add header token  (optional)
-			 * @callback {function} return response object or true
+			 * @Return {promise} return response object or true or catch error
 			 */
-			request: function (method, model, param, data, token, callback) {
+			request: function (method, model, param, data, token) {
 				var url = config.getApiAddr() + config.api.route[model];
 				if (param) { url = url + "/" + param; }
 				if (!method) { method = "GET"; }
 				
-				$http({
+				return $http({
 					url: url,
 					method: method,
 					headers: {
@@ -49,23 +49,26 @@ MewPipeModule.factory('$callService', [
 						// 'Authorization': 'Basic ' + login_base64
 					},
 					data: data
-				})
-					.success(function (res) {
-					if (typeof callback === "function") {
-						if (res.success) {
-							(res.data) ? callback(res.data) : callback(true);
-						} else {
-							$rootScope.app.showNotif(res.error, 'error');
+				}).then(
+					function (res) {
+						if (config.debug) {
+							console.log('%cRequest ' + method + ' ' + model + ' at ' + config.api.route[model], 'color: purple');
+							console.log(res);
 						}
-					}
-					if (config.debug) {
-						console.log('%cRequest ' + method + ' ' + model + ' at ' + config.api.route[model], 'color: purple');
-						// console.log(res.data);
-					}
-				})
-					.error(function (err, code) {
-					httpError(err, code);
-				});
+						if (res.data.success) {
+							if (res.data.data) {
+								return res.data.data;
+							} else {
+								return true;
+							}
+						} else {
+							return $rootScope.app.showNotif(res.data.error, 'error');
+						}
+					},
+					function (error) {
+						console.log(error);
+						return httpError(error.err, error.code);
+					});
 			},
 
 			upload: function (data, callback) {

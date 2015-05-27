@@ -35,8 +35,8 @@ MewPipeModule.factory('$authService', [
 			if ($rootScope.app.getToken()) {
 				$rootScope.app.showNotif('You don\'t allow.', 'error');
 			} else {
-				$callService.request('POST', 'auth_login', null, user, null, function (res) {
-					localStorage.setItem('token', res.token);
+				$callService.request('POST', 'auth_login', null, user, null).then(function (data) {
+					localStorage.setItem('token', data.token);
 					$location.path('/user/profile');
 				});
 			}
@@ -44,7 +44,7 @@ MewPipeModule.factory('$authService', [
 
 		function logout() {
 			if ($rootScope.app.getToken()) {
-				$callService.request(null, 'auth_logout', null, null, true, function (data) {
+				$callService.request(null, 'auth_logout', null, null, true).then(function (data) {
 					if (data) {
 						$rootScope.isConnect = false;
 						config.storage.delete('token');

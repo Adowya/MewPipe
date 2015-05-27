@@ -27,7 +27,7 @@
 				</div>
 			</div>
 			<div class="col-md-6">
-				<div class="panel panel-primary" ng-repeat="file in files">
+				<div class="panel panel-primary" ng-repeat="file in files" ng-init="file.rights = 'public' ">
 					<div class="panel-heading" >
 						<h3 class="panel-title">Video informations</h3>
 					</div>
@@ -35,9 +35,6 @@
 						<div class="form-group">
 							<label for="inputName" class="col-lg-2 control-label">Title</label>
 							<input type="text" class="form-control input-lg" ng-value="file.name" id="inputTitle">
-								
-<!--							<label class="control-label" for="focusedInput">Title</label>
-							<input class="form-control" id="focusedInput" ng-model="file.name" type="text">-->
 						</div>
 						<div class="form-group">
 							<label for="textArea" class="col-lg-2 control-label">Description</label>
@@ -51,7 +48,7 @@
 							<div class="col-lg-10">
 								<div class="radio">
 									<label>
-										<input type="radio" name="optionsRadios{{$index}}" ng-model="file.rights" value="public">Public</label>
+										<input type="radio" name="optionsRadios{{$index}}" ng-model="file.rights" value="public" checked>Public</label>
 								</div>
 								<div class="radio">
 									<label>
@@ -71,17 +68,3 @@
 		</div>
 	</div>
 </section>
-<script>
-	$(window).scroll(function(){
-		if($(window).scrollTop() > 400){
-		    //begin to scroll
-		    $(".panel-upload").css("position","fixed");
-		    $(".panel-upload").css("top",0).addClass('col-md-5');
-		}
-		else{
-		    //lock it back into place
-		    $(".panel-upload").css("position","relative").removeClass('col-md-5');
-		}
-
-	});
-</script>
