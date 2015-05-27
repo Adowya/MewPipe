@@ -48,12 +48,15 @@ mewPipeApp.run([
 		 */
 		$rootScope.user = {};
 		$rootScope.submitLogin = function () {
-			var somedialog = document.getElementById('signIn');
-			var dlg = new DialogFx(somedialog);
-			dlg.toggle();
-			dlg.toggle(dlg);
-			$authService.login($rootScope.user);
-			$rootScope.user = {};
+			$authService.login($rootScope.user).then(function(res){
+				if(res){
+					var somedialog = document.getElementById('signIn');
+					var dlg = new DialogFx(somedialog);
+					dlg.toggle();
+					dlg.toggle(dlg);
+					$rootScope.user = {};
+				}
+			});
 		};
 			 
 		 /**
@@ -61,13 +64,15 @@ mewPipeApp.run([
 		  */
 		  $rootScope.submitRegister = function() {	
 			  $callService.request('POST', 'user_create', null, $rootScope.user, null).then(function (data) {
-				  var somedialog = document.getElementById('signUp');
-				  var dlg = new DialogFx(somedialog);
-				  dlg.toggle();
-				  dlg.toggle(dlg);
-				  $route.reload();
+				  if (data) {
+					  var somedialog = document.getElementById('signUp');
+					  var dlg = new DialogFx(somedialog);
+					  dlg.toggle();
+					  dlg.toggle(dlg);
+					  $route.reload();
+					  $rootScope.user = {};
+				  }
 			  });
-			  $rootScope.user = {};
 		};
 	
 		var flag = false;

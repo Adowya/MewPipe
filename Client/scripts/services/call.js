@@ -66,8 +66,7 @@ MewPipeModule.factory('$callService', [
 						}
 					},
 					function (error) {
-						console.log(error);
-						return httpError(error.err, error.code);
+						return httpError(error.statusText, error.status);
 					});
 			},
 

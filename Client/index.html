@@ -116,12 +116,11 @@
 						<a href="" ng-href="{{app.getApi()+'/auth/google'}}"><i class="fa fa-google-plus fa-2x pl"></i></a>
 					</div>
 				</div>
-				
+				</form>
 				<div>
 					<button class="btn btn-default btn-danger action" data-dialog-close>Close</button>
-					<button class="btn btn-default btn-danger action" type="submit" id="submit" value="Submit" ng-dialog-close>Login</button>
+					<button class="btn btn-default btn-danger action" ng-click="submitLogin()" type="submit" id="submit" value="Submit">Login</button>
 				</div>
-				</form>
 			</div>
 		</div>
 		
@@ -170,11 +169,11 @@
 							</div>
 						</div>
 					</fieldset>
+				</form>
 				<div>
 					<button class="btn btn-default btn-danger action" data-dialog-close>Close</button>
-					<button class="btn btn-default btn-info action" type="submit" id="submit" value="Submit">Create</button>
+					<button class="btn btn-default btn-info action" ng-click="submitRegister()" type="submit" id="submit" value="Submit">Create</button>
 				</div>
-				</form>
 			</div>
 		</div>
 		<!-- /dialog -->

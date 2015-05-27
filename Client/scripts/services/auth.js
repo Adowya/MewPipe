@@ -33,11 +33,16 @@ MewPipeModule.factory('$authService', [
 
 		function login(user) {
 			if ($rootScope.app.getToken()) {
-				$rootScope.app.showNotif('You don\'t allow.', 'error');
+				return $rootScope.app.showNotif('You don\'t allow.', 'error');
 			} else {
-				$callService.request('POST', 'auth_login', null, user, null).then(function (data) {
-					localStorage.setItem('token', data.token);
-					$location.path('/user/profile');
+				return $callService.request('POST', 'auth_login', null, user, null).then(function (data) {
+					if (data) {
+						localStorage.setItem('token', data.token);
+						$location.path('/user/profile');
+						return true;
+					}else {
+						return false;
+					}
 				});
 			}
 		};
