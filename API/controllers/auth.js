@@ -59,7 +59,7 @@ module.exports.controller = function(app, router, config, modules, models, middl
 		})(req, res, next);
 	});
 
-	app.get('/auth/supinfo', modules.auth.authenticate('supinfo',{ failureRedirect: '/erroe' }));
+	app.post('/auth/supinfo', modules.auth.authenticate('supinfo',{ failureRedirect: '/#/auth/error' }));
 
 	app.get('/auth/supinfo/callback', function(req, res, next) {
 		modules.auth.authenticate('supinfo', { failureRedirect: '/#/auth/error' }, function(err, user) {

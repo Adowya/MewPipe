@@ -76,16 +76,48 @@ passport.use(new supinfoStrategy({
     profile: true
   },
   function(identifier, profile, done) {
-    // asynchronous verification, for effect...
     process.nextTick(function () {
-      console.log(identifier);
-      console.log(profile);
-      // To keep the example simple, the user's SUPINFO profile is returned to
-      // represent the logged-in user. In a typical application, you would want
-      // to associate the SUPINFO account with a user record in your database,
-      // and return that user instead.
-      profile.identifier = identifier;
-      return done(null, profile);
+      crypto.randomBytes(48, function(err, randomKey) {
+			var key = randomKey.toString("hex");
+			User.findOne({accessToken: profile.boosterId})
+			.select("firstname lastname email accessToken")
+			.lean()
+			.exec(function(err, user){
+				if(user){
+					user.token = key;
+					var ttlToken = Math.round(+new Date() / 1000) + config.ttlToken;
+					for(var i=0; i<passport.sessions.length; i++){
+						if(String(passport.sessions[i].userId) == String(user._id)){
+							passport.sessions.splice(i, 1);
+						}
+					}
+					passport.sessions.push({userId: user._id, token: user.token, ttl: ttlToken});
+					return done(null, user);
+				}else{
+					var user = {
+						firstname: profile.firstname,
+						lastname: profile.lastname,
+						email: profile.email,
+						accessToken: profile.boosterId
+					};
+					var newUser = new User(user);
+					user.token = key;
+					var ttlToken = Math.round(+new Date() / 1000) + config.ttlToken;
+					newUser.save(function(err, newUser){
+						if(err){
+							console.log(err);
+						}
+						for(var i=0; i<passport.sessions.length; i++){
+							if(String(passport.sessions[i].userId) == String(newUser._id)){
+								passport.sessions.splice(i, 1);
+							}
+						}
+						passport.sessions.push({userId: newUser._id, token: user.token, ttl: ttlToken});
+						return done(err, user);
+					});
+				}
+			});
+		});
     });
   }
 ));
@@ -172,5 +204,16 @@ passport.use(new localStrategy({
 		});
 	});
 }));
+
+supinfoStrategy.prototype._parseProfileExt = function(params) {
+  var profile = {};
+  var identifier = params.claimedIdentifier.split('/');
+  var fullName = params.fullname.split(' ');
+  profile.boosterId = identifier[identifier.length - 1];
+  profile.firstname = fullName[0];
+  profile.lastname = fullName[fullName.length - 1];
+  profile.email = profile.boosterId+"@supinfo.com";
+  return profile;
+};
 
 module.exports = passport;
