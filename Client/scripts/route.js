@@ -48,6 +48,14 @@ mewPipeApp.config(['$routeProvider',
       controller: 'VideoShowCtrl'
     })
     
+    
+      .when('/video/search/:param', {
+      templateUrl: 'views/video/search.html',
+      controller: 'VideoSearchCtrl'
+    })
+    
+    
+    
     /**
      * Authentificated routes
      */

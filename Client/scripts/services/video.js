@@ -1,8 +1,8 @@
 'use strict';
 var MewPipeModule = angular.module('ServiceModule');
 MewPipeModule.factory('$videoService', [
-	'$rootScope', '$q', '$sce',
-	function ($rootScope, $q, $sce) {
+	'$rootScope', '$q', '$location', '$sce',
+	function ($rootScope, $q, $location, $sce) {
 
 		/**
 		 * Generique object videogular with custom functions 
@@ -26,7 +26,7 @@ MewPipeModule.factory('$videoService', [
 					type: "video/" + data.ext
 				}];
 			}
-
+			var url = $location.absUrl();
 			return {
 				_id: data._id,
 				_user: data._user,
@@ -44,9 +44,7 @@ MewPipeModule.factory('$videoService', [
 				theme: "lib/videogular-themes-default/videogular.css",
 				image: config.getApiAddr() + config.api.route['video_image'] + "/" + data._id,
 
-				link: function (id) {
-
-				},
+				link: url,
 				stop: function () {
 
 				},

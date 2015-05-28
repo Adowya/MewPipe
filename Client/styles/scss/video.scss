@@ -1,5 +1,13 @@
 #show {
-	
+	dialog__content {
+		span {
+			position: relative;
+		 	display: block;
+		  	width: 100%;
+		  	overflow: hidden;
+		  	height: 50px;
+		}
+	}
 }
 
 #update {

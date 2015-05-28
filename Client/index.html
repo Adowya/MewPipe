@@ -54,15 +54,20 @@
 						<img class="center" src="images/logo.png">
 					</a>
 					<p class="lead center">We must do what nobody <a href="#/">doing for you</a></p>
-
-					<nav class="cl-effect-5 center" ng-if="!isConnect">
-					</nav>
 					<nav class="cl-effect-5 center" ng-if="isConnect">
 						<a href="#/"><span data-hover="Home">Home</span></a>
 						<a href="#/video/user/"><span data-hover="My&nbsp;video">My video</span></a>
 						<a href="#/video/upload"><span data-hover="Upload">Upload</span></a>
 						<a href="#/user/profile"><span data-hover="Profile">Profile</span></a>
 					</nav>
+				</div>
+				<div class="col-md-12" style="padding: 20px">
+					<form class="search" ng-submit="submitSearch()" role="search">
+						<div class="input-group">
+							<input type="text" class="form-control" ng-model="search.q" placeholder="Search">
+							<span class="btn btn-default input-group-addon" ng-click="submitSearch()">Search</span>
+						</div>
+					</form>
 				</div>
 			</div>
 		</header>
@@ -112,15 +117,17 @@
 
 				<div class="col-md-12">
 					<div class="well-lg">
-						<a href="" ng-href="{{app.getApi()+'/auth/facebook'}}"><i class="fa fa-facebook fa-2x pr"></i></a>
-						<a href="" ng-href="{{app.getApi()+'/auth/google'}}"><i class="fa fa-google-plus fa-2x pl"></i></a>
+						<a ng-href="{{app.getApi()+'/auth/facebook'}}"><i class="fa fa-facebook fa-2x pr"></i></a>
+						<a ng-href="{{app.getApi()+'/auth/google'}}"><i class="fa fa-google-plus fa-2x pl"></i></a>
+						<a href="" ng-click="submitSupinfo()" ><img src="images/logo-sup.png"></a>
 					</div>
 				</div>
-				</form>
 				<div>
 					<button class="btn btn-default btn-danger action" data-dialog-close>Close</button>
 					<button class="btn btn-default btn-danger action" ng-click="submitLogin()" type="submit" id="submit" value="Submit">Login</button>
 				</div>
+				</form>
+				
 			</div>
 		</div>
 		
@@ -250,9 +257,12 @@
 	<script src="/scripts/controllers/user/profile.js"></script>
 	<script src="/scripts/controllers/user/update.js"></script>
 	<script src="/scripts/controllers/video/upload.js"></script>
+	<script src="/scripts/controllers/video/search.js"></script>
 	<script src="/scripts/controllers/video/show.js"></script>
 	<script src="/scripts/controllers/video/update.js"></script>
 	<script src="/scripts/controllers/video/user.js"></script>
+		
+		
 
 	<!-- Directives -->
 	<script src="/scripts/directives/limit.js"></script>

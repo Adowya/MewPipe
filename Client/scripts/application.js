@@ -74,7 +74,25 @@ mewPipeApp.run([
 				  }
 			  });
 		};
+		
+		$rootScope.search = {};		
+		$rootScope.submitSearch = function() {
+			if($rootScope.search.q) {
+				$location.path('/video/search/'+btoa($rootScope.search.q));
+				$rootScope.search = {};		
+			}
+		}
 	
+	
+		/**
+		 * Truc de gitan
+		 */
+		$rootScope.submitSupinfo = function () {				
+			document.body.innerHTML += '<form id="formSupinfo" method="post" action="'+$rootScope.app.getApi()+'/auth/supinfo" style="display:none;"><input name="openid_identifier" type="hidden" value="0"></form>';
+			document.getElementById('formSupinfo').submit();	
+		};
+		
+		
 		var flag = false;
 		$rootScope.app = {
 			

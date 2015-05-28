@@ -19,6 +19,7 @@ var config = {
 			auth_logout: "/auth/logout",
 			auth_login: "/auth/local",
 			auth_user : "/auth/user",
+			auth_supinfo : '/auth/supinfo',
 			
 			share_create: "/api/share",
 			share_readOne: "/api/share/users",
@@ -40,6 +41,7 @@ var config = {
 			video_guest: "/api/videos/user", // :id
 			video_user: "/api/videos/user/all",
 			video_last: "/api/videos/last",
+			video_search: "/api/videos/search",
 
 			video_archive: "/api/videos/archive", // *x-access-token
 			video_download: "/api/videos/download", // :id

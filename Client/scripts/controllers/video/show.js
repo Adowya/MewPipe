@@ -12,8 +12,9 @@ mewPipeApp.controller('VideoShowCtrl', ['$rootScope', '$http', '$scope', '$route
 		if (video_id != null) {
 			$scope.video = [];
 			$callService.request(null, 'video_read', video_id, null, null).then(function (data) {
-				$scope.video = $videoService(data, 'download');
+				$scope.video = $videoService(data, 'play');
 				$scope.user = data._user;
 			});
 		}
+
 	}]);

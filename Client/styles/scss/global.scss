@@ -35,6 +35,30 @@ $background-of-the-line: #f07719;
 	text-align: center;
 }
 
+#signIn {
+	.well-lg {
+		font-size: 2em;
+		.fa-facebook {
+			top: 12px;
+			position: relative;
+			color: #3B5998!important;
+		}
+		.fa-google-plus {
+			top: 12px;
+			position: relative;
+			color: #d34836!important;
+		}
+	}
+}
+
+
+.search {
+	
+	input{
+		
+	}
+}
+
 .image_right {
 	height: 200px;
 	display: block;
