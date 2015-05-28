@@ -12,7 +12,8 @@ var config = {
 	debug: false,
 	env: env,
 	rootDirectory: __dirname,
-	storageDirectory: __dirname+"/STORAGE"
+	storageDirectory: __dirname+"/STORAGE",
+	itemsPerPage: 10
 };
 
 // Video properties

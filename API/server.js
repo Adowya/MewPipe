@@ -12,6 +12,7 @@ var modules = {
 	bcrypt: require("bcrypt-nodejs"),
 	crypto: require("crypto"),
 	url: require('url'),
+	_: require('lodash-node'),
 	multipart: require('connect-multiparty'),
 	ffmpeg: require('fluent-ffmpeg'),
 	hbjs: require("handbrake-js"),

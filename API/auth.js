@@ -5,6 +5,7 @@ var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
 var fbStrategy = require('passport-facebook').Strategy;
 var googleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var supinfoStrategy = require('passport-supinfo').Strategy;
 var User = require(__dirname+"/models/User.js").User;
 passport.sessions = [];
 
@@ -68,6 +69,26 @@ passport.use(new fbStrategy({
 	 	});
 	});
 }));
+
+passport.use(new supinfoStrategy({
+    returnURL: 'http://localhost:8080/auth/supinfo/callback',
+    realm: 'http://localhost:8080/',
+    profile: true
+  },
+  function(identifier, profile, done) {
+    // asynchronous verification, for effect...
+    process.nextTick(function () {
+      console.log(identifier);
+      console.log(profile);
+      // To keep the example simple, the user's SUPINFO profile is returned to
+      // represent the logged-in user. In a typical application, you would want
+      // to associate the SUPINFO account with a user record in your database,
+      // and return that user instead.
+      profile.identifier = identifier;
+      return done(null, profile);
+    });
+  }
+));
 
 passport.use(new googleStrategy({
 	clientID: config.oauth.google.clientId,

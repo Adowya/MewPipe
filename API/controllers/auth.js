@@ -59,6 +59,21 @@ module.exports.controller = function(app, router, config, modules, models, middl
 		})(req, res, next);
 	});
 
+	app.get('/auth/supinfo', modules.auth.authenticate('supinfo',{ failureRedirect: '/erroe' }));
+
+	app.get('/auth/supinfo/callback', function(req, res, next) {
+		modules.auth.authenticate('supinfo', { failureRedirect: '/#/auth/error' }, function(err, user) {
+			if(err || !user){ 
+				return res.redirect('/#/auth/error');
+			}
+			req.login(user, function(err) {
+				if(err){ return next(err); }
+ 				//res.cookie('token', user.token, {expires: new Date(Date.now() + config.ttlToken*1000)});
+ 				return res.redirect('/#/auth/success/'+user.token);
+ 			});
+		})(req, res, next);
+	});
+
 	app.get('/auth/logout', middlewares.checkAuth, function(req, res, next) {
 		for(var i=0; i<sessions.length; i++){
 			if(String(req.user._id) == String(sessions[i].userId)){

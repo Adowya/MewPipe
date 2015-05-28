@@ -252,6 +252,70 @@ router.get('/videos', function(req, res) {
 });
 
 /**
+* SEARCH VIDEO param=> q: keywords, sort: ['views', 'created', 'name'], page: number
+**/
+router.post("/videos/search", function(req, res){
+	if(typeof req.body.page == "undefined"){
+		req.body.page = 0;
+	}else{
+		if(isNaN(req.body.page)){
+			req.body.page = 0;
+		}
+	}
+	if(typeof req.body.sort == "undefined"){
+		req.body.sort = "-created";
+	}
+	if(req.body.sort == "-views" || req.body.sort == "-views"){
+		var sortViews = true;
+		req.body.sort = "-created";
+	}
+	if(typeof req.body.q == "undefined"){
+		req.body.q = "";
+	}
+	var regExSearch = new RegExp(req.body.q, 'i');
+	models.Video.find({rights: "public"})
+	.where("archived").ne(true)
+	.populate("_user", "-accessToken -__v")
+	.limit(config.itemsPerPage)
+	.skip(config.itemsPerPage * req.body.page)
+	.sort(req.body.sort)
+	.or([{'name': {$regex: regExSearch}},{'description': {$regex: regExSearch}}])
+	.select("-__v -archived")
+	.lean()
+	.exec(function(err, videos){
+		if(err){
+			if(config.debug == true){
+				res.json({"success": false, "error": err});
+			}else{
+				res.json({"success": false, "error": "Une erreur est survenue."});
+			}
+		}else{
+			if(videos.length == 0){
+				if(sortViews){
+					modules._.sortBy(videos, '-views');
+					return res.json({"success": true, "data": videos});
+				}
+				res.json({"success": true, "data": videos});
+			}
+			var	last = 0;
+			var pushNbViews = function(count, i){
+				videos[i].views = count;
+				last++;
+				if(last >= videos.length){
+					res.json({"success": true, "data": videos});
+				}
+			};
+			for(var i=0; i < videos.length; i++){
+				models.View.find({_video: videos[i]._id})
+				.exec(function(i, err, views){
+					pushNbViews(views.length, i);	
+				}.bind(models.View, i));
+			}
+		}
+	});
+});
+
+/**
 * LAST VIDEOS
 **/
 router.get('/videos/last/:number', function(req, res) {
