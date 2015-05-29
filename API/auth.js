@@ -79,8 +79,8 @@ passport.use(new fbStrategy({
 * openId SUPINFO
 **/
 passport.use(new supinfoStrategy({
-    returnURL: 'http://localhost:8080/auth/supinfo/callback',
-    realm: 'http://localhost:8080/',
+    returnURL: 'http://'+config.server.address+':'+config.server.port+'/auth/supinfo/callback',
+    realm: 'http://'+config.server.address+':'+config.server.port+'/',
     profile: true
   },
   function(identifier, profile, done) {
