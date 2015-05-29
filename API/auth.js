@@ -17,6 +17,10 @@ passport.deserializeUser(function(obj, done) {
 	done(null, obj);
 });
 
+
+/**
+* oAuth FACEBOOK
+**/
 passport.use(new fbStrategy({
     clientID: config.oauth.facebook.clientId,
     clientSecret: config.oauth.facebook.clientSecret,
@@ -70,6 +74,10 @@ passport.use(new fbStrategy({
 	});
 }));
 
+
+/**
+* openId SUPINFO
+**/
 passport.use(new supinfoStrategy({
     returnURL: 'http://localhost:8080/auth/supinfo/callback',
     realm: 'http://localhost:8080/',
@@ -122,6 +130,10 @@ passport.use(new supinfoStrategy({
   }
 ));
 
+
+/**
+* oAuth GOOGLE
+**/
 passport.use(new googleStrategy({
 	clientID: config.oauth.google.clientId,
 	clientSecret: config.oauth.google.clientSecret,
@@ -175,6 +187,10 @@ function(accessToken, refreshToken, profile, done) {
 }
 ));
 
+
+/**
+* auth LOCAL
+**/
 passport.use(new localStrategy({
     usernameField: 'email',
     passwordField: 'password'

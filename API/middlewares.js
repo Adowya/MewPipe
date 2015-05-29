@@ -30,7 +30,6 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 		var ip = req.headers['x-forwarded-for'] || 
 		req.connection.remoteAddress || 
 		req.socket.remoteAddress ||
-		req.connection.socket.remoteAddress ||
 		"unknown";
 
 		if(token){

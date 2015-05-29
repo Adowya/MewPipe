@@ -16,6 +16,10 @@ module.exports.controller = function(app, router, config, modules, models, middl
 		});
 	});
 
+
+	/**
+	* auth LOCAL
+	**/
 	app.post('/auth/local', function(req, res, next) {
 		modules.auth.authenticate('local', {}, function(err, user, info) {
 			if(err || !user){ 
@@ -29,6 +33,10 @@ module.exports.controller = function(app, router, config, modules, models, middl
 		})(req, res, next);
 	});
 
+
+	/**
+	* oAuth GOOGLE
+	**/
 	app.get('/auth/google', modules.auth.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile'] }));
 
 	app.get('/auth/google/callback', function(req, res, next) {
@@ -44,6 +52,10 @@ module.exports.controller = function(app, router, config, modules, models, middl
 		})(req, res, next);
 	});
 
+
+	/**
+	* oAuth FACEBOOK
+	**/
 	app.get('/auth/facebook', modules.auth.authenticate('facebook',{ authType: 'rerequest', scope: ['email','user_birthday'] }));
 
 	app.get('/auth/facebook/callback', function(req, res, next) {
@@ -59,6 +71,10 @@ module.exports.controller = function(app, router, config, modules, models, middl
 		})(req, res, next);
 	});
 
+
+	/**
+	* openId SUPINFO
+	**/
 	app.post('/auth/supinfo', modules.auth.authenticate('supinfo',{ failureRedirect: '/#/auth/error' }));
 
 	app.get('/auth/supinfo/callback', function(req, res, next) {
@@ -74,6 +90,10 @@ module.exports.controller = function(app, router, config, modules, models, middl
 		})(req, res, next);
 	});
 
+
+	/**
+	* LOGOUT
+	**/
 	app.get('/auth/logout', middlewares.checkAuth, function(req, res, next) {
 		for(var i=0; i<sessions.length; i++){
 			if(String(req.user._id) == String(sessions[i].userId)){
