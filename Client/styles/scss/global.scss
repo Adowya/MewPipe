@@ -1,5 +1,6 @@
 @import "compass";
 @import "../../lib/normalize.css/normalize.css";
+@import "../../lib/angular-bootstrap/ui-bootstrap-csp.css";
 @import "../../lib/bootswatch-dist/css/bootstrap.css";
 @import "../../lib/fontawesome/css/font-awesome.css";
 
@@ -49,6 +50,43 @@ $background-of-the-line: #f07719;
 			color: #d34836!important;
 		}
 	}
+}
+
+#banner {
+	.col-md-8 {
+	  padding: 20px;
+	  margin: 0px auto;
+	  float: none;
+	}
+}
+
+
+.left-inner-addon {
+    position: relative;
+}
+.left-inner-addon input {
+    padding-left: 30px;    
+}
+.left-inner-addon i {
+    position: absolute;
+    padding: 11px 12px;
+    pointer-events: none;
+	z-index: 99;
+	
+}
+
+.right-inner-addon {
+    position: relative;
+}
+.right-inner-addon input {
+    padding-right: 30px;    
+}
+.right-inner-addon i {
+    position: absolute;
+    right: 0px;
+    padding: 10px 12px;
+    pointer-events: none;
+	z-index: 99;
 }
 
 

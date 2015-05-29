@@ -31,6 +31,7 @@ var config = {
   "./lib/angular/angular.js",
   "./lib/angular-animate/angular-animate.js",
   "./lib/angular-bootstrap/ui-bootstrap.js",
+  "./lib/angular-bootstrap/ui-bootstrap-tpls.js",
   "./lib/angular-cookies/angular-cookies.js",
   "./lib/angular-moment/angular-moment.js",
   "./lib/angular-resource/angular-resource.js",

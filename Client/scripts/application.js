@@ -6,6 +6,8 @@ var mewPipeApp = angular.module('mewPipeApp', [
 	'ngSanitize',
 	'ngTouch',
 	'ngFileUpload',
+	'ui.bootstrap',
+	'filters',
 	'ServiceModule',
 	"com.2fdevs.videogular",
 	"com.2fdevs.videogular.plugins.controls",
@@ -32,6 +34,8 @@ mewPipeApp.run([
 		});
 
 		$rootScope.$on('$routeChangeError', function (event, current, previous) {
+			$rootScope.isConnect = false;
+			config.storage.delete('token');
 			$location.path("/");
 			$rootScope.app.showNotif('You don\'t allow.', 'error');
 		});

@@ -32,7 +32,7 @@ MewPipeModule.factory('$videoService', [
 				_user: data._user,
 				name: data.name,
 				description: data.description,
-				created: moment(data.date).format("MM/DD/YYYY"),
+				created: moment(data.date).format("DD MMMM YYYY HH:mm"),
 				size: bytesToSize(data.size),
 				views: data.views,
 				rights: data.rights,

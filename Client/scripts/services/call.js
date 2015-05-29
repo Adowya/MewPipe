@@ -12,6 +12,7 @@ MewPipeModule.factory('$callService', [
 		var httpError = function (err, code) {
 			if (401 == code) {
 				console.error('Error 401');
+				$rootScope.isConnect = false;
 				config.storage.delete('token');
 				$location.path("/");
 			} else if (404 == code) {
@@ -40,7 +41,7 @@ MewPipeModule.factory('$callService', [
 				var url = config.getApiAddr() + config.api.route[model];
 				if (param) { url = url + "/" + param; }
 				if (!method) { method = "GET"; }
-				
+
 				return $http({
 					url: url,
 					method: method,
@@ -49,22 +50,21 @@ MewPipeModule.factory('$callService', [
 						// 'Authorization': 'Basic ' + login_base64
 					},
 					data: data
-				}).then(
-					function (res) {
-						if (config.debug) {
-							console.log('%cRequest ' + method + ' ' + model + ' at ' + config.api.route[model], 'color: purple');
-							console.log(res);
-						}
-						if (res.data.success) {
-							if (res.data.data) {
-								return res.data.data;
-							} else {
-								return true;
-							}
+				}).then(function (res) {
+					if (config.debug) {
+						console.log('%cRequest ' + method + ' ' + model + ' at ' + config.api.route[model], 'color: purple');
+						console.log(res);
+					}
+					if (res.data.success) {
+						if (res.data.data) {
+							return res.data.data;
 						} else {
-							return $rootScope.app.showNotif(res.data.error, 'error');
+							return true;
 						}
-					},
+					} else {
+						return $rootScope.app.showNotif(res.data.error, 'error');
+					}
+				},
 					function (error) {
 						return httpError(error.statusText, error.status);
 					});

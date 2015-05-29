@@ -1,13 +1,14 @@
 /*!
  * MewPipe
  * https://github.com/Adowya/MewPipe/graphs/contributors
- * Version: 0.0.2 - 2015-05-28T14:14:31.108Z
+ * Version: 0.0.2 - 2015-05-29T15:56:27.870Z
  * License: MIT
  */
 
 
 @charset "UTF-8";
 @import url(../../lib/normalize.css/normalize.css);
+@import url(../../lib/angular-bootstrap/ui-bootstrap-csp.css);
 @import url(../../lib/bootswatch-dist/css/bootstrap.css);
 @import url(../../lib/fontawesome/css/font-awesome.css);
 .dialog, .dialog__overlay { width: 100%; height: 100%; top: 0; left: 0; }
@@ -276,6 +277,8 @@ figure.effect-hera:hover p i:empty { -webkit-transform: translate3d(0, 0, 0); tr
 #upload .drop-box.dragover { border: 5px dashed blue; }
 #upload .tags { display: inline-block !important; margin: 5px; cursor: pointer; }
 
+#video_user .grid figure { min-width: 100% !important; }
+
 .fa { padding-right: 7px; }
 
 .pl { padding-left: 7px; }
@@ -287,6 +290,20 @@ figure.effect-hera:hover p i:empty { -webkit-transform: translate3d(0, 0, 0); tr
 #signIn .well-lg { font-size: 2em; }
 #signIn .well-lg .fa-facebook  { top: 12px; position: relative; color: #3B5998 !important; }
 #signIn .well-lg .fa-google-plus  { top: 12px; position: relative; color: #d34836 !important; }
+
+#banner .col-md-8 { padding: 20px; margin: 0px auto; float: none; }
+
+.left-inner-addon { position: relative; }
+
+.left-inner-addon input { padding-left: 30px; }
+
+.left-inner-addon i { position: absolute; padding: 11px 12px; pointer-events: none; z-index: 99; }
+
+.right-inner-addon { position: relative; }
+
+.right-inner-addon input { padding-right: 30px; }
+
+.right-inner-addon i { position: absolute; right: 0px; padding: 10px 12px; pointer-events: none; z-index: 99; }
 
 .image_right { height: 200px; display: block; position: relative; margin: 30px; float: right; }
 

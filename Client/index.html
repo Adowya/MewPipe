@@ -61,10 +61,15 @@
 						<a href="#/user/profile"><span data-hover="Profile">Profile</span></a>
 					</nav>
 				</div>
-				<div class="col-md-12" style="padding: 20px">
+			</div>
+			<div class="row">
+				<div class="col-md-8">
 					<form class="search" ng-submit="submitSearch()" role="search">
 						<div class="input-group">
-							<input type="text" class="form-control" ng-model="search.q" placeholder="Search">
+							<div class="left-inner-addon ">
+								<i class="fa fa-search"></i>
+								<input type="text" class="form-control" ng-model="search.q" placeholder="Search">
+							</div>
 							<span class="btn btn-default input-group-addon" ng-click="submitSearch()">Search</span>
 						</div>
 					</form>
