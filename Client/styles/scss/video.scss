@@ -44,6 +44,38 @@
 #video_user {
 	.grid figure {
 		min-width: 100%!important;
+		max-height: 300px!important;
+	}
+	h4 {
+		  min-height: 57px;
+	}
+	
+	aside {
+		  height: 255px;
+	}
+	
+	.description {
+		 height: 82px!important;
+	}
+}
+
+
+
+#video_search {
+	.grid figure {
+		min-width: 100%!important;
+		max-height: 300px!important;
+	}
+	h4 {
+		  min-height: 57px;
+	}
+	
+	aside {
+		  height: 255px;
+	}
+	
+	.description {
+		 height: 82px!important;
 	}
 }
 

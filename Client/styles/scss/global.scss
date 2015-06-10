@@ -18,6 +18,70 @@ $height-of-loading-line: 0.3em;
 $animation-duration: 5s;
 $background-of-the-line: #f07719;
 
+.theme {
+	color:black;
+	body {
+		color: rgb(0,0,0)!important;
+	  	background-color: rgba(0,0,0,0.1)!important;
+		  color:rgb(0,0,0)!important;
+	}
+	
+	.input-group-addon {
+		  background-color: rgba(0,0,0,0.3);
+	}
+	
+	.jumbotron {
+		background-color: rgba(0,0,0,0.2)!important;
+	}
+	.well {
+		  background-color: rgba(0,0,0,0.3)!important;
+	}
+	
+	.list-group-item {
+		  background-color: rgba(0,0,0,0.05)!important;
+	}
+	
+	.panel {
+		background-color: rgba(0,0,0,0.3)!important;
+	}
+	
+	.panel-default > .panel-heading {
+	  background-color: rgba(0,0,0,0.3)!important;
+	}
+	
+	.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+		 background-color: rgba(0,0,0,0.3)!important;
+	  	 border: rgba(0,0,0,0.3)!important;
+	}
+	
+	.nav-tabs > li > a:hover {
+		border-color: rgba(0,0,0,0.3) rgba(0,0,0,0.4) transparent!important;
+	}
+	
+	.nav > li > a:hover, .nav > li > a:focus {
+		background-color: rgba(0,0,0,0.3)!important;
+		border: rgba(0, 0, 0, 0.3)!important;
+	}
+	
+	footer {
+		background-color: rgba(0, 0, 0, 0.7) !important;
+	}
+	
+	.btn-default{
+		background-color: rgba(0,0,0,0.3)!important;
+	}
+	
+	.btn-default:hover {
+		background-color: rgba(0,0,0,0.3)!important;
+	}
+}
+
+@include mq(tablet){
+	.page-header {
+		margin:0!important;
+	}
+}
+
 .fa {
 	padding-right: 7px;
 }

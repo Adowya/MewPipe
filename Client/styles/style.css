@@ -1,7 +1,7 @@
 /*!
  * MewPipe
  * https://github.com/Adowya/MewPipe/graphs/contributors
- * Version: 0.0.2 - 2015-05-29T17:04:33.903Z
+ * Version: 0.0.2 - 2015-06-10T15:20:25.572Z
  * License: MIT
  */
 
@@ -277,8 +277,32 @@ figure.effect-hera:hover p i:empty { -webkit-transform: translate3d(0, 0, 0); tr
 #upload .drop-box.dragover { border: 5px dashed blue; }
 #upload .tags { display: inline-block !important; margin: 5px; cursor: pointer; }
 
-#video_user .grid figure { min-width: 100% !important; }
+#video_user .grid figure { min-width: 100% !important; max-height: 300px !important; }
+#video_user h4 { min-height: 57px; }
+#video_user aside { height: 255px; }
+#video_user .description { height: 82px !important; }
 
+#video_search .grid figure { min-width: 100% !important; max-height: 300px !important; }
+#video_search h4 { min-height: 57px; }
+#video_search aside { height: 255px; }
+#video_search .description { height: 82px !important; }
+
+.theme  { color: black; }
+.theme  body { color: black !important; background-color: rgba(0, 0, 0, 0.1) !important; color: black !important; }
+.theme  .input-group-addon { background-color: rgba(0, 0, 0, 0.3); }
+.theme  .jumbotron { background-color: rgba(0, 0, 0, 0.2) !important; }
+.theme  .well { background-color: rgba(0, 0, 0, 0.3) !important; }
+.theme  .list-group-item { background-color: rgba(0, 0, 0, 0.05) !important; }
+.theme  .panel { background-color: rgba(0, 0, 0, 0.3) !important; }
+.theme  .panel-default > .panel-heading { background-color: rgba(0, 0, 0, 0.3) !important; }
+.theme  .nav-tabs > li.active > a, .theme  .nav-tabs > li.active > a:hover, .theme  .nav-tabs > li.active > a:focus { background-color: rgba(0, 0, 0, 0.3) !important; border: rgba(0, 0, 0, 0.3) !important; }
+.theme  .nav-tabs > li > a:hover { border-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.4) transparent !important; }
+.theme  .nav > li > a:hover, .theme  .nav > li > a:focus { background-color: rgba(0, 0, 0, 0.3) !important; border: rgba(0, 0, 0, 0.3) !important; }
+.theme  footer { background-color: rgba(0, 0, 0, 0.7) !important; }
+.theme  .btn-default { background-color: rgba(0, 0, 0, 0.3) !important; }
+.theme  .btn-default:hover { background-color: rgba(0, 0, 0, 0.3) !important; }
+
+@media (max-width: 960px) { .page-header { margin: 0 !important; } }
 .fa { padding-right: 7px; }
 
 .pl { padding-left: 7px; }

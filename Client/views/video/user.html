@@ -41,7 +41,7 @@
                         <li><a href="" ng-click="submitDelete(video._id)"><i class="fa fa-trash-o"></i> Delete</a></li>
                       </ul>
                     </div>
-                <h4>{{video.name}}</h4>
+                <h4>{{video.name | limit:20}}</h4>
                 <button popover-placement="bottom" popover="Created" popover-trigger="mouseenter" class="btn btn-default btn-xs"><i class="fa fa-clock-o"></i>{{video.created}}</button>
                 <div class="row" style="padding:15px">
                     <button popover-placement="bottom" popover="Rights" popover-trigger="mouseenter" class="btn btn-default btn-xs"><i class="fa fa-globe"></i>{{video.rights}}</button>
@@ -49,7 +49,7 @@
                     <button popover-placement="right" popover="Views" popover-trigger="mouseenter" class="btn btn-default btn-xs"><i class="fa fa-eye"></i>{{video.views}}</button>
                 </div>
                     
-                <p class="well"><i class="fa fa-comment-o"></i> {{video.description | limit:40}}</p>
+                <p class="well description"><i class="fa fa-comment-o"></i> {{video.description | limit:40}}</p>
                     
             </aside>
         </div>

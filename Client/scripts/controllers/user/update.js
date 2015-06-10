@@ -11,6 +11,7 @@ mewPipeApp.controller('UserUpdateCtrl', ['$rootScope', '$http', '$scope', '$rout
 		});
 
 		$scope.submitUpdate = function () {
+			console.log($scope.user);
 			$callService.request('POST', 'user_update', null, $scope.user, null).then(function (data) {
 				console.log(data);
 			});
