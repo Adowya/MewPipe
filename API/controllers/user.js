@@ -75,7 +75,7 @@ router.post("/users", function(req, res){
 			firstname: req.body.firstname,
 			lastname: req.body.lastname
 		});
-		models.User.find({email: newUser.email})
+		models.User.findOne({email: newUser.email})
 		.select("email")
 		.exec(function(err, testEmail){
 			if(testEmail) {
