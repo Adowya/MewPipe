@@ -25,16 +25,18 @@ mewPipeApp.controller('VideoSearchCtrl', ['$rootScope', '$http', '$scope', '$rou
 
 		$scope.loadMore = function () {
 			$scope.param.page++;
-			$callService.request('POST', 'video_search', null, $scope.param, null).then(function (data) {
-				if (data.length > 0) {
-					data.forEach(function (video) {
-						$scope.videos.push($videoService(video, null));
-					});
-					if (data.length <= maxItems) $scope.canLoad = false;
-				} else {
-					$scope.canLoad = false;
-				}
-			});
+			if($scope.canLoad){
+				$callService.request('POST', 'video_search', null, $scope.param, null).then(function (data) {
+					if (data.length > 0) {
+						data.forEach(function (video) {
+							$scope.videos.push($videoService(video, null));
+						});
+						if (data.length <= maxItems) $scope.canLoad = false;
+					} else {
+						$scope.canLoad = false;
+					}
+				});
+			}
 		};
 
 	}

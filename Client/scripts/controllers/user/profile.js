@@ -12,7 +12,11 @@ mewPipeApp.controller('UserProfileCtrl', ['$rootScope', '$http', '$scope', '$rou
 
 		$scope.submitDelete = function () {
 			$callService.request("DELETE", "user_delete", null, null, true).then(function (data) {
-				$location.path('/user/profile');
+				$location.path('/');
 			});
 		};
+		
+		$callService.request(null, 'user_stat', null, null, true).then(function (data) {
+			$scope.user.stat = data;
+		});
 	}]);

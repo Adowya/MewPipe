@@ -37,6 +37,29 @@
 			}
 		}
 	}
+	
+	.grid figure img {  
+		position: relative;
+		display: block;
+		min-height: 100%;
+		max-width: 70%;
+		opacity: 0.8;
+		margin: 0 auto;
+		left: 12px;
+	}
+	
+	.grid figure {
+		position: relative;
+		overflow: hidden;
+		margin: 10px 1%;
+		min-width: 100px;
+		max-width: 270px;
+		max-height: 100%;
+		width: 100%;
+		height: auto;
+		text-align: center;
+		cursor: pointer;
+	}
 }
 
 #update {
@@ -88,10 +111,14 @@
 	}
 	
 	.progress {
-		position: absolute;
-		width: 214px;
-		z-index: 999;
-		padding-left: 2px;
+		  position: absolute;
+		  width: 100%;
+		  z-index: 999;
+		  padding-left: 0px;
+		  margin: 0;
+		@include mq(tablet) {
+			  width: 300px;
+		}
 	}
 }
 

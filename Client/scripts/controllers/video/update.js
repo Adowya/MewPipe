@@ -5,7 +5,7 @@ mewPipeApp.controller('VideoUpdateCtrl', ['$rootScope', '$http', '$scope', '$rou
 	function ($rootScope, $http, $scope, $route, $location, $callService, $routeParams, $videoService) {
 
 		$callService.request(null, 'video_read', $routeParams.param, null, null).then(function (data) {
-			$scope.video = $videoService(data, 'play');
+			$scope.video = $videoService(data, 'download');
 			$scope.user = data._user;
 		});
 

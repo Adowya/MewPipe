@@ -1,4 +1,4 @@
-<div id="video_user" class="row">
+<div id="video_user" class="row" ng-init="id = 0">
     <div class="col-md-12">
         <div class="page-header">
             <h1 id="container">Your videos</h1>
@@ -12,16 +12,16 @@
         </div>
         <div class="col-md-3">
             <div class="grid3d horizontal">
-                <!-- progress -->
-                <div  class="progress" ng-progressbar ng-if="!video.ready">
-                    <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{video.dynamic}}" aria-valuemin="0" aria-valuemax="100"
-                    style="width: {{video.dynamic}}%;">{{video.dynamic}}%</div>
-                </div>
-                <!-- /progress -->
                 <div class="grid-wrap">
                     <div class="grid">
                         <a href="#/video/show/{{video._id}}/">
                            <figure class="effect-hera">
+                                <!-- progress -->
+                                <div class="progress" ng-progressbar ng-if="!video.ready">
+                                    <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{video.dynamic}}" aria-valuemin="0" aria-valuemax="100"
+                                    style="width: {{video.dynamic}}%;">{{video.dynamic}}%</div>
+                                </div>
+                                <!-- /progress -->
                                 <img ng-src="{{video.image}}" />
                                 <figcaption>
                                     <h2>
@@ -38,11 +38,11 @@
             </div>
             <aside>
                 <div class="btn-group pull-right">
-                      <a href="javascript;" class="btn btn-primary btn-sm" data-toggle="dropdown">Action</a>
-                      <a href="javascript;" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></a>
+                      <a href="javascript:;" class="btn btn-primary btn-sm" data-toggle="dropdown">Action</a>
+                      <a href="javascript:;" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></a>
                       <ul class="dropdown-menu">
-                        <li><a href="javascript;"><i class="fa fa-link"></i> Share link</a></li>
-                        <li><a href="javascript;" ng-href="#/video/update/{{video._id}}""><i class="fa fa-pencil-square-o"></i> Edit</a></li>
+                        <li><a href="javascript:;"><i class="fa fa-link"></i> Share link</a></li>
+                        <li><a href="javascript:;" ng-href="#/video/update/{{video._id}}"><i class="fa fa-pencil-square-o"></i> Edit</a></li>
                         <li class="divider"></li>
                         <li><a href="" ng-click="submitDelete(video._id)"><i class="fa fa-trash-o"></i> Delete</a></li>
                       </ul>

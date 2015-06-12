@@ -27,6 +27,7 @@ var config = {
 			share_delete: "/api/share/delete",
 			
 			user_suggested: "/api/user/videos/suggestion",
+			user_stat: "/api/users/stats",
 			user_create: "/api/users",
 			user_readOne: "/api/user", // *x-access-token
 			user_readAll: "/api/users",
@@ -35,6 +36,7 @@ var config = {
 			user_findByUsername: "/api/users/findByUsername",
 			user_changePassword: "/api/users/changePassword",
 			
+			video_related: "/api/videos/related", // :vid *token
 			video_update: "/api/videos",
 			video_read: "/api/videos",
 			video_delete: "/api/videos", // :id *x-access-token

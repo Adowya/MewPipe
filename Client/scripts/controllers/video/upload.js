@@ -6,11 +6,17 @@ mewPipeApp.controller('VideoUploadCtrl', ['$rootScope', '$http', '$scope', '$rou
           
         $scope.files = [];
         $scope.submitUpload = function () {
+            $scope.$watch('file.title', function () {
+                console.log($scope.file.title);
+            });
             if (typeof $scope.files !== 'undefined') {
                 var length = $scope.files.length;
                 for (var i = 0; i < $scope.files.length; i++) { 
                     (function (iFile) {
                         var file = $scope.files[iFile];
+                        console.log(file.title);
+                        file.name = file.title;
+                        console.log(file.name);
                         if(config.debug) { console.log(bytesToSize(file.size)); }
                         if (file.size <= 524288000) {
                             $callService.upload(file, function(data){
@@ -52,8 +58,6 @@ mewPipeApp.controller('VideoUploadCtrl', ['$rootScope', '$http', '$scope', '$rou
             { name: 'Travel', checked: false },
         ];
         
-        // $scope.$watch('files', function () {
-        //     console.log($scope.files);
-        // });
+
 
     }]);

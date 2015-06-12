@@ -22,7 +22,7 @@ mewPipeApp.controller('VideoUserCtrl', ['$rootScope', '$http', '$scope', '$route
 				}
 			})
 		};
-
+		
 	}]);
 
 /**

@@ -16,5 +16,14 @@ mewPipeApp.controller('VideoShowCtrl', ['$rootScope', '$http', '$scope', '$route
 				$scope.user = data._user;
 			});
 		}
+		
+		$scope.relatedVideos = [];
+		$callService.request(null, 'video_related', video_id, null, null).then(function (data) {
+			for (var i in data) {
+				$scope.relatedVideos.push($videoService(data[i], null));
+				$scope.user = data._user;
+			}
+		});
+
 
 	}]);

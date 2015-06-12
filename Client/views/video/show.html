@@ -29,7 +29,7 @@
             <div class="image" style="background: url('{{video.image}}');"></div>
         </div>
         <div class="well well-lg">
-            <button type="button" class="btn btn-warning pull-right" data-dialog="share" ng-dialog>Share link</button>
+            <button type="button" ng-if="video.rights != 'private'" class="btn btn-warning pull-right" data-dialog="share" ng-dialog>Share link</button>
             <ul  class="nav nav-pills"><li>Post: <span class="badge">{{video.created}}</span></li></ul>
             <ul  class="nav nav-pills">
                 <li>Size : <span class="badge">{{video.size}}</span></li>
@@ -45,10 +45,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Social Media</div>
                 <div class="panel-body">
-                    <i class="fa fa-facebook fa-2x"></i>
+                    <a href="https://www.facebook.com/dialog/share?app_id=1647756815458866&display=popup&href={{video.link}}&redirect_uri={{video.link}}" target="_blank"><i class="fa fa-facebook fa-2x"></i></a>
                     <a href="https://twitter.com/intent/tweet?text={{video.social.twitter}}&hashtags={{video.name}}&url={{video.link}}" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
-                    <i class="fa fa-pinterest fa-2x"></i>
-                    <i class="fa fa-google-plus fa-2x"></i>
+                    <a href=""><i class="fa fa-pinterest fa-2x"></i></a>
+                    <a href=""><i class="fa fa-google-plus fa-2x"></i></a>
                 </div>
             </div>
         </div>
@@ -56,7 +56,27 @@
     <div class="col-md-4">
         <section class="well">
             <h2>Related</h2>
-            <aside class="row"></aside>
+            <aside class="row" ng-repeat="relatedVideo in relatedVideos">
+                <div class="grid3d horizontal">
+                <div class="grid-wrap">
+                    <div class="grid">
+                        <a href="#/video/show/{{relatedVideo._id}}/">
+                           <figure class="effect-hera">
+                                <img ng-src="{{relatedVideo.image}}" />
+                                <figcaption>
+                                    <h2>
+                                        <span>{{relatedVideo.name}}</span>
+                                    </h2>
+                                    <p>
+                                        <a href="#"><i class="fa fa-fw"></i></a>
+                                    </p>
+                                </figcaption>
+                            </figure>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            </aside>
         </section>
     </div>
 </div>

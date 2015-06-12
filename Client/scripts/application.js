@@ -126,22 +126,25 @@ mewPipeApp.run([
 			 * @Type String 'notice', 'warning', 'error' or 'success'
 			 */
 			showNotif: function (msg, type) {
-				setTimeout(function () {
-					if (flag) return;
-					flag = true;
-					// create the notification
-					var notification = new NotificationFx({
-						message: '<span class="icon icon-' + type + '"></span><p>' + msg + '.</p>',
-						layout: 'attached',
-						effect: 'bouncyflip',
-						type: type, // notice, warning or error
-						onClose: function () {
-							flag = false;
-						}
-					});
-					// show the notification
-					notification.show();
-				}, 800);
+				if(msg){
+					setTimeout(function () {
+						if (flag) return;
+						flag = true;
+						// create the notification
+						var notification = new NotificationFx({
+							message: '<span class="icon icon-' + type + '"></span><p>' + msg + '.</p>',
+							layout: 'attached',
+							effect: 'bouncyflip',
+							type: type, // notice, warning or error
+							onClose: function () {
+								flag = false;
+							}
+						});
+						// show the notification
+						notification.show();
+					}, 800);
+				}
+				
 			},
 		};
 

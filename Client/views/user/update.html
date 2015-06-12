@@ -18,12 +18,12 @@
 							<span class="pull-left ">
 								<i class="fa fa-eye "></i>
 								<strong class=" ">Views</strong>
-							</span>13</li>
+							</span>{{user.stat.views}}</li>
 						<li class="list-group-item text-right ">
 							<span class="pull-left ">
 								<i class="fa fa-pencil-square-o "></i>
 								<strong class=" ">Videos</strong>
-							</span>37</li>
+							</span>{{user.stat.videos}}</li>
 					</ul>
 				</div>
 			</div>
@@ -46,13 +46,13 @@
 				<div class="well ">
 					<ul class="list-group ">
 						<li class="list-group-item ">
-							<label for="inputName " class="col-lg-2 control-label ">Firstname</label>
+							<label for="inputName " class="col-lg-2 control-label "><h4>Firstname</h4></label>
 							<input type="text " class="form-control input-lg " ng-model="user.firstname " ng-value="user.firstname "
 							id="inputFirstname " placeholder="Firstname ">
-							<label for="inputName " class="col-lg-2 control-label ">Lastname</label>
+							<label for="inputName " class="col-lg-2 control-label "><h4>Lastname</h4></label>
 							<input type="text " class="form-control input-lg " ng-model="user.lastname " ng-value="user.lastname " id="inputLastname "
 							placeholder="Lastname ">
-							<label for="inputName " class="col-lg-2 control-label ">email</label>
+							<label for="inputName " class="col-lg-2 control-label "><h4>Email</h4></label>
 							<input type="email " class="form-control input-lg " ng-model="user.email " ng-value="user.email " id="inputEmail "
 							placeholder="Email ">
 						</li>

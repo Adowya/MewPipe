@@ -9,32 +9,33 @@ MewPipeModule.factory('$videoService', [
 		 * Return {object} videogular formated
 		 */
 		var $videoService = function (data, action) {
-			
-			var created, size;
-			if (action == "download") {
-				created = moment(data.date).format("DD MMMM YYYY HH:mm");
-				size = bytesToSize(data.size);
-				action = [{
-					src: $sce.trustAsResourceUrl($rootScope.app.getApi() + '/api/videos/download/' + data._id),
-					type: "video/" + data.ext
-				}];
-			} else if (action == "play") {
-				created = moment(data.date).format("DD MMMM YYYY HH:mm");
-				size = bytesToSize(data.size);
-				action = [{
-					src: $sce.trustAsResourceUrl($rootScope.app.getApi() + '/api/videos/play/' + data._id + '/' + $rootScope.app.getToken()),
-					type: "video/" + data.ext
-				}];
-			} else {
-				created = data.created;
-				size = data.size;
-				action = [{
-					src: data.sources,
-					type: "video/" + data.ext
-				}];
+
+			if (data) {
+				var created, size;
+				if (action == "download") {
+					created = moment(data.date).format("DD MMMM YYYY HH:mm");
+					size = bytesToSize(data.size);
+					action = [{
+						src: $sce.trustAsResourceUrl($rootScope.app.getApi() + '/api/videos/download/' + data._id),
+						type: "video/" + data.ext
+					}];
+				} else if (action == "play") {
+					created = moment(data.date).format("DD MMMM YYYY HH:mm");
+					size = bytesToSize(data.size);
+					action = [{
+						src: $sce.trustAsResourceUrl($rootScope.app.getApi() + '/api/videos/play/' + data._id + '/' + $rootScope.app.getToken()),
+						type: "video/" + data.ext
+					}];
+				} else {
+					created = data.created;
+					size = data.size;
+					action = [{
+						src: data.sources,
+						type: "video/" + data.ext
+					}];
+				}
 			}
 			var url = $location.absUrl();
-			console.log(url);
 			return {
 				_id: data._id,
 				_user: data._user,
@@ -45,7 +46,7 @@ MewPipeModule.factory('$videoService', [
 				views: data.views,
 				rights: data.rights,
 				ext: data.ext,
-				ready : data.ready,
+				ready: data.ready,
 				sources: action,
 				dynamic: 0,
 				plugins: {
@@ -55,18 +56,19 @@ MewPipeModule.factory('$videoService', [
 				image: config.getApiAddr() + config.api.route['video_image'] + "/" + data._id,
 
 				link: url,
+				link2: "#/video/show/" + data._id,
 				stop: function () {
 
 				},
 				onPlayerReady: function ($API) {
 					console.log($API);
 				},
-				social : {
+				social: {
 					facebook: 'Hey if you have few secondes check this video ',
 					twitter: 'Hey if you have few secondes check this video ',
 				}
 			};
-			
+
 		};
 		return $videoService;
 

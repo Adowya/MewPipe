@@ -9,13 +9,15 @@ mewPipeApp.controller('MainCtrl', ['$rootScope', '$http', '$scope', '$route', '$
 			}
 		});
 
-		$scope.suggestVideos = [];
-		$callService.request(null, 'user_suggested', null, null, true).then(function (data) {
-			for (var i in data) {
-				$scope.suggestVideos.push($videoService(data[i], null));
-				$scope.user = data._user;
-			}
-		});
+		if($rootScope.app.getToken()){
+			$scope.suggestVideos = [];
+			$callService.request(null, 'user_suggested', null, null, true).then(function (data) {
+				for (var i in data) {
+					$scope.suggestVideos.push($videoService(data[i], null));
+					$scope.user = data._user;
+				}
+			});
+		}
 
 		setTimeout(function () {
 			new grid3D(document.getElementById('relatedVideo'));
