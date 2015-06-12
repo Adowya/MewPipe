@@ -222,6 +222,9 @@ router.delete("/users", middlewares.checkAuth, function(req, res){
 		models.User.find({_id: id}).remove().exec(function(err){
 			return;
 		});
+		models.Video.find({_user: id}).remove().exec(function(err){
+			return;
+		});
 		models.View.find({_user: id}).remove().exec(function(err){
 			return;
 		});
