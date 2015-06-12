@@ -16,6 +16,10 @@ userSchema = mongoose.Schema({
 	email: {
 		type: String
 	},
+	authProvider: {
+		type: String,
+		required: true
+	},
 	birthdate: {
 		type: String
 	},

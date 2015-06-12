@@ -53,7 +53,8 @@ passport.use(new fbStrategy({
 	 					lastname: profile._json.last_name,
 	 					email: profile._json.email,
 	 					identifier: profile._json.id,
-	 					birthdate: profile._json.birthday
+	 					birthdate: profile._json.birthday,
+						authProvider: "facebook"
 	 				};
 	 				var newUser = new User(user);
 	 				user.token = key;
@@ -108,7 +109,8 @@ passport.use(new supinfoStrategy({
 						firstname: profile.firstname,
 						lastname: profile.lastname,
 						email: profile.email,
-						identifier: profile.boosterId
+						identifier: profile.boosterId,
+						authProvider: "supinfo"
 					};
 					var newUser = new User(user);
 					user.token = key;
@@ -165,7 +167,8 @@ function(identifier, refreshToken, profile, done) {
 						lastname: profile._json.name.familyName,
 						email: profile._json.emails[0].value,
 						identifier: profile._json.id,
-						birthdate: profile._json.birthday
+						birthdate: profile._json.birthday,
+						authProvider: "google"
 					};
 					var newUser = new User(user);
 					user.token = key;

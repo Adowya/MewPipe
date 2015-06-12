@@ -61,6 +61,32 @@ router.get("/user", middlewares.checkAuth, function(req, res){
 });
 
 /**
+* GET USERS STATS
+**/
+router.get("/users/stats", middlewares.checkAuth, function(req, res){
+	var id = req.user._id;
+	models.Video.find({_user: id})
+	.exec(function(err, videos){
+		if(err){
+			if(config.debug == true){
+				console.log({"error_GET_user": err});
+			}
+			return res.json({"success": false, "error": "An error occurred."});
+		}
+		models.View.find({_user: id})
+		.exec(function(err, views){
+			if(err){
+				if(config.debug == true){
+					console.log({"error_GET_user": err});
+				}
+				return res.json({"success": false, "error": "An error occurred."});
+			}
+			return res.json({"success": true, "data": {videos: videos.length, views: views.length}});
+		});
+	});
+});
+
+/**
 * CREATE
 **/
 router.post("/users", function(req, res){
@@ -73,7 +99,8 @@ router.post("/users", function(req, res){
 			birthdate: req.body.birthdate,
 			email: req.body.email,
 			firstname: req.body.firstname,
-			lastname: req.body.lastname
+			lastname: req.body.lastname,
+			authProvider: "local"
 		});
 		models.User.findOne({email: newUser.email})
 		.select("email")
@@ -132,6 +159,45 @@ router.put("/users", middlewares.checkAuth, function(req, res){
 	}else{
 		res.json({"success": false, "error": "All fields must be completed."});
 	}
+});
+
+ /**
+* CHANGE PASSWORD
+**/
+router.put("/user/changePassword", middlewares.checkAuth, function(req, res){
+	if(req.user.authPlatform != "local"){
+		return res.json({"success": false, "error": "You can't change your password."});
+	}
+	if(typeof req.body.oldPass == "undefined"){
+		return res.json({"success": false, "error": "Old password undefined."});
+	}
+	if(typeof req.body.newPass == "undefined"){
+		return res.json({"success": false, "error": "New password undefined."});
+	}
+	var id = req.user._id;
+	var oldPass =  modules.bcrypt.hashSync(req.body.oldPass, config.salt);
+	var newPass =  modules.bcrypt.hashSync(req.body.newPass, config.salt);
+
+	models.User.find({_id: id, identifier: oldPass})
+	.exec(function(err, user){
+		if(user.length > 0) {
+			var query = {_id: req.user._id},
+			data_update = {
+				identifier: newPass
+			};
+			models.User.update(query, data_update, function(err){
+				if(err) {
+					if(config.debug){
+						console.log({error_changePass: err});
+					}
+					return res.json({"success": false, "error": "An error occured."});
+				}
+				res.json({"success": true});
+			});
+		}else {
+			res.json({"success": false, "error": " Invalid old password."});
+		}
+	});
 });
 
 /**
