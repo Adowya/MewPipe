@@ -358,7 +358,12 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 			}
 		}
 		keywords = modules._.uniq(keywords);
-		console.log(keywords);
+		for(var i=0; i<keywords.length; i++){
+			if(keywords[i].length <= 1){
+				keywords.splice(i, 1);
+				i--;
+			}
+		}
 		var suggestedVideos = [];
 
 		modules.async.each(keywords, function (keyword, callback){
@@ -371,7 +376,6 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 			.lean()
 			.exec(function(err, videos){
 				if(videos){
-					//console.log(videos.length);
 					for(var i=0; i<videos.length; i++){
 						suggestedVideos.push(videos[i]);
 					}
@@ -380,36 +384,29 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 			});
 
 		}, function(err){
-			//console.log("Before uniq: "+suggestedVideos.length);
-
 			var flags = [], uniqSuggestedVideos = [], l = suggestedVideos.length, i;
-			for( i=0; i<l; i++) {
-				if( flags[suggestedVideos[i]._id]) continue;
+			for(i=0; i<l; i++){
+				if(flags[suggestedVideos[i]._id]) continue;
 				flags[suggestedVideos[i]._id] = true;
 				uniqSuggestedVideos.push(suggestedVideos[i]);
 			}
 			suggestedVideos = uniqSuggestedVideos;
 
-
-			
-
-
 			if(!uniqSuggestedVideos){
 				return res.json({"success": true, "data": []});
 			}
-			//console.log("After uniq: "+uniqSuggestedVideos.length);
 			suggestedVideos = uniqSuggestedVideos;
-
-			for(var i=0; i<suggestedVideos.length; i++){
-				for(var y=0; y<views.length; y++){
-					if(suggestedVideos[i]){
-						if(String(suggestedVideos[i]._id) == String(views[y]._video._id)){
-							suggestedVideos.splice(i, 1);
-						}
-					}
+			var videosViewed = [];
+			for(var i=0; i<views.length; i++){
+				videosViewed.push(String(views[i]._video._id));
+			}
+			var fullSuggestedVideos = suggestedVideos;
+			for(var i=0; i<fullSuggestedVideos.length; i++){
+				if(modules._.contains(videosViewed, String(fullSuggestedVideos[i]._id))){
+					suggestedVideos.splice(i, 1);
+					i--;
 				}
 			}
-			//console.log("After views: "+suggestedVideos.length);
 			if(suggestedVideos.length == 0){
 				return res.json({"success": true, "data": []});
 			}
