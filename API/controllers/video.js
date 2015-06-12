@@ -371,7 +371,7 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 			.lean()
 			.exec(function(err, videos){
 				if(videos){
-					console.log(videos.length);
+					//console.log(videos.length);
 					for(var i=0; i<videos.length; i++){
 						suggestedVideos.push(videos[i]);
 					}
@@ -380,7 +380,7 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 			});
 
 		}, function(err){
-			console.log("Before uniq: "+suggestedVideos.length);
+			//console.log("Before uniq: "+suggestedVideos.length);
 
 			var flags = [], uniqSuggestedVideos = [], l = suggestedVideos.length, i;
 			for( i=0; i<l; i++) {
@@ -397,7 +397,7 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 			if(!uniqSuggestedVideos){
 				return res.json({"success": true, "data": []});
 			}
-			console.log("After uniq: "+uniqSuggestedVideos.length);
+			//console.log("After uniq: "+uniqSuggestedVideos.length);
 			suggestedVideos = uniqSuggestedVideos;
 
 			for(var i=0; i<suggestedVideos.length; i++){
@@ -409,7 +409,7 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 					}
 				}
 			}
-			console.log("After views: "+suggestedVideos.length);
+			//console.log("After views: "+suggestedVideos.length);
 			if(suggestedVideos.length == 0){
 				return res.json({"success": true, "data": []});
 			}
@@ -431,7 +431,7 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 			}
 			
 		});
-});
+	});
 });
 
 /**
