@@ -397,13 +397,13 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 			suggestedVideos = uniqSuggestedVideos[0];
 			for(var i=0; i<suggestedVideos.length; i++){
 				for(var y=0; y<views.length; y++){
-					if(String(suggestedVideos[i]._id) == String(views[y]._video._id)){
-						suggestedVideos.splice(i, 1);
+					if(suggestedVideos[i]){
+						if(String(suggestedVideos[i]._id) == String(views[y]._video._id)){
+							suggestedVideos.splice(i, 1);
+						}
 					}
 				}
 			}
-			console.log(suggestedVideos);
-			console.log(suggestedVideos.length);
 			if(suggestedVideos.length == 0){
 				return res.json({"success": true, "data": []});
 			}
@@ -425,7 +425,7 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 			}
 			
 		});
-	});
+});
 });
 
 /**
