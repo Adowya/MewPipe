@@ -1,7 +1,7 @@
 /**
 * CONFIG
 **/
-var env = "PROD";
+var env = "DEV";
 var config = {
 	currentVersion: "0.0.2",
 	debug: false,
@@ -26,6 +26,7 @@ var config = {
 			share_readAll: "/api/shares",
 			share_delete: "/api/share/delete",
 			
+			user_suggested: "/api/user/videos/suggestion",
 			user_create: "/api/users",
 			user_readOne: "/api/user", // *x-access-token
 			user_readAll: "/api/users",
@@ -42,7 +43,8 @@ var config = {
 			video_user: "/api/videos/user/all",
 			video_last: "/api/videos/last",
 			video_search: "/api/videos/search",
-
+			video_convert: "/api/videos/getConvertPercent", // :<videoId>
+			
 			video_archive: "/api/videos/archive", // *x-access-token
 			video_download: "/api/videos/download", // :id
 			video_image: "/api/videos/thumbnails", // :id

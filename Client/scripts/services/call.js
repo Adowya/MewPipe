@@ -22,7 +22,8 @@ MewPipeModule.factory('$callService', [
 				$location.path("/");
 				console.error('Error 500 or 503');
 			} else {
-				console.error('Error inconue', err, code);
+				$rootScope.app.showNotif('CONNECTION LOST OR REFUSED', 'error');
+				console.error('Error CONNECTION LOST OR REFUSED', err, code);
 			}
 		};
 
@@ -84,8 +85,6 @@ MewPipeModule.factory('$callService', [
 						"rights": data.rights
 					},
 					file: data,
-				}).progress(function (evt) {
-					$rootScope.dynamic = parseInt(100.0 * evt.loaded / evt.total);
 				}).success(function (res, status, headers, config) {
 					if (res.success) {
 						callback(res.data);

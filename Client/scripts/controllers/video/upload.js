@@ -8,25 +8,30 @@ mewPipeApp.controller('VideoUploadCtrl', ['$rootScope', '$http', '$scope', '$rou
         $scope.submitUpload = function () {
             if (typeof $scope.files !== 'undefined') {
                 var length = $scope.files.length;
-                for (var i = 0; i < $scope.files.length; i++) {
-                    var file = $scope.files[i];
-                    if(config.debug) { console.log(bytesToSize(file.size)); }
-                    if (file.size <= 524288000) {
-                        $callService.upload(file, function(data){
-                            if(config.debug) { console.log('success', data); }
-                            $scope.files = [];
-                            
-                        });
-                        if (i == length - 1) {
-                            $location.path('/video/user/');
+                for (var i = 0; i < $scope.files.length; i++) { 
+                    (function (iFile) {
+                        var file = $scope.files[iFile];
+                        if(config.debug) { console.log(bytesToSize(file.size)); }
+                        if (file.size <= 524288000) {
+                            $callService.upload(file, function(data){
+                                if(config.debug) { console.log('success', data); }
+                                if (iFile == length - 1) {
+                                    $scope.files = [];
+                                    $location.path('/video/user/');
+                                }
+                            });
+                        } else {
+                            $rootScope.app.showNotif('Video allowed on the platform mustn’t exceed 500MB size.', 'error');
                         }
-                    } else {
-                        $rootScope.app.showNotif('Video allowed on the platform mustn’t exceed 500MB size.', 'error');
-                    }
+                    })(i);
                 }
             } else {
                 $rootScope.app.showNotif('Nothing file to upload', 'notice');
             }
+        };
+        
+        var progress = function (timeResponse) {
+              
         };
 
         $scope.tags = [{ name: 'Animation', checked: false },

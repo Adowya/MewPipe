@@ -8,6 +8,35 @@
 		  	height: 50px;
 		}
 	}
+	
+	.nav-pills {
+		 li {
+			padding:10px;
+			text-align: left;
+			font-size: 19px;
+			.badge {
+				  background-color: #8B8B8B;
+				  font-size: 14px;
+			}
+		 }
+	}
+	
+	.description {
+		background-color: #1d2a36;
+		margin-bottom: 9px;
+	}
+	.panel {
+		text-align: center;
+		.panel-heading {
+			font-size: 18px;
+		}
+		.panel-body {
+			  text-align: center;
+			.fa {
+				width: 20%;
+			}
+		}
+	}
 }
 
 #update {
@@ -56,6 +85,13 @@
 	
 	.description {
 		 height: 82px!important;
+	}
+	
+	.progress {
+		position: absolute;
+		width: 214px;
+		z-index: 999;
+		padding-left: 2px;
 	}
 }
 

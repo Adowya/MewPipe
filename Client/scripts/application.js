@@ -142,7 +142,7 @@ mewPipeApp.run([
 					// show the notification
 					notification.show();
 				}, 800);
-			}
+			},
 		};
 
 	}]);

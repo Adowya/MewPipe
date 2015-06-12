@@ -31,6 +31,25 @@ mewPipeApp.directive('ngProgressbtnn', function () {
 	};
 });
 
+mewPipeApp.directive('ngProgressbar', ['$callService', function ($callService) {
+	return function (scope, element, attrs) {
+		var percent = scope.video.dynamic;
+		var interval = window.setInterval(function(){
+			$callService.request(null, 'video_convert', scope.video._id, null, null).then(function (data) {
+					if (data) {
+						if (data.percent == 100) {
+							scope.video.dynamic = 100;
+							element.hide();
+							clearInterval(interval);
+						} else {
+							scope.video.dynamic = data.percent;
+						}
+					}
+				});
+		}, 2000);
+	};
+}]);
+
 mewPipeApp.directive('goClick', function ($location) {
 	return function (scope, element, attrs) {
 		var path;
