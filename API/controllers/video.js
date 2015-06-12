@@ -479,6 +479,18 @@ router.get('/videos/related/:vid', function(req, res) {
 				return res.json({"success": true, "data": []});
 			}
 			suggestedVideos = uniqSuggestedVideos;
+			//
+			var fullSuggestedVideos = suggestedVideos;
+			for(var i=0; i<fullSuggestedVideos.length; i++){
+				if(String(video._id) == String(fullSuggestedVideos[i]._id)){
+					suggestedVideos.splice(i, 1);
+					break;
+				}
+			}
+			if(suggestedVideos.length == 0){
+				return res.json({"success": true, "data": []});
+			}
+			//
 			var	last = 0;
 			var pushNbViews = function(count, i){
 				suggestedVideos[i].views = count;

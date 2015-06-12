@@ -7,7 +7,7 @@
 **/
 router.get('/users', function(req, res){
 	models.User.find()
-	.select("_id firstname lastname email birthdate")
+	.select("-identifier -__v")
 	.exec(function(err, users){
 		if(err){
 			if(config.debug == true){
@@ -48,7 +48,7 @@ router.get('/users', function(req, res){
 router.get("/user", middlewares.checkAuth, function(req, res){
 	var id = req.user._id;
 	models.User.findOne({_id: id})
-	.select("_id firstname lastname email birthdate created")
+	.select("-identifier -__v")
 	.exec(function(err, user){
 		if(err){
 			if(config.debug == true){
