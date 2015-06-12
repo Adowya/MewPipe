@@ -1,27 +1,27 @@
 module.exports.controller = function(app, router, config, modules, models, middlewares, sessions){
 
-var hbjsPercent = {};
+	var hbjsPercent = {};
 
-var convertVideo = function(videoPath, videoExt, videoId){
-	modules.hbjs.spawn({ input: videoPath+"."+videoExt, output: videoPath+".mp4", preset: "Normal"})
-	.on("error", function(err){
-		console.log(err);
-		res.json({"success": false, "error": "Can't convert video."});
-	})
-	.on("progress", function(progress){
-		console.log("Video converting: %s %, ETA: %s", progress.percentComplete, progress.eta);
-		hbjsPercent[videoId] = {
-			percent: progress.percentComplete,
-			eta: progress.eta
-		};
-		if(progress.percentComplete == 100){
-			hbjsPercent[videoId] = undefined;
-			models.Video.update({_id: videoId}, {ready: true}, function(){return});
-			modules.fs.unlink(videoPath+"."+videoExt, function(){return});
-			genrateThumbnails(videoPath+".mp4", videoId);
-		}
-	});
-};
+	var convertVideo = function(videoPath, videoExt, videoId){
+		modules.hbjs.spawn({ input: videoPath+"."+videoExt, output: videoPath+".mp4", preset: "Normal"})
+		.on("error", function(err){
+			console.log(err);
+			res.json({"success": false, "error": "Can't convert video."});
+		})
+		.on("progress", function(progress){
+			console.log("Video converting: %s %, ETA: %s", progress.percentComplete, progress.eta);
+			hbjsPercent[videoId] = {
+				percent: progress.percentComplete,
+				eta: progress.eta
+			};
+			if(progress.percentComplete == 100){
+				hbjsPercent[videoId] = undefined;
+				models.Video.update({_id: videoId}, {ready: true}, function(){return});
+				modules.fs.unlink(videoPath+"."+videoExt, function(){return});
+				genrateThumbnails(videoPath+".mp4", videoId);
+			}
+		});
+	};
 /**
 * GENERATE THUMBNAILS
 **/
@@ -63,14 +63,13 @@ router.get('/videos/download/:vid', function(req, res){
 /**
 * VIEW VIDEO
 **/
-router.get('/videos/play/:vid', middlewares.checkViews, function(req, res){
+router.get('/videos/play/:vid/:token', middlewares.checkViews, function(req, res){
 	models.Video.findOne({_id: req.params.vid}).exec(function(err, video){
 		if(err){
 			return res.json({"success": false, "error": "Can't found this video."});
 		}
 		var videoPath = config.videoDirectory+"/"+video._id+"."+video.ext;
 		var videoName = video.name+"."+video.ext;
-		res.download(videoPath, videoName);
 		if(req.viewsIdentifierUser){
 			models.View.findOne({_video: video._id, _user: req.viewsIdentifierUser})
 			.exec(function(err, view){
@@ -84,8 +83,7 @@ router.get('/videos/play/:vid', middlewares.checkViews, function(req, res){
 					});
 				}
 			});
-		}
-		if(req.viewsIdentifierIp){
+		}else if(req.viewsIdentifierIp){
 			models.View.findOne({_video: video._id, ipAddr: req.viewsIdentifierIp})
 			.exec(function(err, view){
 				if(!view){
@@ -99,6 +97,7 @@ router.get('/videos/play/:vid', middlewares.checkViews, function(req, res){
 				}
 			});
 		}
+		res.download(videoPath, videoName);
 	});
 });
 
@@ -127,7 +126,7 @@ router.get('/videos/thumbnails/:vid', function(req, res){
 router.get('/videos/:vid', function(req, res){
 	models.Video.findOne({_id: req.params.vid})
 	.select("-__v -archived")
-	.populate("_user", "-accessToken -__v")
+	.populate("_user", "-identifier -__v")
 	.lean()
 	.exec(function(err, video){
 		if(err){
@@ -213,7 +212,7 @@ router.get('/videos', function(req, res) {
 	.where("archived").ne(true)
 	.where("ready").equals(true)
 	.select("-__v -archived")
-	.populate("_user", "-accessToken -__v")
+	.populate("_user", "-identifier -__v")
 	.sort("-created")
 	.lean()
 	.exec(function(err, videos){
@@ -265,7 +264,7 @@ router.post("/videos/search", function(req, res){
 	models.Video.find({rights: "public"})
 	.where("archived").ne(true)
 	.where("ready").equals(true)
-	.populate("_user", "-accessToken -__v")
+	.populate("_user", "-identifier -__v")
 	.limit(config.itemsPerPage)
 	.skip(config.itemsPerPage * req.body.page)
 	.sort(req.body.sort)
@@ -311,7 +310,7 @@ router.get('/videos/last/:number', function(req, res) {
 	.where("archived").ne(true)
 	.where("ready").equals(true)
 	.select("-__v -archived")
-	.populate("_user", "-accessToken -__v")
+	.populate("_user", "-identifier -__v")
 	.limit(req.params.number)
 	.sort("-created")
 	.lean()
@@ -330,7 +329,7 @@ router.get('/videos/last/:number', function(req, res) {
 				res.json({"success": true, "data": videos});
 			}
 		};
-		for(var i=0; i < videos.length; i++){
+		for(var i=0; i<videos.length; i++){
 			models.View.find({_video: videos[i]._id})
 			.exec(function(i, err, views){
 				pushNbViews(views.length, i);	
@@ -344,40 +343,87 @@ router.get('/videos/last/:number', function(req, res) {
 **/
 router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) {
 	models.View.find({_user: req.user._id})
+	.limit(10)
 	.populate("_video")
 	.exec(function(err, views){
-		console.log(views);
+		if(!views){
+			return console.log("No views");
+		}
+		var keywords = [];
+		for(var i=0; i<views.length; i++){
+			var currentKeywords = views[i]._video.name.replace(/\_/g,' ').replace(/\./g,' ').split(" ");
+			for(var y=0; y<currentKeywords.length; y++){
+				keywords.push(currentKeywords[y]);
+			}
+		}
+		keywords = modules._.uniq(keywords);
+		var keywordsStr = "";
+		for(var i=0; i<keywords.length; i++){
+			keywordsStr += " "+keywords[i];
+		}
+		var regExSearch = new RegExp(keywordsStr, 'i');
+		var suggestedVideos = [];
+
+		modules.async.forEach(keywords, function (keyword, callback){
+			var regExSearch = new RegExp(keyword, 'i');
+			models.Video.find({rights: "public", name: { $regex: regExSearch } })
+			.where("archived").ne(true)
+			.where("ready").equals(true)
+			.populate("_user", "-identifier -__v")
+			.select("-__v -archived")
+			.lean()
+			.exec(function(err, videos){
+				if(videos){
+					suggestedVideos.push(videos);
+				}
+				callback();
+			});
+
+		}, function(err){
+			var uniqSuggestedVideos = [];
+			for(var i=0; i<suggestedVideos.length; i++){
+				if(uniqSuggestedVideos.length == 0){
+					uniqSuggestedVideos.push(suggestedVideos[i]);
+				}
+				for(var y=0; y<uniqSuggestedVideos.length; y++){
+					if(suggestedVideos[i]._id != uniqSuggestedVideos[y]._id){
+						uniqSuggestedVideos.push(suggestedVideos[i]);
+					}
+				}
+			}
+			if(!uniqSuggestedVideos[0]){
+				return res.json({"success": true, "data": []});
+			}
+			suggestedVideos = uniqSuggestedVideos[0];
+			var unwatchSuggestedVideos = [];
+			for(var i=0; i<suggestedVideos.length; i++){
+				for(var y=0; y<views.length; y++){
+					if(suggestedVideos[i]._id == views[y]._video._id){
+						suggestedVideos.splice(i, 1);
+					}
+				}
+			}
+			console.log(unwatchSuggestedVideos);
+			console.log(suggestedVideos.length);
+			var	last = 0;
+			var pushNbViews = function(count, i){
+				suggestedVideos[i].views = count;
+				last++;
+				if(last >= suggestedVideos.length){
+					suggestedVideos = modules._.sortBy(suggestedVideos, 'views');
+					suggestedVideos = suggestedVideos.reverse();
+					res.json({"success": true, "data": suggestedVideos});
+				}
+			};
+			for(var i=0; i<suggestedVideos.length; i++){
+				models.View.find({_video: suggestedVideos[i]._id})
+				.exec(function(i, err, views){
+					pushNbViews(views.length, i);	
+				}.bind(models.View, i));
+			}
+			
+		});
 	});
-
-
-	// models.Video.find({rights: "public"})
-	// .where("archived").ne(true)
-	// .select("-__v -archived")
-	// .populate("_user", "-accessToken -__v")
-	// .lean()
-	// .exec(function(err, videos){
-	// 	if(videos){
-	// 		if(videos.length == 0){
-	// 			res.json({"success": true, "data": videos});
-	// 		}
-	// 		var	last = 0;
-	// 		var pushNbViews = function(count, i){
-	// 			videos[i].views = count;
-	// 			last++;
-	// 			if(last >= videos.length){
-	// 				res.json({"success": true, "data": videos});
-	// 			}
-	// 		};
-	// 		for(var i=0; i < videos.length; i++){
-	// 			models.View.find({_video: videos[i]._id})
-	// 			.exec(function(i, err, views){
-	// 				pushNbViews(views.length, i);	
-	// 			}.bind(models.View, i));
-	// 		}
-	// 	}else{
-	// 		res.json({"success": false, "error": err});
-	// 	}
-	// });
 });
 
 /**
@@ -386,7 +432,7 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 router.get('/videos/user/all', middlewares.checkAuth, function(req, res) {
 	models.Video.find({_user: req.user._id})
 	.where("archived").ne(true)
-	.populate("_user", "-accessToken -__v")
+	.populate("_user", "-identifier -__v")
 	.select("-__v -archived")
 	.sort("-created")
 	.lean()
@@ -422,7 +468,7 @@ router.get('/videos/user/:uid', function(req, res) {
 	models.Video.find({rights: "public", _user: req.params.uid})
 	.where("archived").ne(true)
 	.where("ready").equals(true)
-	.populate("_user", "-accessToken -__v")
+	.populate("_user", "-identifier -__v")
 	.select("-__v -archived")
 	.lean()
 	.exec(function(err, videos){
@@ -494,20 +540,19 @@ router.delete('/videos/:vid', middlewares.checkAuth, function(req, res){
 		}
 		models.Video.remove({ _id: video._id }, function(err) {
 			if(err){
-				res.json({"success": false, "error": err});
-			}else{
-				var videoPath = config.videoDirectory+"/"+video._id+"."+video.ext;
-				var thumbnailPath = config.thumbnailsDirectory+"/"+video._id+".png";
-				modules.fs.unlink(videoPath, function(){
-					modules.fs.unlink(thumbnailPath, function(){
-						return;
-					});
-				});
-				models.View.remove({ _video: video._id }, function(err) {
+				return res.json({"success": false, "error": err});
+			}
+			var videoPath = config.videoDirectory+"/"+video._id+"."+video.ext;
+			var thumbnailPath = config.thumbnailsDirectory+"/"+video._id+".png";
+			modules.fs.unlink(videoPath, function(){
+				modules.fs.unlink(thumbnailPath, function(){
 					return;
 				});
-				res.json({"success": true});
-			}
+			});
+			models.View.remove({ _video: video._id }, function(err) {
+				return;
+			});
+			res.json({"success": true});
 		});
 	});
 });

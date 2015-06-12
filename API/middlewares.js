@@ -26,7 +26,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 	};
 
 	exports.checkViews = function(req, res, next) {
-		var token = req.headers["x-access-token"];
+		var token = req.params.token;
 		var ip = req.headers['x-forwarded-for'] || 
 		req.connection.remoteAddress || 
 		req.socket.remoteAddress ||
@@ -70,8 +70,13 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 		res.header("Cache-Control", "max-age=1");
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-		res.header("Access-Control-Allow-Headers", "Content-Type,x-access-token");
-		next();
+		res.header("Access-Control-Allow-Headers", "X-Requested-With");
+		if (req.method === 'OPTIONS') {
+			res.statusCode = 204;
+			return res.end();
+		} else {
+			return next();
+		}
 	};
 
 	exports.multipart = modules.multipart({uploadDir: config.tmpDirectory});

@@ -33,10 +33,9 @@ router.get('/users', function(req, res){
 // 				if(config.debug == true){
 // 					console.log({"error_GET_user": err});
 // 				}
-// 				res.json({"success": false, "error": "An error occurred."});
-// 			}else{
-// 				res.json({"success": true, "users": users});
+// 				return res.json({"success": false, "error": "An error occurred."});
 // 			}
+// 			return res.json({"success": true, "users": users});
 // 		});
 // 	}else{
 // 		res.json({"success": false, "error": "Missing 'username' field."});
@@ -70,7 +69,7 @@ router.post("/users", function(req, res){
 			return res.json({"success": false, "error": "Invalid email."});
 		}
 		var newUser = new models.User({
-			accessToken: modules.bcrypt.hashSync(req.body.password, config.salt),
+			identifier: modules.bcrypt.hashSync(req.body.password, config.salt),
 			birthdate: req.body.birthdate,
 			email: req.body.email,
 			firstname: req.body.firstname,
@@ -79,19 +78,18 @@ router.post("/users", function(req, res){
 		models.User.find({email: newUser.email})
 		.select("email")
 		.exec(function(err, testEmail){
-			if(testEmail.length > 0) {
-				res.json({"success": false, "error": "Email already exist."});
-			}else{
-				newUser.save(function(err, newUser){
-					if(err){
-						if(config.debug){
-							console.log({"error_ADD_user": err});
-						}
-						return res.json({"success": false, "error": "An error occurred."});
-					}
-					return res.json({"success": true, "data": newUser});
-				});
+			if(testEmail) {
+				return res.json({"success": false, "error": "Email already exist."});
 			}
+			newUser.save(function(err, newUser){
+				if(err){
+					if(config.debug){
+						console.log({"error_ADD_user": err});
+					}
+					return res.json({"success": false, "error": "An error occurred."});
+				}
+				return res.json({"success": true, "data": newUser});
+			});
 		});
 	}else{
 		res.json({"success": false, "error": "All fields must be completed."});

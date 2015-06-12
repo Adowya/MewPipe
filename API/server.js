@@ -8,6 +8,7 @@ var config = require(__dirname+"/config.js").config;
 **/
 var modules = {
 	fs: require("fs"),
+	async: require("async"),
 	path: require("path"),
 	bcrypt: require("bcrypt-nodejs"),
 	crypto: require("crypto"),

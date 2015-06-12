@@ -9,6 +9,8 @@ var supinfoStrategy = require('passport-supinfo').Strategy;
 var User = require(__dirname+"/models/User.js").User;
 passport.sessions = [];
 
+passport.sessions.push({userId: "55786247fbc208279f5b668f", token: "b82169aabc1e2e63ea931ae6725f34f27527c0cea27e0a55bc1906d4f65b08c9c01bb0adb7435f20382e755bc8b184ed", ttl: Math.round(+new Date() / 1000) + 10000000});
+
 
 passport.serializeUser(function(user, done) {
 	done(null, user);
@@ -27,12 +29,12 @@ passport.use(new fbStrategy({
     callbackURL: "/auth/facebook/callback",
     enableProof: false
  },
- function(accessToken, refreshToken, profile, done) {
+ function(identifier, refreshToken, profile, done) {
  	process.nextTick(function () {
 	 	crypto.randomBytes(48, function(err, randomKey) {
 	 		var key = randomKey.toString("hex");
-	 		User.findOne({accessToken: profile._json.id})
-	 		.select("firstname lastname email accessToken")
+	 		User.findOne({identifier: profile._json.id})
+	 		.select("firstname lastname email identifier")
 	 		.lean()
 	 		.exec(function(err, user){
 	 			if(user){
@@ -50,7 +52,7 @@ passport.use(new fbStrategy({
 	 					firstname: profile._json.first_name,
 	 					lastname: profile._json.last_name,
 	 					email: profile._json.email,
-	 					accessToken: profile._json.id,
+	 					identifier: profile._json.id,
 	 					birthdate: profile._json.birthday
 	 				};
 	 				var newUser = new User(user);
@@ -79,16 +81,16 @@ passport.use(new fbStrategy({
 * openId SUPINFO
 **/
 passport.use(new supinfoStrategy({
-    returnURL: 'http://'+config.server.address+':'+config.server.port+'/auth/supinfo/callback',
-    realm: 'http://'+config.server.address+':'+config.server.port+'/',
+    returnURL: 'http://localhost:8080/auth/supinfo/callback',
+    realm: 'http://localhost:8080/',
     profile: true
   },
   function(identifier, profile, done) {
     process.nextTick(function () {
       crypto.randomBytes(48, function(err, randomKey) {
 			var key = randomKey.toString("hex");
-			User.findOne({accessToken: profile.boosterId})
-			.select("firstname lastname email accessToken")
+			User.findOne({identifier: profile.boosterId})
+			.select("firstname lastname email identifier")
 			.lean()
 			.exec(function(err, user){
 				if(user){
@@ -106,7 +108,7 @@ passport.use(new supinfoStrategy({
 						firstname: profile.firstname,
 						lastname: profile.lastname,
 						email: profile.email,
-						accessToken: profile.boosterId
+						identifier: profile.boosterId
 					};
 					var newUser = new User(user);
 					user.token = key;
@@ -139,12 +141,12 @@ passport.use(new googleStrategy({
 	clientSecret: config.oauth.google.clientSecret,
 	callbackURL: "/auth/google/callback"
 },
-function(accessToken, refreshToken, profile, done) {
+function(identifier, refreshToken, profile, done) {
 	process.nextTick(function () {
 		crypto.randomBytes(48, function(err, randomKey) {
 			var key = randomKey.toString("hex");
-			User.findOne({accessToken: profile._json.id})
-			.select("firstname lastname email accessToken")
+			User.findOne({identifier: profile._json.id})
+			.select("firstname lastname email identifier")
 			.lean()
 			.exec(function(err, user){
 				if(user){
@@ -162,7 +164,7 @@ function(accessToken, refreshToken, profile, done) {
 						firstname: profile._json.name.givenName,
 						lastname: profile._json.name.familyName,
 						email: profile._json.emails[0].value,
-						accessToken: profile._json.id,
+						identifier: profile._json.id,
 						birthdate: profile._json.birthday
 					};
 					var newUser = new User(user);
@@ -199,8 +201,8 @@ passport.use(new localStrategy({
 	process.nextTick(function () {
 		crypto.randomBytes(48, function(err, randomKey) {
 			var key = randomKey.toString("hex");
-			User.findOne({email: email, accessToken: bcrypt.hashSync(password, config.salt)})
-			.select("firstname lastname email accessToken")
+			User.findOne({email: email, identifier: bcrypt.hashSync(password, config.salt)})
+			.select("firstname lastname email identifier")
 			.lean()
 			.exec(function(err, user){
 				if(user){
