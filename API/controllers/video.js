@@ -346,8 +346,8 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 	.limit(10)
 	.populate("_video")
 	.exec(function(err, views){
-		if(!views){
-			return console.log("No views");
+		if(views.length == 0){
+			return res.json({"success": true, "data": []});
 		}
 		var keywords = [];
 		for(var i=0; i<views.length; i++){
