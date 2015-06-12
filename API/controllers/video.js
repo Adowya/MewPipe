@@ -432,6 +432,90 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 });
 
 /**
+* VIDEO RELATED
+**/
+router.get('/user/videos/related/:vid', middlewares.checkAuth, function(req, res) {
+	models.Video.findOne({_id: req.params.vid})
+	.exec(function(err, video){
+		if(!video){
+			return res.json({"success": true, "data": []});
+		}
+		var keywords = video.name.replace(/\_/g,' ').replace(/\./g,' ').split(" ");
+		keywords = modules._.uniq(keywords);
+		for(var i=0; i<keywords.length; i++){
+			if(keywords[i].length <= 1){
+				keywords.splice(i, 1);
+				i--;
+			}
+		}
+		var suggestedVideos = [];
+
+		modules.async.each(keywords, function (keyword, callback){
+			var regExSuggest = new RegExp(keyword, 'i');
+			models.Video.find({rights: "public", name: { $regex: regExSuggest } })
+			.where("archived").ne(true)
+			.where("ready").equals(true)
+			.populate("_user", "-identifier -__v")
+			.select("-__v -archived")
+			.lean()
+			.exec(function(err, videos){
+				if(videos){
+					for(var i=0; i<videos.length; i++){
+						suggestedVideos.push(videos[i]);
+					}
+				}
+				callback();
+			});
+
+		}, function(err){
+			var flags = [], uniqSuggestedVideos = [], l = suggestedVideos.length, i;
+			for(i=0; i<l; i++){
+				if(flags[suggestedVideos[i]._id]) continue;
+				flags[suggestedVideos[i]._id] = true;
+				uniqSuggestedVideos.push(suggestedVideos[i]);
+			}
+			suggestedVideos = uniqSuggestedVideos;
+
+			if(!uniqSuggestedVideos){
+				return res.json({"success": true, "data": []});
+			}
+			suggestedVideos = uniqSuggestedVideos;
+			var videosViewed = [];
+			for(var i=0; i<views.length; i++){
+				videosViewed.push(String(views[i]._video._id));
+			}
+			var fullSuggestedVideos = suggestedVideos;
+			for(var i=0; i<fullSuggestedVideos.length; i++){
+				if(modules._.contains(videosViewed, String(fullSuggestedVideos[i]._id))){
+					suggestedVideos.splice(i, 1);
+					i--;
+				}
+			}
+			if(suggestedVideos.length == 0){
+				return res.json({"success": true, "data": []});
+			}
+			var	last = 0;
+			var pushNbViews = function(count, i){
+				suggestedVideos[i].views = count;
+				last++;
+				if(last >= suggestedVideos.length){
+					suggestedVideos = modules._.sortBy(suggestedVideos, 'views');
+					suggestedVideos = suggestedVideos.reverse();
+					res.json({"success": true, "data": suggestedVideos});
+				}
+			};
+			for(var i=0; i<suggestedVideos.length; i++){
+				models.View.find({_video: suggestedVideos[i]._id})
+				.exec(function(i, err, views){
+					pushNbViews(views.length, i);	
+				}.bind(models.View, i));
+			}
+			
+		});
+	});
+});
+
+/**
 * READ USER'S VIDEOS
 **/
 router.get('/videos/user/all', middlewares.checkAuth, function(req, res) {
