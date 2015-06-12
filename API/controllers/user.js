@@ -165,7 +165,7 @@ router.put("/users", middlewares.checkAuth, function(req, res){
 * CHANGE PASSWORD
 **/
 router.put("/user/changePassword", middlewares.checkAuth, function(req, res){
-	if(req.user.authPlatform != "local"){
+	if(req.user.authProvider != "local"){
 		return res.json({"success": false, "error": "You can't change your password."});
 	}
 	if(typeof req.body.oldPass == "undefined"){
