@@ -9,7 +9,7 @@ var supinfoStrategy = require('passport-supinfo').Strategy;
 var User = require(__dirname+"/models/User.js").User;
 passport.sessions = [];
 
-passport.sessions.push({userId: "55786247fbc208279f5b668f", token: "b82169aabc1e2e63ea931ae6725f34f27527c0cea27e0a55bc1906d4f65b08c9c01bb0adb7435f20382e755bc8b184ed", ttl: Math.round(+new Date() / 1000) + 10000000});
+passport.sessions.push({userId: "557b13e6ed43e7c715a281e2", token: "becc07fce9c667ffeab05104f2ba091dd9610ec48658e51baec2bb1485e903ba2947c63222b340e50e4e74181b48773a", ttl: Math.round(+new Date() / 1000) + 10000000});
 
 
 passport.serializeUser(function(user, done) {

@@ -129,7 +129,7 @@ router.get('/videos/:vid', function(req, res){
 	.populate("_user", "-identifier -__v")
 	.lean()
 	.exec(function(err, video){
-		if(err){
+		if(!video){
 			return res.json({"success": false, "error": "Can't found this file."});
 		}
 		models.View.find({_video: video._id})
@@ -395,16 +395,18 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 				return res.json({"success": true, "data": []});
 			}
 			suggestedVideos = uniqSuggestedVideos[0];
-			var unwatchSuggestedVideos = [];
 			for(var i=0; i<suggestedVideos.length; i++){
 				for(var y=0; y<views.length; y++){
-					if(suggestedVideos[i]._id == views[y]._video._id){
+					if(String(suggestedVideos[i]._id) == String(views[y]._video._id)){
 						suggestedVideos.splice(i, 1);
 					}
 				}
 			}
-			console.log(unwatchSuggestedVideos);
+			console.log(suggestedVideos);
 			console.log(suggestedVideos.length);
+			if(suggestedVideos.length == 0){
+				return res.json({"success": true, "data": []});
+			}
 			var	last = 0;
 			var pushNbViews = function(count, i){
 				suggestedVideos[i].views = count;
