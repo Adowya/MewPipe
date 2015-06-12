@@ -434,7 +434,7 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 /**
 * VIDEO RELATED
 **/
-router.get('/user/videos/related/:vid', middlewares.checkAuth, function(req, res) {
+router.get('/videos/related/:vid', function(req, res) {
 	models.Video.findOne({_id: req.params.vid})
 	.exec(function(err, video){
 		if(!video){
@@ -449,7 +449,6 @@ router.get('/user/videos/related/:vid', middlewares.checkAuth, function(req, res
 			}
 		}
 		var suggestedVideos = [];
-
 		modules.async.each(keywords, function (keyword, callback){
 			var regExSuggest = new RegExp(keyword, 'i');
 			models.Video.find({rights: "public", name: { $regex: regExSuggest } })
@@ -480,20 +479,6 @@ router.get('/user/videos/related/:vid', middlewares.checkAuth, function(req, res
 				return res.json({"success": true, "data": []});
 			}
 			suggestedVideos = uniqSuggestedVideos;
-			var videosViewed = [];
-			for(var i=0; i<views.length; i++){
-				videosViewed.push(String(views[i]._video._id));
-			}
-			var fullSuggestedVideos = suggestedVideos;
-			for(var i=0; i<fullSuggestedVideos.length; i++){
-				if(modules._.contains(videosViewed, String(fullSuggestedVideos[i]._id))){
-					suggestedVideos.splice(i, 1);
-					i--;
-				}
-			}
-			if(suggestedVideos.length == 0){
-				return res.json({"success": true, "data": []});
-			}
 			var	last = 0;
 			var pushNbViews = function(count, i){
 				suggestedVideos[i].views = count;
