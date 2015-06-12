@@ -338,6 +338,7 @@ router.get('/videos/last/:number', function(req, res) {
 	});
 });
 
+
 /**
 * VIDEO SUGGESTION
 **/
@@ -357,16 +358,12 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 			}
 		}
 		keywords = modules._.uniq(keywords);
-		var keywordsStr = "";
-		for(var i=0; i<keywords.length; i++){
-			keywordsStr += " "+keywords[i];
-		}
-		var regExSearch = new RegExp(keywordsStr, 'i');
+		console.log(keywords);
 		var suggestedVideos = [];
 
-		modules.async.forEach(keywords, function (keyword, callback){
-			var regExSearch = new RegExp(keyword, 'i');
-			models.Video.find({rights: "public", name: { $regex: regExSearch } })
+		modules.async.each(keywords, function (keyword, callback){
+			var regExSuggest = new RegExp(keyword, 'i');
+			models.Video.find({rights: "public", name: { $regex: regExSuggest } })
 			.where("archived").ne(true)
 			.where("ready").equals(true)
 			.populate("_user", "-identifier -__v")
@@ -374,27 +371,35 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 			.lean()
 			.exec(function(err, videos){
 				if(videos){
-					suggestedVideos.push(videos);
+					console.log(videos.length);
+					for(var i=0; i<videos.length; i++){
+						suggestedVideos.push(videos[i]);
+					}
 				}
 				callback();
 			});
 
 		}, function(err){
-			var uniqSuggestedVideos = [];
-			for(var i=0; i<suggestedVideos.length; i++){
-				if(uniqSuggestedVideos.length == 0){
-					uniqSuggestedVideos.push(suggestedVideos[i]);
-				}
-				for(var y=0; y<uniqSuggestedVideos.length; y++){
-					if(suggestedVideos[i]._id != uniqSuggestedVideos[y]._id){
-						uniqSuggestedVideos.push(suggestedVideos[i]);
-					}
-				}
+			console.log("Before uniq: "+suggestedVideos.length);
+
+			var flags = [], uniqSuggestedVideos = [], l = suggestedVideos.length, i;
+			for( i=0; i<l; i++) {
+				if( flags[suggestedVideos[i]._id]) continue;
+				flags[suggestedVideos[i]._id] = true;
+				uniqSuggestedVideos.push(suggestedVideos[i]);
 			}
-			if(!uniqSuggestedVideos[0]){
+			suggestedVideos = uniqSuggestedVideos;
+
+
+			
+
+
+			if(!uniqSuggestedVideos){
 				return res.json({"success": true, "data": []});
 			}
-			suggestedVideos = uniqSuggestedVideos[0];
+			console.log("After uniq: "+uniqSuggestedVideos.length);
+			suggestedVideos = uniqSuggestedVideos;
+
 			for(var i=0; i<suggestedVideos.length; i++){
 				for(var y=0; y<views.length; y++){
 					if(suggestedVideos[i]){
@@ -404,6 +409,7 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 					}
 				}
 			}
+			console.log("After views: "+suggestedVideos.length);
 			if(suggestedVideos.length == 0){
 				return res.json({"success": true, "data": []});
 			}
