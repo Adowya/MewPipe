@@ -6,7 +6,7 @@ module.exports.controller = function(app, router, config, modules, models, middl
 		.select("_id firstname lastname email birthdate")
 		.exec(function(err, user){
 			if(err){
-				if(config.debug == true){
+				if(config.debug){
 					console.log({"error_GET_auth/user": err});
 				}
 				res.json({"success": false, "error": "An error occurred."});
@@ -27,7 +27,6 @@ module.exports.controller = function(app, router, config, modules, models, middl
 			}
 			req.login(user, function(err) {
 				if(err){ return next(err); }
- 				//res.cookie('token', user.token, {expires: new Date(Date.now() + config.ttlToken*1000)});
  				return res.json({"success": true, "data": {token: user.token}});
  			});
 		})(req, res, next);
@@ -46,7 +45,6 @@ module.exports.controller = function(app, router, config, modules, models, middl
 			}
 			req.login(user, function(err) {
 				if(err){ return next(err); }
- 				//res.cookie('token', user.token, {expires: new Date(Date.now() + config.ttlToken*1000)});
  				return res.redirect('/#/auth/success/'+user.token);
  			});
 		})(req, res, next);
@@ -65,7 +63,6 @@ module.exports.controller = function(app, router, config, modules, models, middl
 			}
 			req.login(user, function(err) {
 				if(err){ return next(err); }
- 				//res.cookie('token', user.token, {expires: new Date(Date.now() + config.ttlToken*1000)});
  				return res.redirect('/#/auth/success/'+user.token);
  			});
 		})(req, res, next);
@@ -84,7 +81,6 @@ module.exports.controller = function(app, router, config, modules, models, middl
 			}
 			req.login(user, function(err) {
 				if(err){ return next(err); }
- 				//res.cookie('token', user.token, {expires: new Date(Date.now() + config.ttlToken*1000)});
  				return res.redirect('/#/auth/success/'+user.token);
  			});
 		})(req, res, next);

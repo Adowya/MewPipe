@@ -100,7 +100,7 @@ modules.fs.readdirSync(config.tmpDirectory).forEach(function (file) {
 console.log("############################ ############################ ############################ ############################");
 console.log("Started since: "+new Date().toISOString());
 console.log("Environement: "+config.env);
-if(true == config.debug) {
+if(config.debug) {
 	console.log("Debug ON");
 }else{
 	console.log("Debug OFF");

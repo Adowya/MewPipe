@@ -1,27 +1,36 @@
 module.exports.controller = function(app, router, config, modules, models, middlewares, sessions){
 
-	var hbjsPercent = {};
+var hbjsPercent = {};
 
-	var convertVideo = function(videoPath, videoExt, videoId){
-		modules.hbjs.spawn({ input: videoPath+"."+videoExt, output: videoPath+".mp4", preset: "Normal"})
-		.on("error", function(err){
+/**
+* CONVERT VIDEO
+**/
+var convertVideo = function(videoPath, videoExt, videoId){
+	modules.hbjs.spawn({ input: videoPath+"."+videoExt, output: videoPath+".mp4", preset: "Normal"})
+	.on("error", function(err){
+		if(config.debug){
 			console.log(err);
-			res.json({"success": false, "error": "Can't convert video."});
-		})
-		.on("progress", function(progress){
+		}
+		res.json({"success": false, "error": "Can't convert video."});
+	})
+	.on("progress", function(progress){
+		if(config.debug){
 			console.log("Video converting: %s %, ETA: %s", progress.percentComplete, progress.eta);
-			hbjsPercent[videoId] = {
-				percent: progress.percentComplete,
-				eta: progress.eta
-			};
-			if(progress.percentComplete == 100){
-				hbjsPercent[videoId] = undefined;
-				models.Video.update({_id: videoId}, {ready: true}, function(){return});
-				modules.fs.unlink(videoPath+"."+videoExt, function(){return});
-				genrateThumbnails(videoPath+".mp4", videoId);
-			}
-		});
-	};
+		}
+		hbjsPercent[videoId] = {
+			percent: progress.percentComplete,
+			eta: progress.eta
+		};
+		if(progress.percentComplete == 100){
+			hbjsPercent[videoId] = undefined;
+			models.Video.update({_id: videoId}, {ready: true}, function(){return});
+			modules.fs.unlink(videoPath+"."+videoExt, function(){return});
+			genrateThumbnails(videoPath+".mp4", videoId);
+		}
+	});
+};
+
+
 /**
 * GENERATE THUMBNAILS
 **/
@@ -36,6 +45,7 @@ var genrateThumbnails = function(videoName, videoId){
 	.takeScreenshots({ filename: videoId+'.png', size: config.thumbnailsSize, count: 1, timemarks: [ '20%' ]}, config.thumbnailsDirectory); 
 };
 
+
 /**
 * GET CONVERT PERCENT
 **/
@@ -45,6 +55,7 @@ router.get('/videos/getConvertPercent/:vid', function(req, res){
 	}
 	return res.json({"success": true, "data": {percent: 100, eta: "00h00m00s"}});
 });
+
 
 /**
 * DOWNLOAD VIDEO
@@ -59,6 +70,7 @@ router.get('/videos/download/:vid', function(req, res){
 		res.download(videoPath, videoName);
 	});
 });
+
 
 /**
 * VIEW VIDEO
@@ -239,6 +251,7 @@ router.get('/videos', function(req, res) {
 	});
 });
 
+
 /**
 * SEARCH VIDEO param=> q: keywords, sort: ['views', 'created', 'name'], page: number
 **/
@@ -298,6 +311,7 @@ router.post("/videos/search", function(req, res){
 		}
 	});
 });
+
 
 /**
 * LAST VIDEOS
@@ -431,6 +445,7 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 	});
 });
 
+
 /**
 * VIDEO RELATED
 **/
@@ -511,6 +526,7 @@ router.get('/videos/related/:vid', function(req, res) {
 		});
 	});
 });
+
 
 /**
 * READ USER'S VIDEOS
@@ -601,7 +617,7 @@ router.put("/videos/:vid", middlewares.checkAuth, function(req, res){
 			}
 			models.Video.update({_id: req.params.vid}, editVideo, function(err){
 				if(err){
-					if(config.debug == true){
+					if(config.debug){
 						console.log({"error_PUT_video": err});
 					}
 					return res.json({"success": false, "error": "An error occurred."});
@@ -655,10 +671,9 @@ router.get('/videos/archive/:vid', middlewares.checkAuth, function(req, res){
 		}
 		models.Video.update({_id: video._id},{archived: true}, function(err){
 			if(!err){
-				res.json({"success": true});
-			}else{
-				res.json({"success": true, "error": "An error occured."});
+				return res.json({"success": true});
 			}
+			return res.json({"success": true, "error": "An error occured."});
 		});
 	});
 });

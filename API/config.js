@@ -5,7 +5,7 @@ var env = "DEV"; // DEV / PROD
 var config = { 
 	server: {
 		port: 80,
-		address: "192.168.1.13"
+		address: ""
 	},
 	salt: "$2a$10$sU3LKpiKHhQghEezTKuZnY",
 	ttlToken: 7200, //1H

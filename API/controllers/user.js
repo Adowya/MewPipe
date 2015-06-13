@@ -10,7 +10,7 @@ router.get('/users', function(req, res){
 	.select("-identifier -__v")
 	.exec(function(err, users){
 		if(err){
-			if(config.debug == true){
+			if(config.debug){
 				console.log({"error_GET_users": err});
 			}
 			return res.json({"success": false, "error": "An error occurred."});
@@ -19,28 +19,6 @@ router.get('/users', function(req, res){
 	});
 });
 
-/**
-* READ ALL BY USERNAME
-**/
-// router.post('/users/findByUsername', function(req, res){
-// 	if(req.body.username){
-// 		var regExSearch = new RegExp(req.body.username, 'i');
-// 		models.User.find()
-// 		.select("firstname lastname email birthdate")
-// 		.or([{'username': {$regex: regExSearch}}])
-// 		.exec(function(err, users){
-// 			if(err){
-// 				if(config.debug == true){
-// 					console.log({"error_GET_user": err});
-// 				}
-// 				return res.json({"success": false, "error": "An error occurred."});
-// 			}
-// 			return res.json({"success": true, "users": users});
-// 		});
-// 	}else{
-// 		res.json({"success": false, "error": "Missing 'username' field."});
-// 	}
-// });
 
 /**
 * READ ONE
@@ -51,7 +29,7 @@ router.get("/user", middlewares.checkAuth, function(req, res){
 	.select("-identifier -__v")
 	.exec(function(err, user){
 		if(err){
-			if(config.debug == true){
+			if(config.debug){
 				console.log({"error_GET_user": err});
 			}
 			return res.json({"success": false, "error": "An error occurred."});
@@ -59,6 +37,7 @@ router.get("/user", middlewares.checkAuth, function(req, res){
 		return res.json({"success": true, "data": user});
 	});
 });
+
 
 /**
 * GET USERS STATS
@@ -68,7 +47,7 @@ router.get("/users/stats", middlewares.checkAuth, function(req, res){
 	models.Video.find({_user: id})
 	.exec(function(err, videos){
 		if(err){
-			if(config.debug == true){
+			if(config.debug){
 				console.log({"error_GET_user": err});
 			}
 			return res.json({"success": false, "error": "An error occurred."});
@@ -76,7 +55,7 @@ router.get("/users/stats", middlewares.checkAuth, function(req, res){
 		models.View.find({_user: id})
 		.exec(function(err, views){
 			if(err){
-				if(config.debug == true){
+				if(config.debug){
 					console.log({"error_GET_user": err});
 				}
 				return res.json({"success": false, "error": "An error occurred."});
@@ -85,6 +64,7 @@ router.get("/users/stats", middlewares.checkAuth, function(req, res){
 		});
 	});
 });
+
 
 /**
 * CREATE
@@ -123,6 +103,7 @@ router.post("/users", function(req, res){
 	}
 });
 
+
 /**
 * UPDATE
 **/
@@ -148,7 +129,7 @@ router.put("/users", middlewares.checkAuth, function(req, res){
 			}
 			models.User.update({_id: req.user._id}, editUser, function(err){
 				if(err) {
-					if(config.debug == true){
+					if(config.debug){
 						console.log({"error_PUT_user": err});
 					}
 					return res.json({"success": false, "error": "An error occurred."});
@@ -161,7 +142,8 @@ router.put("/users", middlewares.checkAuth, function(req, res){
 	}
 });
 
- /**
+
+/**
 * CHANGE PASSWORD
 **/
 router.put("/user/changePassword", middlewares.checkAuth, function(req, res){
@@ -188,7 +170,7 @@ router.put("/user/changePassword", middlewares.checkAuth, function(req, res){
 			models.User.update(query, data_update, function(err){
 				if(err) {
 					if(config.debug){
-						console.log({error_changePass: err});
+						console.log({"error_changePass": err});
 					}
 					return res.json({"success": false, "error": "An error occured."});
 				}
@@ -199,6 +181,7 @@ router.put("/user/changePassword", middlewares.checkAuth, function(req, res){
 		}
 	});
 });
+
 
 /**
 * DELETE
