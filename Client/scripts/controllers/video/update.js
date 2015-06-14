@@ -11,8 +11,8 @@ mewPipeApp.controller('VideoUpdateCtrl', ['$rootScope', '$http', '$scope', '$rou
 
 		$scope.submitUpdate = function () {
 			$callService.request('PUT', 'video_update', $routeParams.param, $scope.video, true).then(function (data) {
-				$location.path('/video/show/'+$routeParams.param);
+				$location.path('/video/show/' + $routeParams.param);
 			});
 		}
-		
+
 	}]);

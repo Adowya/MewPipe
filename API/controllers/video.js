@@ -157,7 +157,7 @@ router.get('/videos/:vid', function(req, res){
 * UPLOAD FILE middlewares.checkAuth,
 **/
 router.post('/videos/upload', middlewares.checkAuth, middlewares.multipart, function(req, res) {
-	var req.body = JSON.parse(req.body.data);
+	req.body = JSON.parse(req.body.data);
 	if(!req.files.file){
 		return res.json({ "success": false, "error": 'No video received' });
 	}

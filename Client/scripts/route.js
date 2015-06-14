@@ -47,8 +47,8 @@ mewPipeApp.config(['$routeProvider',
       templateUrl: 'views/video/show.html',
       controller: 'VideoShowCtrl'
     })
-    
-    
+
+
       .when('/video/search/:param', {
       templateUrl: 'views/video/search.html',
       controller: 'VideoSearchCtrl'

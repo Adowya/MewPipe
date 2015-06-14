@@ -31,21 +31,22 @@ mewPipeApp.directive('ngProgressbtnn', function () {
 	};
 });
 
-mewPipeApp.directive('ngProgressbar', ['$callService', function ($callService) {
+mewPipeApp.directive('ngProgressbar', ['$route', '$callService', function ($route, $callService) {
 	return function (scope, element, attrs) {
 		var percent = scope.video.dynamic;
-		var interval = window.setInterval(function(){
+		var interval = window.setInterval(function () {
 			$callService.request(null, 'video_convert', scope.video._id, null, null).then(function (data) {
-					if (data) {
-						if (data.percent == 100) {
-							scope.video.dynamic = 100;
-							element.hide();
-							clearInterval(interval);
-						} else {
-							scope.video.dynamic = data.percent;
-						}
+				if (data) {
+					if (data.percent >= 99) {
+						scope.video.dynamic = 100;
+						element.hide();
+						clearInterval(interval);
+						$route.reload();
+					} else {
+						scope.video.dynamic = data.percent;
 					}
-				});
+				}
+			});
 		}, 2000);
 	};
 }]);

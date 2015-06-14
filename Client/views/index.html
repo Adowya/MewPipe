@@ -1,8 +1,10 @@
 <div class="row">
     <div class="col-lg-12">
+        <div class="page-header">
+            <h1 id="container">Latest videos</h1>
+        </div>
         <div class="bs-component">
             <div class="jumbotron">
-                <h1>Related videos</h1>
                 <p>This is the latest uploaded videos.</p>
                 <div id="index">
                     <section class="grid3d horizontal" id="relatedVideo">
@@ -10,7 +12,6 @@
                             <div class="grid">
                                 <figure class="effect-hera" ng-repeat="video in relatedVideos" go-click="/video/show/{{video._id}}/">
                                     <img ng-src="{{video.image}}" />
-                                    <!--ng-click="videoModal.show(video)"-->
                                     <figcaption>
                                         <h2>
                                             <span>{{video.name}}</span>
@@ -24,14 +25,6 @@
                                 </figure>
                             </div>
                         </div>
-                        <!-- /grid-wrap -->
-                        <!-- <div class="content">
-                                <div ng-repeat="video in relatedVideos">
-                                    <ng-include src="'views/partial/show.html'"></ng-include>
-                                </div>
-                            <span class="loading"></span>
-                            <span class="icon close-content ns-close"></span>
-                        </div> -->
                     </section>
                 </div>
                 <p>
@@ -66,7 +59,6 @@
                                 </figure>
                             </div>
                         </div>
-                        <!-- /grid-wrap -->
                     </section>
                 </div>
                 <p>

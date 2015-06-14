@@ -40,7 +40,7 @@ MewPipeModule.factory('$authService', [
 						localStorage.setItem('token', data.token);
 						$location.path('/user/profile');
 						return true;
-					}else {
+					} else {
 						return false;
 					}
 				});

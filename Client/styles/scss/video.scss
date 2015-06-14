@@ -60,6 +60,17 @@
 		text-align: center;
 		cursor: pointer;
 	}
+	
+	figure.effect-hera figcaption::before {
+	  left: 55%;
+	  width: 100px;
+	  height: 100px;
+	}
+	.fa-play-circle-o {
+	  font-size: 90px;
+	  position: relative;
+	  left: 17px;
+	}
 }
 
 #update {
@@ -94,6 +105,11 @@
 }
 
 #video_user {
+	.fa-play-circle-o {
+		font-size: 140px;
+	  	right: 12px;
+	  	position: relative;
+	}
 	.grid figure {
 		min-width: 100%!important;
 		max-height: 300px!important;

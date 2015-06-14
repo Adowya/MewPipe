@@ -53,6 +53,7 @@
             </div>
         </div>
     </div>
+    
     <div class="col-md-4">
         <section class="well">
             <h2>Related</h2>
@@ -60,19 +61,19 @@
                 <div class="grid3d horizontal">
                 <div class="grid-wrap">
                     <div class="grid">
-                        <a href="#/video/show/{{relatedVideo._id}}/">
-                           <figure class="effect-hera">
-                                <img ng-src="{{relatedVideo.image}}" />
-                                <figcaption>
-                                    <h2>
-                                        <span>{{relatedVideo.name}}</span>
-                                    </h2>
-                                    <p>
-                                        <a href="#"><i class="fa fa-fw"></i></a>
-                                    </p>
-                                </figcaption>
-                            </figure>
-                        </a>
+                        <figure class="effect-hera" go-click="/video/show/{{relatedVideo._id}}/">
+                            <img ng-src="{{relatedVideo.image}}" />
+                            <figcaption>
+                                <h2>
+                                    <span>{{relatedVideo.name | limit:25}}</span>
+                                </h2>
+                                <p>
+                                    <a href="#/video/show/{{relatedVideo._id}}/">
+                                        <i class="fa fa-play-circle-o"></i>
+                                    </a>
+                                </p>
+                            </figcaption>
+                        </figure>
                     </div>
                 </div>
             </div>

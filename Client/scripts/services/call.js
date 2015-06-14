@@ -70,7 +70,10 @@ MewPipeModule.factory('$callService', [
 						return httpError(error.statusText, error.status);
 					});
 			},
-
+			
+			/**
+			 * Upload request with ng-upload
+			 */
 			upload: function (data, callback) {
 				var url = config.getApiAddr() + config.api.route['video_upload'];
 				Upload.upload({
@@ -79,11 +82,7 @@ MewPipeModule.factory('$callService', [
 					headers: {
 						'x-access-token': $rootScope.app.getToken()
 					},
-					data: {
-						"name": data.name,
-						"description": data.description,
-						"rights": data.rights
-					},
+					data: data,
 					file: data,
 				}).success(function (res, status, headers, config) {
 					if (res.success) {

@@ -1,6 +1,9 @@
 /** 
  * User update
  */
+/**
+ * User update
+ */
 mewPipeApp.controller('UserUpdateCtrl', ['$rootScope', '$http', '$scope', '$route', '$routeParams', '$location', '$callService',
 	function ($rootScope, $http, $scope, $route, $routeParams, $location, $callService) {
 
@@ -11,12 +14,19 @@ mewPipeApp.controller('UserUpdateCtrl', ['$rootScope', '$http', '$scope', '$rout
 		});
 
 		$scope.submitUpdate = function () {
-			console.log($scope.user);
 			$callService.request('PUT', 'user_update', null, $scope.user, true).then(function (data) {
 				$location.path('/user/profile');
 			});
+
+			if ($scope.user.authProvider == 'local') {
+				var data = {
+					oldPass: $scope.user.oldpassword,
+					newPass: $scope.user.newpassword
+				}
+				$callService.request('PUT', 'user_changePassword', null, data, true).then(function (data) { });
+			}
 		};
-		
+
 		$callService.request(null, 'user_stat', null, null, true).then(function (data) {
 			$scope.user.stat = data;
 		});

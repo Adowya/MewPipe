@@ -1,7 +1,7 @@
 /*!
  * MewPipe
  * https://github.com/Adowya/MewPipe/graphs/contributors
- * Version: 0.0.2 - 2015-06-12T23:21:20.562Z
+ * Version: 0.0.2 - 2015-06-14T20:44:33.999Z
  * License: MIT
  */
 
@@ -225,7 +225,7 @@ figure.effect-hera:hover p i:empty { -webkit-transform: translate3d(0, 0, 0); tr
 
 .progress-button[data-style="shrink"][data-horizontal].state-success .content, .progress-button[data-style="shrink"][data-horizontal].state-error .content { -webkit-transform: translateY(-100%); transform: translateY(-100%); }
 
-#index { /* Windows Video Popup  */ /* Dummy content */ /* Simple fallback */ /* if any of these are not supported, a simple fallback will be shown */ }
+#index { /* Windows Video Popup  */ /* Simple fallback */ /* if any of these are not supported, a simple fallback will be shown */ }
 #index .fa-play-circle-o { font-size: 150px; position: relative; right: 16px; }
 #index .partial_show { padding-left: 100px; background: url(./../images/bg2.jpg) 0 0/cover !important; }
 #index .partial_show .well-bg { background-color: rgba(0, 0, 0, 0.3); }
@@ -256,17 +256,6 @@ figure.effect-hera:hover p i:empty { -webkit-transform: translate3d(0, 0, 0); tr
 #index .icon:before { font-family: 'fontawesome'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 #index .close-content { position: fixed; z-index: 1000; top: 0; right: 10px; font-size: 1.6em; color: #aaa; cursor: pointer; pointer-events: none; padding: 1em; opacity: 0; -webkit-transition: opacity 0.3s; transition: opacity 0.3s; }
 #index .content > div.show ~ .close-content { opacity: 1; pointer-events: auto; }
-#index .dummy-img, #index .dummy-text { max-width: 600px; width: 90%; opacity: 0; -webkit-transition: opacity 0.5s, -webkit-transform 0.5s; transition: opacity 0.5s, transform 0.5s; }
-#index .vertical .dummy-img, #index .vertical .dummy-text { -webkit-transform: translateY(100px); transform: translateY(100px); }
-#index .horizontal .dummy-img, #index .horizontal .dummy-text { -webkit-transform: translateX(-100px); transform: translateX(-100px); }
-#index .content > div.show .dummy-img, #index .content > div.show .dummy-text { opacity: 1; }
-#index .vertical .content > div.show .dummy-img, #index .vertical .content > div.show .dummy-text { -webkit-transform: translateY(0); transform: translateY(0); }
-#index .horizontal .content > div.show .dummy-img, #index .horizontal .content > div.show .dummy-text { -webkit-transform: translateX(0); transform: translateX(0); }
-#index p.dummy-text:nth-child(2) { -webkit-transition-delay: 0.1s; transition-delay: 0.1s; }
-#index p.dummy-text:nth-child(3) { -webkit-transition-delay: 0.2s; transition-delay: 0.2s; }
-#index .dummy-img { height: 400px; background-color: #ddd; margin: 30px auto; }
-#index .dummy-text { text-align: left; margin: 0 auto; padding: 10px 0; color: #ddd; font-size: 1em; font-family: 'Blokk', Arial, serif; }
-#index .dummy-text:last-child { padding-bottom: 100px; }
 #index .no-pointerevents .content, #index .no-csstransforms3d .content, #index .no-csstransitions .content, #index .no-pointerevents .content > div, #index .no-csstransforms3d .content > div, #index .no-csstransitions .content > div, #index .no-pointerevents .close-content, #index .no-csstransforms3d .close-content, #index .no-csstransitions .close-content { opacity: 1; visibility: visible; display: none; height: auto; }
 #index .no-pointerevents .show .close-content, #index .no-csstransforms3d .show .close-content, #index .no-csstransition .show .close-content, #index .no-pointerevents div.show, #index .no-csstransforms3d div.show, #index .no-csstransitions div.show, #index .no-csstransitions .dummy-img, #index .no-csstransitions .dummy-text, #index .no-csstransforms3d .dummy-img, #index .no-csstransforms3d .dummy-text, #index .no-pointerevents .dummy-img, #index .no-pointerevents .dummy-text { display: block !important; opacity: 1; }
 @media screen and (max-width: 1000px) { #index .grid figure, #index .grid .placeholder { width: 240px; height: 212px; margin: 10px auto; display: block; } }
@@ -281,11 +270,14 @@ figure.effect-hera:hover p i:empty { -webkit-transform: translate3d(0, 0, 0); tr
 #show .panel .panel-body .fa { width: 20%; }
 #show .grid figure img { position: relative; display: block; min-height: 100%; max-width: 70%; opacity: 0.8; margin: 0 auto; left: 12px; }
 #show .grid figure { position: relative; overflow: hidden; margin: 10px 1%; min-width: 100px; max-width: 270px; max-height: 100%; width: 100%; height: auto; text-align: center; cursor: pointer; }
+#show figure.effect-hera figcaption::before { left: 55%; width: 100px; height: 100px; }
+#show .fa-play-circle-o { font-size: 90px; position: relative; left: 17px; }
 
 #upload .drop-box { border: dotted 3px; min-height: 20px; padding: 19px; margin-bottom: 20px; border: 1px solid #e3e3e3; border-radius: 4px; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05); width: 210px; }
 #upload .drop-box.dragover { border: 5px dashed blue; }
 #upload .tags { display: inline-block !important; margin: 5px; cursor: pointer; }
 
+#video_user .fa-play-circle-o { font-size: 140px; right: 12px; position: relative; }
 #video_user .grid figure { min-width: 100% !important; max-height: 300px !important; }
 #video_user h4 { min-height: 57px; }
 #video_user aside { height: 255px; }

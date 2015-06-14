@@ -9,7 +9,7 @@ mewPipeApp.controller('MainCtrl', ['$rootScope', '$http', '$scope', '$route', '$
 			}
 		});
 
-		if($rootScope.app.getToken()){
+		if ($rootScope.app.getToken()) {
 			$scope.suggestVideos = [];
 			$callService.request(null, 'user_suggested', null, null, true).then(function (data) {
 				for (var i in data) {
@@ -19,23 +19,6 @@ mewPipeApp.controller('MainCtrl', ['$rootScope', '$http', '$scope', '$route', '$
 			});
 		}
 
-		setTimeout(function () {
-			new grid3D(document.getElementById('relatedVideo'));
-		}, 200);
-		setTimeout(function () {
-			new grid3D(document.getElementById('suggestedVideo'));
-		}, 200);
-		
-		
-		$scope.videoModal = {};
-		$scope.videoModal.show = function(video) {
-			if(video) {
-				angular.extend($scope.videoModal, $videoService(video, 'play'));
-				console.log($scope.videoModal);
-			}else {
-				$scope.videoModal = {};
-			}
-		};
 	}]);
 
 mewPipeApp.controller('AuthCtrl', ['$rootScope', '$scope', '$route', '$routeParams', '$location',

@@ -1,3 +1,6 @@
+/**
+ * Video search
+ */
 mewPipeApp.controller('VideoSearchCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService', '$routeParams', '$videoService',
 	function ($rootScope, $http, $scope, $route, $location, $callService, $routeParams, $videoService) {
 
@@ -25,7 +28,7 @@ mewPipeApp.controller('VideoSearchCtrl', ['$rootScope', '$http', '$scope', '$rou
 
 		$scope.loadMore = function () {
 			$scope.param.page++;
-			if($scope.canLoad){
+			if ($scope.canLoad) {
 				$callService.request('POST', 'video_search', null, $scope.param, null).then(function (data) {
 					if (data.length > 0) {
 						data.forEach(function (video) {

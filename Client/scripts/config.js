@@ -1,9 +1,9 @@
 /**
 * CONFIG
 **/
-var env = "DEV";
+var env = "PROD";
 var config = {
-	currentVersion: "0.0.2",
+	currentVersion: "1.0.0",
 	debug: false,
 
 	getApiAddr: function () {
@@ -25,34 +25,30 @@ var config = {
 			share_readOne: "/api/share/users",
 			share_readAll: "/api/shares",
 			share_delete: "/api/share/delete",
-			
-			user_suggested: "/api/user/videos/suggestion",
-			user_stat: "/api/users/stats",
+
 			user_create: "/api/users",
 			user_readOne: "/api/user", // *x-access-token
 			user_readAll: "/api/users",
 			user_update: "/api/users",
 			user_delete: "/api/users/",
 			user_findByUsername: "/api/users/findByUsername",
-			user_changePassword: "/api/users/changePassword",
+			user_changePassword: "/api/user/changePassword", // *x-access-token 
+			user_suggested: "/api/user/videos/suggestion",
+			user_stat: "/api/users/stats",
 			
-			video_related: "/api/videos/related", // :vid *token
+			video_upload: "/api/videos/upload", // *x-access-token
 			video_update: "/api/videos",
 			video_read: "/api/videos",
 			video_delete: "/api/videos", // :id *x-access-token
-			video_upload: "/api/videos/upload", // *x-access-token
 			video_guest: "/api/videos/user", // :id
 			video_user: "/api/videos/user/all",
-			video_last: "/api/videos/last",
 			video_search: "/api/videos/search",
+			video_last: "/api/videos/last",
+			video_related: "/api/videos/related", // :vid *x-access-token
 			video_convert: "/api/videos/getConvertPercent", // :<videoId>
-			
-			video_archive: "/api/videos/archive", // *x-access-token
 			video_download: "/api/videos/download", // :id
 			video_image: "/api/videos/thumbnails", // :id
-			video_play: "/api/videos/play",
-			
-			video_browse: "/api/user/items"
+			video_play: "/api/videos/play"
 		}
 	},
 

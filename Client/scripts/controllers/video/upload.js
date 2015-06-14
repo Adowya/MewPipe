@@ -3,41 +3,33 @@
  */
 mewPipeApp.controller('VideoUploadCtrl', ['$rootScope', '$http', '$scope', '$route', '$location', '$callService', 'Upload',
     function ($rootScope, $http, $scope, $route, $location, $callService, Upload) {
-          
+
         $scope.files = [];
         $scope.submitUpload = function () {
-            $scope.$watch('file.title', function () {
-                console.log($scope.file.title);
-            });
             if (typeof $scope.files !== 'undefined') {
                 var length = $scope.files.length;
-                for (var i = 0; i < $scope.files.length; i++) { 
-                    (function (iFile) {
-                        var file = $scope.files[iFile];
-                        console.log(file.title);
-                        file.name = file.title;
-                        console.log(file.name);
-                        if(config.debug) { console.log(bytesToSize(file.size)); }
-                        if (file.size <= 524288000) {
-                            $callService.upload(file, function(data){
-                                if(config.debug) { console.log('success', data); }
-                                if (iFile == length - 1) {
-                                    $scope.files = [];
-                                    $location.path('/video/user/');
-                                }
-                            });
-                        } else {
-                            $rootScope.app.showNotif('Video allowed on the platform mustn’t exceed 500MB size.', 'error');
-                        }
-                    })(i);
+                for (var i in $scope.files) {
+                    var file = $scope.files[i];
+                    if (config.debug) { console.log(bytesToSize(file.size)); }
+                    if (file.size <= 524288000) {
+                        $callService.upload(file, function (data) {
+                            if (config.debug) { console.log('success', data); }
+                            if (i == length - 1) {
+                                $scope.files = [];
+                                $location.path('/video/user/');
+                            }
+                        });
+                    } else {
+                        $rootScope.app.showNotif('Video allowed on the platform mustn’t exceed 500MB size.', 'error');
+                    }
                 }
             } else {
                 $rootScope.app.showNotif('Nothing file to upload', 'notice');
             }
         };
-        
+
         var progress = function (timeResponse) {
-              
+
         };
 
         $scope.tags = [{ name: 'Animation', checked: false },
@@ -57,7 +49,7 @@ mewPipeApp.controller('VideoUploadCtrl', ['$rootScope', '$http', '$scope', '$rou
             { name: 'Talks', checked: false },
             { name: 'Travel', checked: false },
         ];
-        
+
 
 
     }]);

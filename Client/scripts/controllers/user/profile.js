@@ -15,7 +15,7 @@ mewPipeApp.controller('UserProfileCtrl', ['$rootScope', '$http', '$scope', '$rou
 				$location.path('/');
 			});
 		};
-		
+
 		$callService.request(null, 'user_stat', null, null, true).then(function (data) {
 			$scope.user.stat = data;
 		});

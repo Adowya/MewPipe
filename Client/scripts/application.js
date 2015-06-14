@@ -89,11 +89,16 @@ mewPipeApp.run([
 	
 	
 		/**
-		 * Truc de gitan
+		 * Supinfo login button
 		 */
-		$rootScope.submitSupinfo = function () {				
+		$rootScope.submitSupinfo = function () {
+			
 			document.body.innerHTML += '<form id="formSupinfo" method="post" action="'+$rootScope.app.getApi()+'/auth/supinfo" style="display:none;"><input name="openid_identifier" type="hidden" value="0"></form>';
 			document.getElementById('formSupinfo').submit();	
+			var somedialog = document.getElementById('signIn');
+			var dlg = new DialogFx(somedialog);
+			dlg.toggle();
+			dlg.toggle(dlg);		
 		};
 		
 		
@@ -142,7 +147,7 @@ mewPipeApp.run([
 						});
 						// show the notification
 						notification.show();
-					}, 800);
+					}, 500);
 				}
 				
 			},
