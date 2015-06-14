@@ -157,6 +157,7 @@ router.get('/videos/:vid', function(req, res){
 * UPLOAD FILE middlewares.checkAuth,
 **/
 router.post('/videos/upload', middlewares.checkAuth, middlewares.multipart, function(req, res) {
+	var req.body = JSON.parse(req.body.data);
 	if(!req.files.file){
 		return res.json({ "success": false, "error": 'No video received' });
 	}
@@ -174,14 +175,13 @@ router.post('/videos/upload', middlewares.checkAuth, middlewares.multipart, func
 	if(!modules._.contains(config.videoAllowedExt, ext)){
 		return res.json({"success": false, "error": "Invalid video extension."});
 	}
-	var metadata = JSON.parse(req.body.data);
 	var newVideo = new models.Video({
 		_user: req.user._id,
 		name: req.body.title,
-		description: metadata.description,
+		description: req.body.description,
 		size: req.files.file.size,
 		ext: "mp4",
-		rights: metadata.rights,
+		rights: req.body.rights,
 		ready: false
 	});
 	newVideo.save(function(err, video) {
