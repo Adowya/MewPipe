@@ -164,7 +164,7 @@ router.post('/videos/upload', middlewares.checkAuth, middlewares.multipart, func
 		return res.json({"success": false, "error": "Invalid video size (max 500mb)."});
 	}
 	if(req.body.title == "undefined" || req.body.title == undefined || req.body.title.replace(/\s+/g, "") == ""){
-		req.body.title = req.files.file.title.replace(/\.[^/.]+$/, "");
+		req.body.title = req.files.file.name.replace(/\.[^/.]+$/, "");
 	}
 	if(req.body.title == "/"){
 		return res.json({"success": false, "error": "Can't use this name."});

@@ -51,7 +51,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(modules.auth.initialize());
 app.use(modules.auth.session());
 var router = express.Router();
-if(!config.debug) {
+if(config.debug) {
 	app.use(errorHandler());
 	app.use(morgan('combined', {}));
 }
