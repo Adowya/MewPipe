@@ -1,11 +1,11 @@
 /**
 * CONFIG
 **/
-var env = "DEV"; // DEV / PROD
+var env = "PROD"; // DEV / PROD
 var config = { 
 	server: {
-		port: 80,
-		address: ""
+		port: 8080,
+		address: "localhost"
 	},
 	salt: "$2a$10$sU3LKpiKHhQghEezTKuZnY",
 	ttlToken: 7200, //1H
