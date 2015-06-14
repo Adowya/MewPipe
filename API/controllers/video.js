@@ -163,10 +163,10 @@ router.post('/videos/upload', middlewares.checkAuth, middlewares.multipart, func
 	if(req.files.file.size > config.maxVideoSize){
 		return res.json({"success": false, "error": "Invalid video size (max 500mb)."});
 	}
-	if(req.body.name == "undefined" || req.body.name == undefined || req.body.name.replace(/\s+/g, "") == ""){
-		req.body.name = req.files.file.name.replace(/\.[^/.]+$/, "");
+	if(req.body.title == "undefined" || req.body.title == undefined || req.body.title.replace(/\s+/g, "") == ""){
+		req.body.title = req.files.file.title.replace(/\.[^/.]+$/, "");
 	}
-	if(req.body.name == "/"){
+	if(req.body.title == "/"){
 		return res.json({"success": false, "error": "Can't use this name."});
 	}
 	var tmp_path = req.files.file.path;
@@ -177,7 +177,7 @@ router.post('/videos/upload', middlewares.checkAuth, middlewares.multipart, func
 	var metadata = JSON.parse(req.body.data);
 	var newVideo = new models.Video({
 		_user: req.user._id,
-		name: req.body.name,
+		name: req.body.title,
 		description: metadata.description,
 		size: req.files.file.size,
 		ext: "mp4",
