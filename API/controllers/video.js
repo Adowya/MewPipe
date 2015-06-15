@@ -166,6 +166,8 @@ router.post('/videos/upload', middlewares.checkAuth, middlewares.multipart, func
 	}
 	if(req.body.title == "undefined" || req.body.title == undefined || req.body.title.replace(/\s+/g, "") == ""){
 		req.body.title = req.files.file.name.replace(/\.[^/.]+$/, "");
+	}else{
+		req.body.title = req.body.title.replace(/\.[^/.]+$/, "");
 	}
 	if(req.body.title == "/"){
 		return res.json({"success": false, "error": "Can't use this name."});
