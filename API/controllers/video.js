@@ -1,6 +1,6 @@
 module.exports.controller = function(app, router, config, modules, models, middlewares, sessions){
 
-var hbjsPercent = {};
+	var hbjsPercent = {};
 
 /**
 * CONVERT VIDEO
@@ -118,16 +118,9 @@ router.get('/videos/play/:vid/:token', middlewares.checkViews, function(req, res
 * GET VIDEO THUMBNAILS
 **/
 router.get('/videos/thumbnails/:vid', function(req, res){
-	models.Video.findOne({_id: req.params.vid}).exec(function(err, video){
-		if(err){
-			return res.json({"success": false, "error": "Can't found this video."});
-		}
-		var thumbnailPath = config.thumbnailsDirectory+"/"+video._id+".png";
-		var thumbnailName = video.name+".png";
-		if(!modules.fs.existsSync(config.thumbnailsDirectory+"/"+video._id+".png")){
-			return res.download(config.rootDirectory+"/img/no-thumbnails.png", thumbnailName);
-		}
-		res.download(thumbnailPath, thumbnailName);
+	modules.request("http://api.redtube.com/?data=redtube.Videos.getVideoById&video_id="+req.params.vid+"&output=json&thumbsize=all", function(error, response, body) {
+		var video = JSON.parse(body).video;
+		res.json({"success": true, "data": video.default_thumb});
 	});
 });
 
@@ -136,19 +129,19 @@ router.get('/videos/thumbnails/:vid', function(req, res){
 * READ VIDEO
 **/
 router.get('/videos/:vid', function(req, res){
-	models.Video.findOne({_id: req.params.vid})
-	.select("-__v -archived")
-	.populate("_user", "-identifier -__v")
-	.lean()
-	.exec(function(err, video){
-		if(!video){
-			return res.json({"success": false, "error": "Can't found this file."});
-		}
-		models.View.find({_video: video._id})
-		.exec(function(err, views){
-			video.views = views.length;
-			res.json({"success": true, "data": video});
-		});
+	modules.request("http://api.redtube.com/?data=redtube.Videos.getVideoById&video_id="+req.params.vid+"&output=json&thumbsize=all", function(error, response, body) {
+		var video = JSON.parse(body).video;
+		var newVideo = {
+			name: video.title,
+			_id: video.video_id,
+			views: video.views,
+			description: "",
+			created: video.publish_date,
+			image: video.default_thumb,
+			url: "http://embed.redtube.com/?id="+video.video_id+"&bgcolor=000000",
+			size: video.rating
+		};
+		res.json({"success": true, "data": newVideo});
 	});
 });
 
@@ -222,34 +215,21 @@ router.post('/videos/upload', middlewares.checkAuth, middlewares.multipart, func
 * BROWSE VIDEO
 **/
 router.get('/videos', function(req, res) {
-	models.Video.find({rights: "public"})
-	.where("archived").ne(true)
-	.where("ready").equals(true)
-	.select("-__v -archived")
-	.populate("_user", "-identifier -__v")
-	.sort("-created")
-	.lean()
-	.exec(function(err, videos){
-		if(err){
-			return res.json({"success": false, "error": err});
+	modules.request("http://api.redtube.com/?data=redtube.Videos.searchVideos&output=json&thumbsize=medium", function(error, response, body) {
+		var videos = JSON.parse(body).videos;
+		var returnedVideo = [];
+		for(var i=0; i<videos.length; i++){
+			var newVideo = {
+				name: videos[i].video.title,
+				_id: videos[i].video.video_id,
+				views: videos[i].video.views,
+				description: "",
+				created: videos[i].video.publish_date,
+				image: videos[i].video.default_thumb
+			};
+			returnedVideo.push(newVideo);
 		}
-		if(videos.length == 0){
-			res.json({"success": true, "data": videos});
-		}
-		var	last = 0;
-		var pushNbViews = function(count, i){
-			videos[i].views = count;
-			last++;
-			if(last >= videos.length){
-				res.json({"success": true, "data": videos});
-			}
-		};
-		for(var i=0; i < videos.length; i++){
-			models.View.find({_video: videos[i]._id})
-			.exec(function(i, err, views){
-				pushNbViews(views.length, i);	
-			}.bind(models.View, i));
-		}
+		res.json({"success": true, "data": returnedVideo});
 	});
 });
 
@@ -259,10 +239,13 @@ router.get('/videos', function(req, res) {
 **/
 router.post("/videos/search", function(req, res){
 	if(typeof req.body.page == "undefined"){
-		req.body.page = 0;
+		req.body.page = 1;
 	}else{
 		if(isNaN(req.body.page)){
-			req.body.page = 0;
+			req.body.page = 1;
+		}
+		if(req.body.page == 0){
+			req.body.page = 1;
 		}
 	}
 	if(typeof req.body.sort == "undefined"){
@@ -275,42 +258,27 @@ router.post("/videos/search", function(req, res){
 	if(typeof req.body.q == "undefined"){
 		req.body.q = "";
 	}
-	var regExSearch = new RegExp(req.body.q, 'i');
-	models.Video.find({rights: "public"})
-	.where("archived").ne(true)
-	.where("ready").equals(true)
-	.populate("_user", "-identifier -__v")
-	.limit(config.itemsPerPage)
-	.skip(config.itemsPerPage * req.body.page)
-	.sort(req.body.sort)
-	.or([{'name': {$regex: regExSearch}},{'description': {$regex: regExSearch}}])
-	.select("-__v -archived")
-	.lean()
-	.exec(function(err, videos){
-		if(err){
-			return res.json({"success": false, "error": "Une erreur est survenue."});
+	modules.request("http://api.redtube.com/?data=redtube.Videos.searchVideos&output=json&search="+req.body.q+"&page="+req.body.page+"&thumbsize=medium ", function(error, response, body) {
+		var videos = JSON.parse(body).videos;
+		if(!videos){
+			return res.json({"success": true, "data": []});
 		}
-		if(videos.length == 0){
-			if(sortViews){
-				modules._.sortBy(videos, '-views');
-				return res.json({"success": true, "data": videos});
-			}
-			res.json({"success": true, "data": videos});
+		var returnedVideo = [];
+		for(var i=0; i<videos.length; i++){
+			var newVideo = {
+				name: videos[i].video.title,
+				_id: videos[i].video.video_id,
+				views: videos[i].video.views,
+				description: "",
+				created: videos[i].video.publish_date,
+				image: videos[i].video.default_thumb,
+				url: "http://embed.redtube.com/?id="+videos[i].video.video_id+"&bgcolor=000000",
+				size: videos[i].video.rating
+
+			};
+			returnedVideo.push(newVideo);
 		}
-		var	last = 0;
-		var pushNbViews = function(count, i){
-			videos[i].views = count;
-			last++;
-			if(last >= videos.length){
-				res.json({"success": true, "data": videos});
-			}
-		};
-		for(var i=0; i < videos.length; i++){
-			models.View.find({_video: videos[i]._id})
-			.exec(function(i, err, views){
-				pushNbViews(views.length, i);	
-			}.bind(models.View, i));
-		}
+		res.json({"success": true, "data": returnedVideo});
 	});
 });
 
@@ -319,38 +287,23 @@ router.post("/videos/search", function(req, res){
 * LAST VIDEOS
 **/
 router.get('/videos/last/:number', function(req, res) {
-	if(isNaN(req.params.number)){
-		return res.json({"success": false, "error": "Invalid parameter."});
-	}
-	models.Video.find({rights: "public"})
-	.where("archived").ne(true)
-	.where("ready").equals(true)
-	.select("-__v -archived")
-	.populate("_user", "-identifier -__v")
-	.limit(req.params.number)
-	.sort("-created")
-	.lean()
-	.exec(function(err, videos){
-		if(err){
-			return res.json({"success": false, "error": err});
-		}
-		if(videos.length == 0){
-			res.json({"success": true, "data": videos});
-		}
-		var	last = 0;
-		var pushNbViews = function(count, i){
-			videos[i].views = count;
-			last++;
-			if(last >= videos.length){
-				res.json({"success": true, "data": videos});
-			}
-		};
+	modules.request("http://api.redtube.com/?data=redtube.Videos.searchVideos&output=json&thumbsize=medium", function(error, response, body) {
+		var videos = JSON.parse(body).videos;
+		var returnedVideo = [];
 		for(var i=0; i<videos.length; i++){
-			models.View.find({_video: videos[i]._id})
-			.exec(function(i, err, views){
-				pushNbViews(views.length, i);	
-			}.bind(models.View, i));
+			var newVideo = {
+				name: videos[i].video.title,
+				_id: videos[i].video.video_id,
+				views: videos[i].video.views,
+				description: "",
+				created: videos[i].video.publish_date,
+				image: videos[i].video.default_thumb,
+				url: "http://embed.redtube.com/?id="+videos[i].video.video_id+"&bgcolor=000000",
+				size: videos[i].video.rating
+			};
+			returnedVideo.push(newVideo);
 		}
+		res.json({"success": true, "data": returnedVideo});
 	});
 });
 
@@ -359,91 +312,23 @@ router.get('/videos/last/:number', function(req, res) {
 * VIDEO SUGGESTION
 **/
 router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) {
-	models.View.find({_user: req.user._id})
-	.limit(10)
-	.populate("_video")
-	.exec(function(err, views){
-		if(views.length == 0){
-			return res.json({"success": true, "data": []});
-		}
-		var keywords = [];
-		for(var i=0; i<views.length; i++){
-			var currentKeywords = views[i]._video.name.replace(/\_/g,' ').replace(/\./g,' ').split(" ");
-			for(var y=0; y<currentKeywords.length; y++){
-				keywords.push(currentKeywords[y]);
-			}
-		}
-		keywords = modules._.uniq(keywords);
-		for(var i=0; i<keywords.length; i++){
-			if(keywords[i].length <= 1){
-				keywords.splice(i, 1);
-				i--;
-			}
-		}
-		var suggestedVideos = [];
-
-		modules.async.each(keywords, function (keyword, callback){
-			var regExSuggest = new RegExp(keyword, 'i');
-			models.Video.find({rights: "public", name: { $regex: regExSuggest } })
-			.where("archived").ne(true)
-			.where("ready").equals(true)
-			.populate("_user", "-identifier -__v")
-			.select("-__v -archived")
-			.lean()
-			.exec(function(err, videos){
-				if(videos){
-					for(var i=0; i<videos.length; i++){
-						suggestedVideos.push(videos[i]);
-					}
-				}
-				callback();
-			});
-
-		}, function(err){
-			var flags = [], uniqSuggestedVideos = [], l = suggestedVideos.length, i;
-			for(i=0; i<l; i++){
-				if(flags[suggestedVideos[i]._id]) continue;
-				flags[suggestedVideos[i]._id] = true;
-				uniqSuggestedVideos.push(suggestedVideos[i]);
-			}
-			suggestedVideos = uniqSuggestedVideos;
-
-			if(!uniqSuggestedVideos){
-				return res.json({"success": true, "data": []});
-			}
-			suggestedVideos = uniqSuggestedVideos;
-			var videosViewed = [];
-			for(var i=0; i<views.length; i++){
-				videosViewed.push(String(views[i]._video._id));
-			}
-			var fullSuggestedVideos = suggestedVideos;
-			for(var i=0; i<fullSuggestedVideos.length; i++){
-				if(modules._.contains(videosViewed, String(fullSuggestedVideos[i]._id))){
-					suggestedVideos.splice(i, 1);
-					i--;
-				}
-			}
-			if(suggestedVideos.length == 0){
-				return res.json({"success": true, "data": []});
-			}
-			var	last = 0;
-			var pushNbViews = function(count, i){
-				suggestedVideos[i].views = count;
-				last++;
-				if(last >= suggestedVideos.length){
-					suggestedVideos = modules._.sortBy(suggestedVideos, 'views');
-					suggestedVideos = suggestedVideos.reverse();
-					res.json({"success": true, "data": suggestedVideos});
-				}
+	modules.request("http://api.redtube.com/?data=redtube.Videos.searchVideos&output=json&thumbsize=medium&tags[]=Teen", function(error, response, body) {
+		var videos = JSON.parse(body).videos;
+		var returnedVideo = [];
+		for(var i=0; i<videos.length; i++){
+			var newVideo = {
+				name: videos[i].video.title,
+				_id: videos[i].video.video_id,
+				views: videos[i].video.views,
+				description: "",
+				created: videos[i].video.publish_date,
+				image: videos[i].video.default_thumb,
+				url: "http://embed.redtube.com/?id="+videos[i].video.video_id+"&bgcolor=000000",
+				size: videos[i].video.rating
 			};
-			for(var i=0; i<suggestedVideos.length; i++){
-				models.View.find({_video: suggestedVideos[i]._id})
-				.exec(function(i, err, views){
-					pushNbViews(views.length, i);	
-				}.bind(models.View, i));
-			}
-			
-		});
+			returnedVideo.push(newVideo);
+		}
+		res.json({"success": true, "data": returnedVideo});
 	});
 });
 
@@ -452,80 +337,23 @@ router.get('/user/videos/suggestion', middlewares.checkAuth, function(req, res) 
 * VIDEO RELATED
 **/
 router.get('/videos/related/:vid', function(req, res) {
-	models.Video.findOne({_id: req.params.vid})
-	.exec(function(err, video){
-		if(!video){
-			return res.json({"success": true, "data": []});
-		}
-		var keywords = video.name.replace(/\_/g,' ').replace(/\./g,' ').split(" ");
-		keywords = modules._.uniq(keywords);
-		for(var i=0; i<keywords.length; i++){
-			if(keywords[i].length <= 1){
-				keywords.splice(i, 1);
-				i--;
-			}
-		}
-		var suggestedVideos = [];
-		modules.async.each(keywords, function (keyword, callback){
-			var regExSuggest = new RegExp(keyword, 'i');
-			models.Video.find({rights: "public", name: { $regex: regExSuggest } })
-			.where("archived").ne(true)
-			.where("ready").equals(true)
-			.populate("_user", "-identifier -__v")
-			.select("-__v -archived")
-			.lean()
-			.exec(function(err, videos){
-				if(videos){
-					for(var i=0; i<videos.length; i++){
-						suggestedVideos.push(videos[i]);
-					}
-				}
-				callback();
-			});
-
-		}, function(err){
-			var flags = [], uniqSuggestedVideos = [], l = suggestedVideos.length, i;
-			for(i=0; i<l; i++){
-				if(flags[suggestedVideos[i]._id]) continue;
-				flags[suggestedVideos[i]._id] = true;
-				uniqSuggestedVideos.push(suggestedVideos[i]);
-			}
-			suggestedVideos = uniqSuggestedVideos;
-
-			if(!uniqSuggestedVideos){
-				return res.json({"success": true, "data": []});
-			}
-			suggestedVideos = uniqSuggestedVideos;
-			//
-			var fullSuggestedVideos = suggestedVideos;
-			for(var i=0; i<fullSuggestedVideos.length; i++){
-				if(String(video._id) == String(fullSuggestedVideos[i]._id)){
-					suggestedVideos.splice(i, 1);
-					break;
-				}
-			}
-			if(suggestedVideos.length == 0){
-				return res.json({"success": true, "data": []});
-			}
-			//
-			var	last = 0;
-			var pushNbViews = function(count, i){
-				suggestedVideos[i].views = count;
-				last++;
-				if(last >= suggestedVideos.length){
-					suggestedVideos = modules._.sortBy(suggestedVideos, 'views');
-					suggestedVideos = suggestedVideos.reverse();
-					res.json({"success": true, "data": suggestedVideos});
-				}
+	modules.request("http://api.redtube.com/?data=redtube.Videos.searchVideos&output=json&thumbsize=medium", function(error, response, body) {
+		var videos = JSON.parse(body).videos;
+		var returnedVideo = [];
+		for(var i=0; i<videos.length; i++){
+			var newVideo = {
+				name: videos[i].video.title,
+				_id: videos[i].video.video_id,
+				views: videos[i].video.views,
+				description: "",
+				created: videos[i].video.publish_date,
+				image: videos[i].video.default_thumb,
+				url: "http://embed.redtube.com/?id="+videos[i].video.video_id+"&bgcolor=000000",
+				size: videos[i].video.rating
 			};
-			for(var i=0; i<suggestedVideos.length; i++){
-				models.View.find({_video: suggestedVideos[i]._id})
-				.exec(function(i, err, views){
-					pushNbViews(views.length, i);	
-				}.bind(models.View, i));
-			}
-			
-		});
+			returnedVideo.push(newVideo);
+		}
+		res.json({"success": true, "data": returnedVideo});
 	});
 });
 

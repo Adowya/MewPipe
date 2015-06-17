@@ -67,32 +67,17 @@ mewPipeApp.directive('goClick', function ($location) {
 	};
 });
 
-mewPipeApp.directive('infiniteScroll', ["$window", "$rootScope", function ($window, $rootScope) {
+mewPipeApp.directive('infiniteScroll', [ "$window", function ($window) {
 	return {
-		restrict: 'AE',
-		scope: {
-			loadMore: '&',
-			container: '=',
-			item: '='
-		},
-		link: function (scope, ele, attrs) {
-			var $$window = angular.element($window);
-			var elem = ele[0];
-			$$window.on('scroll', function () {
-				//calculate condition to trigger loadmore function
-				var rect = elem.getBoundingClientRect();
-				var needHeight = elem.offsetTop + rect.height;
-				var innerHeight = window.innerHeight;
-				var scrollHeight = window.scrollY() + innerHeight;
-				if (scrollHeight >= needHeight) {
-					if (scope.$$phase || $rootScope.$$phase) {
-						scope.loadMore();
-					} else {
-						scope.$apply(scope.loadMore());
-					}
+		link:function (scope, element, attrs) {
+			var offset = parseInt(attrs.threshold) || 0;
+			var e = element[0];
+
+			element.bind('scroll', function () {
+				if (scope.$eval(attrs.canLoad) && e.scrollTop + e.offsetHeight >= e.scrollHeight - offset) {
+					scope.$apply(attrs.infiniteScroll);
 				}
 			});
-
 		}
-    };
+	};
 }]);

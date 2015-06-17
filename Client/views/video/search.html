@@ -5,7 +5,7 @@
                 <span ng-show="videos.length <= 0">No</span>Result for " {{param.q}} "</h1>
         </div>
     </div>
-    <div infinite-scroll load-more="loadMore()">
+    <div infinite-scroll="loadMore()" can-load="allowLoadMore" threshold="200">
         <section class="grid" ng-repeat="video in videos">
             <div class="col-md-3">
                 <div class="grid3d horizontal">

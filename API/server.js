@@ -17,7 +17,8 @@ var modules = {
 	multipart: require('connect-multiparty'),
 	ffmpeg: require('fluent-ffmpeg'),
 	hbjs: require("handbrake-js"),
-	auth: require(__dirname+"/auth.js")
+	auth: require(__dirname+"/auth.js"),
+	request: require("request")
 };
 var sessions = modules.auth.sessions;
 

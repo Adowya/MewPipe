@@ -3,7 +3,7 @@ var MewPipeModule = angular.module('ServiceModule');
 MewPipeModule.factory('$videoService', [
 	'$rootScope', '$q', '$location', '$sce',
 	function ($rootScope, $q, $location, $sce) {
-
+		
 		/**
 		 * Generique object videogular with custom functions 
 		 * Return {object} videogular formated
@@ -44,6 +44,7 @@ MewPipeModule.factory('$videoService', [
 				created: created,
 				size: size,
 				views: data.views,
+				url: data.url,
 				rights: data.rights,
 				ext: data.ext,
 				ready: data.ready,
@@ -53,7 +54,7 @@ MewPipeModule.factory('$videoService', [
 					poster: ''
 				},
 				theme: "lib/videogular-themes-default/videogular.css",
-				image: config.getApiAddr() + config.api.route['video_image'] + "/" + data._id,
+				image: data.image,
 
 				link: url,
 				link2: "#/video/show/" + data._id,
