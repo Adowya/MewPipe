@@ -111,6 +111,6 @@ if(config.debug) {
 * SERVER
 **/
 http.createServer(app).listen(config.server.port, function(){
-	console.log("MewPipe API listening on "+ config.server.address +":"+ config.server.port);
+	console.log("MewPipe.porn API listening on "+ config.server.address +":"+ config.server.port);
 	console.log("############################ ############################ ############################ ############################");
 });
